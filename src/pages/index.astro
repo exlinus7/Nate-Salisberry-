@@ -1,0 +1,354 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import CallbackForm from '../components/CallbackForm.astro';
+import { site, telHref, bookingHref } from '../data/site';
+import cities from '../data/cities.json';
+import advisors from '../data/advisors.json';
+
+const steps = [
+  { title: 'Talk with an advisor', body: 'A relaxed conversation about care needs, health, budget, location and what makes your loved one happy.' },
+  { title: 'Get a personal shortlist', body: 'We match you with a few vetted communities, with honest notes on pricing, staffing and availability.' },
+  { title: 'Tour together', body: 'We schedule tours, join you in person, and help you ask the questions that matter.' },
+  { title: 'Move in with support', body: 'Help with paperwork, move-in planning, and a follow-up check-in after your loved one settles.' },
+];
+
+const careTypes = [
+  { title: 'Assisted Living', photo: '[PHOTO: residents enjoying a meal together]', body: 'For seniors who want independence with daily help: medications, bathing, dressing, meals and social life.', href: '/care-options#assisted', link: 'Learn about assisted living' },
+  { title: 'Memory Care', photo: '[PHOTO: calm, secure memory care garden]', body: "Secure, specially trained care for Alzheimer's and other dementias, with structured days that reduce stress.", href: '/care-options#memory', link: 'Learn about memory care' },
+  { title: 'Long-Term Care', photo: '[PHOTO: nurse with a resident]', body: '24-hour skilled nursing for complex medical needs, including help navigating Medicare, Medicaid and VA benefits.', href: '/care-options#ltc', link: 'Learn about long-term care' },
+];
+
+const costs = [
+  { label: 'Assisted Living', price: '[$X,XXX]', note: 'Typical range: [$X,XXX–$X,XXX]' },
+  { label: 'Memory Care', price: '[$X,XXX]', note: 'Typical range: [$X,XXX–$X,XXX]' },
+  { label: 'Long-Term Care', price: '[$X,XXX]', note: 'Medicaid may help cover this' },
+];
+
+const resources = [
+  { kind: 'Tool', title: 'Senior Living Cost Calculator', body: `Compare staying at home with in-home care vs. assisted living in ${site.regionShort}.`, href: '/resources/cost-calculator' },
+  { kind: 'Printable', title: 'The Community Tour Checklist', body: 'The questions to ask, and what to look for, on every tour.', href: '/resources#checklist' },
+  { kind: 'Guide', title: 'Is it time? Signs a parent needs more care', body: 'Gentle warning signs, and how to start the conversation.', href: '/resources/signs-a-parent-needs-more-support' },
+  { kind: 'Guide', title: 'Paying for care: Medicaid, VA and more', body: 'A plain-language overview of benefits families often miss.', href: '/resources?topic=paying-for-care' },
+];
+
+const homeAdvisors = advisors.slice(0, 2);
+---
+<BaseLayout
+  title="Home"
+  description={`Free, local help finding assisted living, memory care and long-term care in ${site.regionShort}. A personal advisor shortlists communities, joins your tours and supports your move. Always free for families.`}
+>
+  <!-- Hero -->
+  <section class="bg-lavender-50 pt-16 pb-16 ph:pt-18">
+    <div class="container-site grid items-center gap-14 lg:grid-cols-2">
+      <div class="flex flex-col gap-6">
+        <p class="self-start rounded-full border border-line bg-white px-4 py-1.5 text-[0.9375rem] font-semibold text-violet-700">
+          Assisted Living · Memory Care · Long-Term Care
+        </p>
+        <h1>Find the right senior living community, with a local expert by your side.</h1>
+        <p class="lead max-w-[35rem]">
+          We get to know your loved one, shortlist communities that truly fit their care needs and budget, and walk with you
+          through every tour and move-in step. Always free for your family.
+        </p>
+        <div class="flex flex-wrap gap-3.5">
+          <a href="/care-match" class="btn btn-cta">Start the 2-minute Care Match</a>
+          <a href={telHref} data-track="call_click" class="btn btn-outline">Call {site.phoneDisplay}</a>
+        </div>
+        <ul class="m-0 flex list-none flex-wrap gap-x-7 gap-y-3 p-0 pt-2 text-base text-muted">
+          {['[XX]+ years combined experience', '[XXX]+ families helped', '[X.X]★ on Google'].map((t) => (
+            <li class="flex items-center gap-2"><Icon name="check" size={20} color="#5B3F8C" strokeWidth={2.4} />{t}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="flex flex-col">
+        <div class="media-ph h-[22rem] rounded-media sm:h-[28.75rem]">
+          <p>[PHOTO or VIDEO: your advisor with an older parent and adult daughter — real, warm, not stock]</p>
+          <button
+            type="button"
+            data-video-url={site.introVideoUrl}
+            data-video-title="Meet WiseMove in 90 seconds"
+            class="inline-flex min-h-14 items-center gap-3 rounded-full border-0 bg-white py-2.5 pr-5.5 pl-2.5 font-bold text-plum-900 shadow-[0_8px_24px_rgba(42,30,59,0.16)]"
+          >
+            <span class="inline-flex size-10 items-center justify-center rounded-full bg-violet-600">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M7 4l13 8-13 8z"></path></svg>
+            </span>
+            Meet us in 90 seconds
+          </button>
+        </div>
+        <div class="relative mx-4 -mt-16 flex max-w-80 flex-col gap-1.5 self-start rounded-[1.25rem] bg-white px-6 py-5 shadow-[0_12px_32px_rgba(42,30,59,0.14)] sm:ml-6">
+          <h2 class="text-[1.1875rem] font-semibold">Why is it free?</h2>
+          <p class="text-base text-muted">
+            Partner communities pay us a referral fee only when a family moves in. You never pay, and our advice stays focused on fit.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Journey paths -->
+  <section aria-labelledby="journey-h" class="pt-18 pb-6">
+    <div class="container-site flex flex-col gap-7">
+      <div class="flex max-w-[45rem] flex-col gap-2">
+        <h2 id="journey-h" class="text-[clamp(1.75rem,2vw+1rem,2.25rem)]">Where are you in your journey?</h2>
+        <p class="text-muted">Pick the one that sounds most like you. We'll take it from there.</p>
+      </div>
+      <ul class="m-0 grid list-none gap-5 p-0 md:grid-cols-3">
+        <li>
+          <a href="/resources" class="path-card">
+            <span class="icon-tile"><Icon name="book" size={26} color="#5B3F8C" /></span>
+            <h3>I'm just starting to look</h3>
+            <p>Learn the options, costs and warning signs at your own pace.</p>
+            <span class="path-link">Explore free guides →</span>
+          </a>
+        </li>
+        <li>
+          <a href="/care-match" class="path-card">
+            <span class="icon-tile"><Icon name="search" size={26} color="#5B3F8C" /></span>
+            <h3>We need care in the next few months</h3>
+            <p>Find the right care level and get a personal shortlist.</p>
+            <span class="path-link">Take the Care Match →</span>
+          </a>
+        </li>
+        <li>
+          <a href={telHref} data-track="call_click" class="path-card path-card-urgent">
+            <span class="icon-tile bg-white"><Icon name="clock" size={26} color="#9A3F1F" /></span>
+            <h3>It's urgent, like a hospital discharge</h3>
+            <p>Call now and we'll start helping today.</p>
+            <span class="path-link text-rust-700">Call {site.phoneDisplay} →</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how" class="section" aria-labelledby="how-h">
+    <div class="container-site flex flex-col gap-10">
+      <div class="flex max-w-[42.5rem] flex-col gap-3">
+        <p class="eyebrow">How it works</p>
+        <h2 id="how-h">From first call to moving day, in four simple steps</h2>
+      </div>
+      <ol class="m-0 grid list-none gap-6 p-0 sm:grid-cols-2 lg:grid-cols-4">
+        {steps.map((s, i) => (
+          <li class="card flex flex-col gap-3">
+            <span class="flex size-12 items-center justify-center rounded-full bg-lavender-50 font-heading text-[1.375rem] font-bold text-violet-700" aria-hidden="true">{i + 1}</span>
+            <h3 class="text-[1.375rem]"><span class="sr-only">Step {i + 1}: </span>{s.title}</h3>
+            <p class="text-muted">{s.body}</p>
+          </li>
+        ))}
+      </ol>
+      <a href="/how-it-works" class="text-link self-start">See the full process →</a>
+    </div>
+  </section>
+
+  <!-- Care types -->
+  <section id="care" class="section bg-plum-900 text-white" aria-labelledby="care-h">
+    <div class="container-site flex flex-col gap-10">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <div class="flex max-w-[40rem] flex-col gap-3">
+          <p class="eyebrow eyebrow-on-dark">Care types</p>
+          <h2 id="care-h">The right level of care, not just the nearest building</h2>
+        </div>
+        <a href="/care-match" class="text-link text-coral-400 hover:text-white">Not sure which fits? Take the Care Match →</a>
+      </div>
+      <ul class="m-0 grid list-none gap-6 p-0 md:grid-cols-3">
+        {careTypes.map((c) => (
+          <li class="flex flex-col overflow-hidden rounded-3xl bg-card-dark">
+            <div class="media-ph media-ph-dark h-45">{c.photo}</div>
+            <div class="flex flex-col gap-3 p-7">
+              <h3 class="text-[1.625rem]">{c.title}</h3>
+              <p class="text-on-dark">{c.body}</p>
+              <a href={c.href} class="text-link text-white hover:text-coral-400">{c.link} →</a>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Our promise -->
+  <section class="section" aria-labelledby="promise-h">
+    <div class="container-site grid items-center gap-14 lg:grid-cols-2">
+      <div class="flex flex-col gap-4">
+        <p class="eyebrow">Our promise</p>
+        <h2 id="promise-h">Free for families. Honest about how we're paid.</h2>
+        <p class="text-[1.1875rem] text-muted">Families deserve to know exactly how a free service works. Here is ours, in plain words.</p>
+      </div>
+      <ul class="m-0 flex list-none flex-col gap-4 p-0">
+        <li class="promise-row"><Icon name="minus" size={28} color="#5B3F8C" class="shrink-0" /><p><strong>You pay nothing, ever.</strong> No fees for consultations, tours, or follow-up.</p></li>
+        <li class="promise-row"><Icon name="list" size={28} color="#5B3F8C" class="shrink-0" /><p><strong>We recommend on fit first.</strong> If the best option isn't a partner community, we'll still tell you about it.</p></li>
+        <li class="promise-row"><Icon name="lock" size={28} color="#5B3F8C" class="shrink-0" /><p><strong>Your information stays private.</strong> We never sell your details or pass them to a list of call centers.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Cost snapshot -->
+  <section aria-labelledby="cost-h" class="section bg-peach-50">
+    <div class="container-site flex flex-col gap-8">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div class="flex max-w-[42.5rem] flex-col gap-3">
+          <p class="eyebrow eyebrow-on-peach">Straight talk on cost</p>
+          <h2 id="cost-h">What does senior living cost in {site.regionShort}?</h2>
+          <p class="text-muted">Cost is often the first question, so we answer it up front.</p>
+        </div>
+        <a href="/resources/cost-calculator" class="btn btn-dark">Try the cost calculator</a>
+      </div>
+      <ul class="m-0 grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-4">
+        {costs.map((c) => (
+          <li class="flex flex-col gap-1.5 rounded-card bg-white p-7">
+            <p class="font-semibold text-muted">{c.label}</p>
+            <p class="font-heading text-4xl font-bold">{c.price}<span class="font-sans text-lg font-medium text-muted"> / month</span></p>
+            <p class="text-[0.9375rem] text-muted">{c.note}</p>
+          </li>
+        ))}
+        <li class="flex flex-col gap-1.5 rounded-card bg-plum-900 p-7 text-white">
+          <p class="font-semibold text-on-dark">Our service</p>
+          <p class="font-heading text-4xl font-bold text-coral-400">$0</p>
+          <p class="text-[0.9375rem] text-on-dark">Always free for families</p>
+        </li>
+      </ul>
+      <p class="text-[0.9375rem] text-muted">Source: [your data source, year]. Actual prices depend on care needs and apartment size.</p>
+    </div>
+  </section>
+
+  <!-- Areas -->
+  <section id="areas" class="section bg-lavender-50" aria-labelledby="areas-h">
+    <div class="container-site grid items-center gap-12 lg:grid-cols-2">
+      <div class="media-ph h-72 sm:h-95">[MAP: your service area with city pins]</div>
+      <div class="flex flex-col gap-5">
+        <p class="eyebrow">Areas we serve</p>
+        <h2 id="areas-h">Local advisors who know every community by name</h2>
+        <ul class="m-0 grid list-none gap-3 p-0 sm:grid-cols-2">
+          {cities.map((c) => (
+            <li><a href={`/areas/${c.slug}`} class="area-link">{c.name}, {c.state} →</a></li>
+          ))}
+          <li><a href="/areas" class="area-link">All areas we serve →</a></li>
+        </ul>
+        <p class="text-base text-muted">Each area page lists local costs, community types and resources.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section id="team" class="section" aria-labelledby="team-h">
+    <div class="container-site flex flex-col gap-10">
+      <div class="flex max-w-[42.5rem] flex-col gap-3">
+        <p class="eyebrow">Meet your advisors</p>
+        <h2 id="team-h">Real people you can call, text, and meet</h2>
+      </div>
+      <ul class="m-0 grid list-none gap-6 p-0 md:grid-cols-2">
+        {homeAdvisors.map((a) => (
+          <li class="flex flex-col items-start gap-5 rounded-3xl border border-line bg-white p-6 sm:flex-row sm:items-center">
+            <div class="media-ph size-28 shrink-0 rounded-full p-2 text-[0.8125rem]" aria-hidden="true">[HEADSHOT]</div>
+            <div class="flex flex-col gap-1">
+              <h3 class="text-[1.375rem]">{a.name}</h3>
+              <p class="text-base text-muted">{a.credentials}</p>
+              <p class="text-base text-muted">Serving {a.serving}</p>
+              <button type="button" data-video-url={a.videoUrl} data-video-title={`Meet ${a.name}`} class="text-link border-0 bg-transparent p-0 text-base text-violet-700 underline">Watch 60-sec intro →</button>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <a href="/about#team" class="text-link self-start">Meet the whole team →</a>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section bg-peach-50" aria-labelledby="reviews-h">
+    <div class="container-site flex flex-col gap-8">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <h2 id="reviews-h">What families say</h2>
+        <p class="font-semibold text-rust-700">[Google reviews widget: ★ rating + count]</p>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        {[1, 2, 3].map(() => (
+          <figure class="m-0 flex flex-col gap-4 rounded-[1.25rem] bg-white p-7">
+            <blockquote class="m-0 text-[1.1875rem]">“[Paste a real family review here, with permission.]”</blockquote>
+            <figcaption class="text-base font-semibold text-muted">[First name, relationship · City]</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Resources -->
+  <section id="resources" class="section" aria-labelledby="res-h">
+    <div class="container-site flex flex-col gap-10">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div class="flex max-w-[40rem] flex-col gap-3">
+          <p class="eyebrow">Free resources</p>
+          <h2 id="res-h">Guides for every step of the decision</h2>
+        </div>
+        <a href="/resources" class="text-link">See all resources →</a>
+      </div>
+      <ul class="m-0 grid list-none gap-6 p-0 sm:grid-cols-2 lg:grid-cols-4">
+        {resources.map((r) => (
+          <li>
+            <a href={r.href} class="card flex h-full flex-col gap-2.5 text-plum-900 no-underline transition-shadow hover:text-plum-900 hover:shadow-[var(--shadow-card)]">
+              <span class="text-[0.9375rem] font-semibold tracking-[0.06em] text-violet-700 uppercase">{r.kind}</span>
+              <h3 class="text-[1.375rem]">{r.title}</h3>
+              <p class="text-base text-muted">{r.body}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section bg-violet-600 text-white" aria-labelledby="contact-h">
+    <div class="container-site grid items-start gap-14 lg:grid-cols-2">
+      <div class="flex flex-col gap-5">
+        <h2 id="contact-h">Let's talk about your loved one. No cost, no pressure.</h2>
+        <p class="text-[1.1875rem] text-[#EDE6F6]">Tell us a little, and an advisor will reach out within {site.responseTime}, or call us now.</p>
+        <a href={telHref} data-track="call_click" class="btn btn-cta self-start">Call {site.phoneDisplay}</a>
+        <a href={bookingHref} class="text-link self-start text-white hover:text-coral-400">Or book a call time that suits you →</a>
+      </div>
+      <CallbackForm />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .path-card {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.75rem;
+    border: 2px solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--white);
+    color: var(--plum-900);
+    text-decoration: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .path-card:hover { color: var(--plum-900); border-color: var(--violet-600); box-shadow: var(--shadow-card); }
+  .path-card h3 { font-size: 1.4375rem; }
+  .path-card p { color: var(--muted); font-size: 1.0625rem; }
+  .path-card-urgent { background: var(--peach-50); border-color: var(--coral-400); }
+  .path-card-urgent:hover { border-color: var(--rust-700); }
+  .path-link { margin-top: auto; font-weight: 700; color: var(--violet-600); }
+
+  .promise-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: var(--lavender-50);
+    border-radius: 1.125rem;
+    padding: 1.375rem 1.5rem;
+  }
+
+  .area-link {
+    display: flex;
+    align-items: center;
+    min-height: var(--cta-min);
+    padding: 0.875rem 1.125rem;
+    background: var(--white);
+    border-radius: 0.875rem;
+    font-weight: 600;
+    color: var(--plum-900);
+    text-decoration: none;
+  }
+  .area-link:hover { color: var(--violet-600); }
+</style>

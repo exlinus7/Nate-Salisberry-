@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Care Match quiz</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Manrope',system-ui,sans-serif;color:#2A1E3B}
+a{color:#4A3275}a:hover{color:#2A1E3B}
+input,button{font:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #F5F0FA; display: flex; flex-direction: column; font-size: 18px; line-height: 1.5; font-family: 'Manrope', system-ui, sans-serif; color: #2A1E3B">
+
+<div style="background: #FFFFFF; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E6DCF0">
+<div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 18px">WiseMove</div>
+<a href="tel:0000000000" aria-label="Call us" style="width: 44px; height: 44px; border-radius: 50%; background: #5B3F8C; display: flex; align-items: center; justify-content: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg>
+</a>
+</div>
+
+<sc-if value="{{isIntro}}" hint-placeholder-val="{{ true }}">
+<div style="flex-grow: 1; padding: 32px 24px; display: flex; flex-direction: column; gap: 20px">
+<div style="align-self: flex-start; background: #FFFFFF; border-radius: 999px; padding: 6px 14px; font-size: 15px; font-weight: 600; color: #4A3275">Free · 2 minutes · No obligation</div>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 36px; line-height: 1.12">Which type of care fits your loved one?</h1>
+<p style="margin: 0; color: #5A4D6B">Answer four quick questions and we'll suggest a starting point, then a local advisor can build your personal shortlist.</p>
+<div style="height: 220px; border-radius: 24px; background: #E3D6F0; display: flex; align-items: center; justify-content: center; text-align: center; color: #4A3275; font-weight: 600; padding: 20px; box-sizing: border-box; font-size: 16px">[PHOTO: adult child and parent at a kitchen table]</div>
+<div style="flex-grow: 1"></div>
+<button type="button" onClick="{{start}}" style="background: #FF9E7A; color: #2A1E3B; border: 0; border-radius: 999px; padding: 16px; font-weight: 700; font-size: 19px; min-height: 56px; cursor: pointer">Start my Care Match</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isQuestion}}" hint-placeholder-val="{{ false }}">
+<div style="flex-grow: 1; padding: 24px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; font-size: 15px; color: #5A4D6B; font-weight: 600">
+<span>Question {{stepNum}} of 4</span>
+</div>
+<div style="height: 8px; border-radius: 999px; background: #E6DCF0; overflow: hidden">
+<div style="height: 8px; border-radius: 999px; background: #5B3F8C; width: {{progress}}"></div>
+</div>
+</div>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 28px; line-height: 1.2">{{q.title}}</h2>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<sc-for list="{{options}}" as="opt" hint-placeholder-count="4">
+<button type="button" onClick="{{opt.pick}}" style="text-align: left; background: #FFFFFF; border: 2px solid #E6DCF0; border-radius: 16px; padding: 16px 18px; font-size: 18px; font-weight: 600; color: #2A1E3B; min-height: 60px; cursor: pointer">{{opt.label}}</button>
+</sc-for>
+</div>
+<div style="flex-grow: 1"></div>
+<button type="button" onClick="{{back}}" style="align-self: flex-start; background: transparent; border: 0; color: #4A3275; font-weight: 600; padding: 12px 0; min-height: 44px; cursor: pointer">← Back</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isResult}}" hint-placeholder-val="{{ false }}">
+<div style="flex-grow: 1; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="font-size: 15px; font-weight: 600; color: #4A3275; text-transform: uppercase; letter-spacing: 0.06em">Your suggested starting point</div>
+<div style="background: #2A1E3B; color: #FFFFFF; border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 8px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px">{{result.title}}</h2>
+<p style="margin: 0; color: #E9E1F3; font-size: 17px">{{result.body}}</p>
+</div>
+<p style="margin: 0; color: #5A4D6B; font-size: 16px">Every situation is unique. Leave your details and an advisor will call to build your free, personal shortlist.</p>
+<label style="display: flex; flex-direction: column; gap: 4px; font-weight: 600; font-size: 16px">Your name<input type="text" style="padding: 12px 14px; border: 1px solid #9C88B8; border-radius: 10px; min-height: 48px; box-sizing: border-box; background: #FFFFFF"></label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-weight: 600; font-size: 16px">Phone<input type="tel" style="padding: 12px 14px; border: 1px solid #9C88B8; border-radius: 10px; min-height: 48px; box-sizing: border-box; background: #FFFFFF"></label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-weight: 600; font-size: 16px">ZIP code<input type="text" inputmode="numeric" style="padding: 12px 14px; border: 1px solid #9C88B8; border-radius: 10px; min-height: 48px; box-sizing: border-box; background: #FFFFFF"></label>
+<button type="button" style="background: #FF9E7A; color: #2A1E3B; border: 0; border-radius: 999px; padding: 16px; font-weight: 700; font-size: 18px; min-height: 56px; cursor: pointer">Get my free shortlist</button>
+<button type="button" onClick="{{restart}}" style="background: transparent; border: 0; color: #4A3275; font-weight: 600; padding: 8px 0; min-height: 44px; cursor: pointer">Start over</button>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { step: 0, answers: {} };
+this.questions = [
+{ id: 'who', title: 'Who are you looking for care for?', options: ['My mom', 'My dad', 'My spouse or partner', 'Myself', 'Someone else'] },
+{ id: 'help', title: 'How much help do they need day to day?', options: ['Little or none', 'Some help: meds, bathing, meals', 'A lot of hands-on help', '24-hour nursing or medical care'] },
+{ id: 'memory', title: 'Any memory concerns?', options: ['No concerns', 'Some forgetfulness', 'Diagnosed dementia or Alzheimer’s', 'Wandering or safety worries'] },
+{ id: 'when', title: 'When might a move happen?', options: ['As soon as possible', 'In 1–3 months', 'In 3+ months', 'Just researching'] }
+];
+}
+renderVals() {
+const step = this.state.step;
+const answers = this.state.answers;
+const q = this.questions[step - 1] || this.questions[0];
+const options = q.options.map((label, i) => ({
+label: label,
+pick: () => this.setState({ answers: Object.assign({}, answers, { [q.id]: i }), step: step + 1 })
+}));
+let result = { title: 'Assisted Living', body: 'A good fit for someone who wants independence with daily help, meals, and an active social life.' };
+if ((answers.memory || 0) >= 2) {
+result = { title: 'Memory Care', body: 'Secure communities with staff trained in dementia care and calm, structured days.' };
+} else if (answers.help === 3) {
+result = { title: 'Long-Term Care', body: 'Skilled nursing with 24-hour medical support. We can also help with Medicare, Medicaid and VA benefits.' };
+} else if (answers.help === 0 && (answers.memory || 0) === 0) {
+result = { title: 'Independent or Assisted Living', body: 'Plenty of freedom now, with help available as needs change. An advisor can compare both.' };
+}
+return {
+isIntro: step === 0,
+isQuestion: step >= 1 && step <= 4,
+isResult: step > 4,
+stepNum: step,
+progress: (step * 25) + '%',
+q: q,
+options: options,
+result: result,
+start: () => this.setState({ step: 1 }),
+back: () => this.setState({ step: Math.max(0, step - 1) }),
+restart: () => this.setState({ step: 0, answers: {} })
+};
+}
+}
+</script>
+</body>
+</html>

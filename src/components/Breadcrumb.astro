@@ -1,0 +1,20 @@
+---
+// Visible breadcrumb. Pair with breadcrumbSchema() from lib/breadcrumbs.ts for the JSON-LD.
+export interface Crumb {
+  label: string;
+  href?: string;
+}
+interface Props {
+  items: Crumb[];
+}
+const { items } = Astro.props;
+---
+<nav aria-label="Breadcrumb" class="breadcrumb">
+  <ol>
+    {items.map((item, i) => (
+      <li>
+        {item.href && i < items.length - 1 ? <a href={item.href}>{item.label}</a> : <span aria-current="page">{item.label}</span>}
+      </li>
+    ))}
+  </ol>
+</nav>

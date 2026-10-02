@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { breadcrumbSchema } from '../../lib/breadcrumbs';
+import { site, telHref, isPlaceholder } from '../../data/site';
+import cities from '../../data/cities.json';
+import advisors from '../../data/advisors.json';
+
+export function getStaticPaths() {
+  return cities.map((city) => ({ params: { city: city.slug }, props: { city } }));
+}
+
+type City = (typeof cities)[number];
+const { city } = Astro.props as { city: City };
+const advisor = advisors.find((a) => a.id === city.advisorId) ?? advisors[0];
+const place = `${city.name}, ${city.state}`;
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Areas We Serve', href: '/areas' },
+  { label: city.name, href: `/areas/${city.slug}` },
+];
+
+const stats = [
+  { value: city.avgAssisted, label: 'Avg. assisted living / month' },
+  { value: city.avgMemory, label: 'Avg. memory care / month' },
+  { value: city.communities, label: 'Communities we know personally' },
+  { value: city.familiesHelped, label: `${city.name} families helped` },
+];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Senior living placement',
+  name: `Senior living placement in ${place}`,
+  provider: { '@id': new URL('/#business', Astro.site).href },
+  areaServed: { '@type': 'City', name: city.name, containedInPlace: city.state },
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', description: 'Free for families' },
+};
+---
+<BaseLayout
+  title={`Senior Living in ${place}`}
+  description={`Free, local guidance for assisted living, memory care and long-term care in ${place}. Local costs, communities we know personally, and a dedicated ${city.name} advisor.`}
+  schema={[breadcrumbSchema(crumbs, Astro.site), serviceSchema]}
+>
+  <section class="bg-lavender-50 py-16">
+    <div class="container-site grid items-center gap-12 lg:grid-cols-2">
+      <div class="flex flex-col gap-4.5">
+        <Breadcrumb items={crumbs} />
+        <h1>Senior Living in {place}</h1>
+        <p class="text-xl text-muted">
+          Free, local guidance for assisted living, memory care and long-term care in {city.name} and nearby {city.neighborhoods}.
+          Our {city.name} advisor has toured every community on our list.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="/contact" class="btn btn-cta">Get my {city.name} shortlist</a>
+          <a href={telHref} data-track="call_click" class="btn btn-outline">Call {site.phoneDisplay}</a>
+        </div>
+      </div>
+      <div class="media-ph h-72 sm:h-90">[MAP or recognizable local photo of {city.name}]</div>
+    </div>
+  </section>
+
+  <section class="py-18" aria-labelledby="glance-h">
+    <div class="container-site flex flex-col gap-7">
+      <h2 id="glance-h" class="text-[clamp(1.75rem,2vw+1rem,2.375rem)]">{city.name} senior living at a glance</h2>
+      <dl class="m-0 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((s) => (
+          <div class="card flex flex-col-reverse gap-1.5 p-6">
+            <dt class="text-muted">{s.label}</dt>
+            <dd class="m-0 font-heading text-[2rem] font-bold text-violet-600">{s.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="text-[0.9375rem] text-muted">Source: [your data source and year]. Costs vary by care level and apartment size.</p>
+    </div>
+  </section>
+
+  <section class="bg-lavender-50 py-18">
+    <div class="container-site grid gap-12 lg:grid-cols-2">
+      <div class="flex flex-col gap-4">
+        <h2 class="text-[clamp(1.75rem,2vw+1rem,2.125rem)]">What makes {city.name} different</h2>
+        {city.insight.map((p) => <p class="text-muted">{p}</p>)}
+      </div>
+      <div class="flex flex-col gap-3.5">
+        <h2 class="text-[clamp(1.75rem,2vw+1rem,2.125rem)]">Local resources</h2>
+        <ul class="m-0 flex list-none flex-col gap-3.5 p-0">
+          {city.resources.map((r) => (
+            <li>
+              {isPlaceholder(r.url) ? (
+                <span class="resource-link">{r.label}</span>
+              ) : (
+                <a href={r.url} class="resource-link" rel="noopener">{r.label} →</a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-0 py-18" aria-labelledby="advisor-h">
+    <div class="container-site max-w-[62.5rem]">
+      <div class="grid items-center gap-8 rounded-[1.75rem] border border-line bg-white p-6 sm:p-9 md:grid-cols-2">
+        <div class="flex flex-col items-start gap-5 sm:flex-row sm:items-center">
+          <div class="media-ph size-30 shrink-0 rounded-full p-2 text-[0.8125rem]" aria-hidden="true">[HEADSHOT]</div>
+          <div class="flex flex-col gap-1">
+            <p class="eyebrow">Your {city.name} advisor</p>
+            <h2 id="advisor-h" class="text-[1.625rem]">{advisor.name}</h2>
+            <p class="text-muted">{city.advisorYears}</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-3">
+          <p class="text-muted">“{advisor.note}”</p>
+          <a href="/contact" class="btn btn-primary self-start">Contact {advisor.firstName}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-peach-50 py-18" aria-labelledby="local-reviews-h">
+    <div class="container-site flex flex-col gap-6">
+      <h2 id="local-reviews-h" class="text-[clamp(1.75rem,2vw+1rem,2.125rem)]">{city.name} families on working with WiseMove</h2>
+      <div class="grid gap-5 md:grid-cols-2">
+        {city.reviews.map((r) => (
+          <figure class="m-0 flex flex-col gap-3 rounded-[1.25rem] bg-white p-6.5">
+            <blockquote class="m-0">“{r.quote}”</blockquote>
+            <figcaption class="text-base font-semibold text-muted">{r.author}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand heading={`Looking for care in ${city.name}? We'll find the right fit, free.`} ctaLabel="Start today" />
+</BaseLayout>
+
+<style>
+  .resource-link {
+    display: flex;
+    align-items: center;
+    min-height: var(--cta-min);
+    padding: 0.875rem 1.25rem;
+    background: var(--white);
+    border-radius: 0.875rem;
+    font-weight: 600;
+    color: var(--plum-900);
+    text-decoration: none;
+  }
+  a.resource-link:hover { color: var(--violet-600); }
+</style>

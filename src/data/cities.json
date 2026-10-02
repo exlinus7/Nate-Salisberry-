@@ -1,0 +1,54 @@
+[
+  {
+    "name": "[City 1]",
+    "state": "[State]",
+    "slug": "sample-city-1",
+    "neighborhoods": "[Neighborhoods / Towns]",
+    "avgAssisted": "[$X,XXX]",
+    "avgMemory": "[$X,XXX]",
+    "communities": "[XX]",
+    "familiesHelped": "[XX]",
+    "advisorId": "founder",
+    "advisorYears": "[Credentials · years in City]",
+    "insight": [
+      "[2–3 short paragraphs of genuinely local insight: which areas have the most options, hospital systems nearby, waitlists, seasonal demand, what families from out of town should know.]",
+      "[This local detail is what helps the page rank on Google for \"assisted living in City\".]"
+    ],
+    "resources": [
+      { "label": "[Area Agency on Aging]", "url": "[URL]" },
+      { "label": "[Local Alzheimer's support group]", "url": "[URL]" },
+      { "label": "[State licensing & inspection lookup]", "url": "[URL]" },
+      { "label": "[Elder law attorney / Medicaid planner]", "url": "[URL]" }
+    ],
+    "reviews": [
+      { "quote": "[Real review from a City family.]", "author": "[Name · City]" },
+      { "quote": "[Real review from a City family.]", "author": "[Name · City]" }
+    ]
+  },
+  {
+    "name": "[City 2]",
+    "state": "[State]",
+    "slug": "sample-city-2",
+    "neighborhoods": "[Neighborhoods / Towns]",
+    "avgAssisted": "[$X,XXX]",
+    "avgMemory": "[$X,XXX]",
+    "communities": "[XX]",
+    "familiesHelped": "[XX]",
+    "advisorId": "advisor-2",
+    "advisorYears": "[Credentials · years in City]",
+    "insight": [
+      "[2–3 short paragraphs of genuinely local insight: which areas have the most options, hospital systems nearby, waitlists, seasonal demand, what families from out of town should know.]",
+      "[This local detail is what helps the page rank on Google for \"assisted living in City\".]"
+    ],
+    "resources": [
+      { "label": "[Area Agency on Aging]", "url": "[URL]" },
+      { "label": "[Local Alzheimer's support group]", "url": "[URL]" },
+      { "label": "[State licensing & inspection lookup]", "url": "[URL]" },
+      { "label": "[Elder law attorney / Medicaid planner]", "url": "[URL]" }
+    ],
+    "reviews": [
+      { "quote": "[Real review from a City family.]", "author": "[Name · City]" },
+      { "quote": "[Real review from a City family.]", "author": "[Name · City]" }
+    ]
+  }
+]

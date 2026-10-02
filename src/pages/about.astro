@@ -1,0 +1,263 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { breadcrumbSchema } from '../lib/breadcrumbs';
+import advisors from '../data/advisors.json';
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'About Us', href: '/about' },
+];
+
+const stats = [
+  { value: '[XX]+', label: 'years of combined experience' },
+  { value: '[XXX]+', label: 'families guided' },
+  { value: '[XX]', label: "communities we've personally toured" },
+  { value: '[X.X]★', label: 'average Google rating' },
+];
+
+const values = [
+  { icon: 'heart', title: 'People, not placements', body: 'We learn who your loved one is: their routines, friendships and joys, not just a diagnosis.' },
+  { icon: 'shield', title: 'Honest, always', body: "If a community isn't right, we'll say so, even if it's one of our partners." },
+  { icon: 'pin', title: 'Truly local', body: 'We tour communities in person, regularly, and know the staff by name.' },
+  { icon: 'people', title: 'With you after move-in', body: "We check in once your loved one settles, and we're here if needs change." },
+] as const;
+
+const compare = [
+  ['Who you talk to', 'One dedicated local advisor', 'Whoever picks up'],
+  ['Your information', 'Kept private', 'Often shared with many communities'],
+  ['Community knowledge', 'Toured in person', 'Database listings'],
+  ['Tours', 'We join you', 'You go alone'],
+  ['After move-in', 'We follow up', 'Relationship ends'],
+];
+
+const milestones = [
+  { year: '[Year]', text: 'WiseMove founded in [City]' },
+  { year: '[Year]', text: '[First 100 families helped]' },
+  { year: '[Year]', text: '[Expanded to Region 2]' },
+  { year: 'Today', text: '[A growing team serving Region]' },
+];
+---
+<BaseLayout
+  title="About Us"
+  description="WiseMove Senior Advisors is a local team helping families find the right assisted living, memory care or long-term care community, with honest advice and real support, at no cost."
+  schema={[breadcrumbSchema(crumbs, Astro.site)]}
+>
+  <!-- Hero -->
+  <section class="bg-lavender-50 pt-16 pb-18 ph:pt-20">
+    <div class="container-site grid items-center gap-14 lg:grid-cols-2">
+      <div class="flex flex-col gap-5">
+        <Breadcrumb items={crumbs} />
+        <p class="eyebrow">About us</p>
+        <h1>We've walked this road. Now we walk it with you.</h1>
+        <p class="lead">
+          WiseMove Senior Advisors is a local team that helps families find the right assisted living, memory care or long-term
+          care community, with honest advice and real support, at no cost to you.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="#story" class="btn btn-dark">Read our story</a>
+          <a href="#team" class="btn btn-outline">Meet the team</a>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="media-ph row-span-2 min-h-80 rounded-media text-base sm:min-h-[26.25rem]">[PHOTO: founder with a family on a community tour]</div>
+        <div class="media-ph min-h-40 rounded-media bg-peach-50 text-base text-rust-700 sm:min-h-50">[PHOTO: team together]</div>
+        <div class="flex min-h-40 flex-col justify-center gap-1 rounded-media bg-plum-900 p-6 sm:min-h-50">
+          <p class="font-heading text-[2.5rem] leading-none font-bold text-coral-400">$0</p>
+          <p class="text-base text-on-dark">cost to families, always</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Numbers -->
+  <section aria-labelledby="glance-h">
+    <div class="container-site max-w-[68.75rem]">
+      <div class="relative -mt-9 rounded-3xl border border-line bg-white px-8 py-7 shadow-[0_12px_32px_rgba(42,30,59,0.08)]">
+        <h2 id="glance-h" class="sr-only">WiseMove at a glance</h2>
+        <dl class="m-0 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {stats.map((s) => (
+            <div class="flex flex-col-reverse gap-0.5">
+              <dt class="text-muted">{s.label}</dt>
+              <dd class="m-0 font-heading text-4xl font-bold text-violet-600">{s.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section id="story" class="section" aria-labelledby="story-h">
+    <div class="container-site grid max-w-[68.75rem] items-start gap-14 lg:grid-cols-2">
+      <div class="flex flex-col gap-4">
+        <p class="eyebrow">Our story</p>
+        <h2 id="story-h">Why WiseMove exists</h2>
+        <div class="media-ph h-70 text-base">[PHOTO: founder, warm portrait]</div>
+      </div>
+      <div class="flex flex-col gap-4.5">
+        <p class="text-[1.3125rem]">“[Opening line of your personal story, e.g. the moment you had to find care for your own mother and didn't know where to start.]”</p>
+        <p class="text-muted">[Paragraph 2: what that experience taught you: how confusing, rushed and emotional the process is, and how families are often handed a long list of names with no real guidance.]</p>
+        <p class="text-muted">[Paragraph 3: why you started WiseMove in [Year] and what you promised to do differently: personal attention, honest advice, and staying with families after move-in.]</p>
+        <p class="text-muted">[Paragraph 4: what drives you today.]</p>
+        <div class="flex flex-col gap-0.5 border-t border-line pt-2">
+          <p class="font-heading text-[1.375rem] font-semibold">[Founder Name]</p>
+          <p class="text-base text-muted">Founder, WiseMove Senior Advisors</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission & promise -->
+  <section class="section bg-plum-900 text-white" aria-label="Our mission and promise">
+    <div class="container-site grid gap-6 lg:grid-cols-2">
+      <div class="flex flex-col gap-3 rounded-3xl bg-card-dark p-7 sm:p-9">
+        <h2 class="eyebrow eyebrow-on-dark font-sans">Our mission</h2>
+        <p class="font-heading text-[1.75rem] leading-snug">
+          To help every family find a place where their loved one is safe, cared for and truly at home, without the stress of doing it alone.
+        </p>
+      </div>
+      <div class="flex flex-col gap-3 rounded-3xl bg-card-dark p-7 sm:p-9">
+        <h2 class="eyebrow eyebrow-on-dark font-sans">Our promise</h2>
+        <ul class="m-0 flex flex-col gap-2 pl-5.5 text-on-dark">
+          <li>Our service is free for families, always.</li>
+          <li>We recommend based on fit, not on who pays us.</li>
+          <li>We tell you the good and the not-so-good.</li>
+          <li>We never sell or share your information.</li>
+          <li>We stay in touch after move-in.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="section" aria-labelledby="values-h">
+    <div class="container-site flex flex-col gap-10">
+      <div class="flex max-w-[42.5rem] flex-col gap-3">
+        <p class="eyebrow">What we believe</p>
+        <h2 id="values-h">The values behind every recommendation</h2>
+      </div>
+      <ul class="m-0 grid list-none gap-6 p-0 sm:grid-cols-2 lg:grid-cols-4">
+        {values.map((v) => (
+          <li class="card flex flex-col gap-3">
+            <span class="icon-tile"><Icon name={v.icon} size={26} color="#5B3F8C" /></span>
+            <h3 class="text-[1.375rem]">{v.title}</h3>
+            <p class="text-muted">{v.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Different -->
+  <section class="section bg-lavender-50" aria-labelledby="diff-h">
+    <div class="container-site flex max-w-[68.75rem] flex-col gap-8">
+      <div class="flex max-w-[43.75rem] flex-col gap-3">
+        <p class="eyebrow">Why families choose us</p>
+        <h2 id="diff-h">A local advisor vs. a national referral website</h2>
+      </div>
+      <div class="overflow-x-auto rounded-card border border-line bg-white" role="region" aria-labelledby="diff-h" tabindex="0">
+        <table class="compare-table min-w-[40rem]">
+          <caption class="sr-only">How WiseMove compares with a typical national call center</caption>
+          <thead>
+            <tr>
+              <td></td>
+              <th scope="col">WiseMove</th>
+              <th scope="col">Typical national call center</th>
+            </tr>
+          </thead>
+          <tbody>
+            {compare.map(([label, us, them]) => (
+              <tr>
+                <th scope="row">{label}</th>
+                <td class="font-semibold text-plum-900!">{us}</td>
+                <td>{them}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section id="team" class="section" aria-labelledby="team-h">
+    <div class="container-site flex flex-col gap-10">
+      <div class="flex max-w-[42.5rem] flex-col gap-3">
+        <p class="eyebrow">Meet the team</p>
+        <h2 id="team-h">Real people you can call, text and meet</h2>
+      </div>
+      <ul class="m-0 grid list-none gap-6 p-0 md:grid-cols-2 lg:grid-cols-3">
+        {advisors.map((a) => (
+          <li class="flex flex-col overflow-hidden rounded-3xl border border-line bg-white">
+            <div class="media-ph h-70 rounded-none text-[0.9375rem]" aria-hidden="true">[HEADSHOT]</div>
+            <div class="flex flex-col gap-1.5 p-6">
+              <h3 class="text-2xl">{a.name}</h3>
+              <p class="font-bold text-violet-600">{a.role}</p>
+              <p class="mt-1.5 text-base text-muted">{a.bio}</p>
+              <div class="flex flex-wrap gap-4 pt-1 text-base font-semibold">
+                {a.videoUrl && (
+                  <button type="button" data-video-url={a.videoUrl} data-video-title={`Meet ${a.name}`} class="min-h-11 border-0 bg-transparent p-0 font-semibold text-violet-700 underline">
+                    Watch intro video
+                  </button>
+                )}
+                <a href="/contact" class="inline-flex min-h-11 items-center">Contact</a>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Milestones -->
+  <section class="section bg-peach-50" aria-labelledby="journey-h">
+    <div class="container-site flex max-w-[68.75rem] flex-col gap-8">
+      <h2 id="journey-h">Our journey so far</h2>
+      <ol class="m-0 grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-4">
+        {milestones.map((m) => (
+          <li class="flex flex-col gap-1.5 rounded-[1.25rem] bg-white p-6">
+            <p class="font-heading text-[1.625rem] font-bold text-rust-700">{m.year}</p>
+            <p>{m.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Testimonial -->
+  <section class="section">
+    <figure class="container-site m-0 mx-auto flex max-w-[56.25rem] flex-col items-center gap-5 text-center">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="#E3D6F0" aria-hidden="true"><path d="M4 18v-5c0-4 2-6.5 6-7.5l.8 1.6C8.4 8 7.4 9.5 7.3 11H10v7zm10 0v-5c0-4 2-6.5 6-7.5l.8 1.6c-2.4.9-3.4 2.4-3.5 3.9H20v7z"></path></svg>
+      <blockquote class="m-0 font-heading text-[clamp(1.5rem,1.5vw+1rem,1.875rem)] leading-snug">“[A real family testimonial about how WiseMove made a hard time easier.]”</blockquote>
+      <figcaption class="font-semibold text-muted">[First name, relationship · City]</figcaption>
+    </figure>
+  </section>
+
+  <!-- Credentials -->
+  <section class="pb-22" aria-labelledby="cred-h">
+    <div class="container-site flex flex-col items-center gap-6 text-center">
+      <h2 id="cred-h" class="text-[1.875rem]">Credentials &amp; memberships</h2>
+      <ul class="m-0 flex list-none flex-wrap justify-center gap-4 p-0">
+        {['[Certification logo]', '[Industry association]', '[Chamber of Commerce]', '[Community partner]'].map((l) => (
+          <li class="flex h-22.5 w-45 items-center justify-center rounded-[0.875rem] border-2 border-dashed border-input-border p-2 text-[0.9375rem] text-muted">{l}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Partners -->
+  <section id="partners" class="bg-plum-900 py-18 text-white" aria-labelledby="partners-h">
+    <div class="container-site grid max-w-[68.75rem] items-center gap-8 md:grid-cols-2">
+      <div class="flex flex-col gap-3">
+        <h2 id="partners-h" class="text-[2rem]">Are you a senior living community?</h2>
+        <p class="text-on-dark">We partner with communities that share our commitment to quality care. Let's talk about working together.</p>
+      </div>
+      <a href="/contact?topic=partner#consultation" class="btn btn-cta justify-self-start">Become a partner</a>
+    </div>
+  </section>
+
+  <CtaBand heading="Let's find the right place, together." ctaLabel="Talk with an advisor" showCall />
+</BaseLayout>

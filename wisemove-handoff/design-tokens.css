@@ -1,0 +1,55 @@
+/* WiseMove Senior Advisors — design tokens ("Warm Lavender & Coral") */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Color */
+  --plum-950: #1E1530;
+  --plum-900: #2A1E3B;   /* ink: text, top bar, dark sections */
+  --card-dark: #3A2B52;
+  --card-dark-2: #4A3A66;
+  --violet-700: #4A3275; /* links, text on tints */
+  --violet-600: #5B3F8C; /* primary */
+  --lavender-100: #E3D6F0;
+  --lavender-50: #F5F0FA;
+  --line: #E6DCF0;
+  --on-dark: #E9E1F3;    /* body text on plum */
+  --muted: #5A4D6B;
+  --input-border: #9C88B8;
+  --coral-400: #FF9E7A;  /* CTA + focus ring (use dark text on it) */
+  --peach-50: #FFF1EA;
+  --rust-700: #9A3F1F;   /* text on peach */
+  --white: #FFFFFF;
+  --page: #FDFBFF;
+
+  /* Type */
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+  --text-base: 1.125rem;   /* 18px */
+  --text-sm: 0.9375rem;    /* 15px — smallest allowed */
+  --h1: clamp(2.375rem, 4vw + 1rem, 3.5rem);
+  --h2: clamp(1.875rem, 2.5vw + 1rem, 2.75rem);
+  --h3: clamp(1.375rem, 1vw + 1rem, 1.75rem);
+  --leading: 1.55;
+
+  /* Shape & space */
+  --radius-pill: 999px;
+  --radius-card: 1.375rem;   /* 22px */
+  --radius-media: 1.75rem;   /* 28px */
+  --radius-input: 0.75rem;   /* 12px */
+  --container: 75rem;        /* 1200px */
+  --gutter: 1.5rem;
+  --section-y: clamp(3.5rem, 6vw, 6rem);
+  --tap-min: 2.75rem;        /* 44px */
+  --cta-min: 3.25rem;        /* 52px */
+  --shadow-card: 0 12px 32px rgba(42, 30, 59, 0.10);
+}
+
+/* Text-size control: set on <html> */
+html[data-text-size="1"] { font-size: 112%; }
+html[data-text-size="2"] { font-size: 125%; }
+
+*:focus-visible { outline: 3px solid var(--coral-400); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

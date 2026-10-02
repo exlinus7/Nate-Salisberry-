@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const steps = [
+  {
+    title: 'Free consultation',
+    body: 'A 30–45 minute conversation by phone, video or in person. We learn about health and care needs, daily routines, budget and benefits, preferred location, and the things that make your loved one feel at home.',
+    note: 'Have ready: medication list, recent doctor notes, a rough monthly budget',
+  },
+  {
+    title: 'Your personal shortlist',
+    body: 'Within [2–3 days] we send a short list of communities that fit, with honest notes on pricing, care levels, staffing, recent inspection results and current availability. No endless online searching.',
+  },
+  {
+    title: 'Guided tours',
+    body: "We book the tours, plan an efficient route, and join you. We know what to look for, from how staff talk to residents to what's really included in the monthly fee.",
+    link: { href: '/resources#checklist', label: 'Download our tour checklist →' },
+  },
+  {
+    title: 'Decision & move-in support',
+    body: 'We help compare options, review agreements, coordinate assessments and paperwork, and connect you with trusted movers and downsizing help.',
+  },
+  {
+    title: 'We check in afterward',
+    body: "After move-in we follow up to make sure your loved one is settling in well, and we're here if needs change later.",
+  },
+];
+
+const faqs = [
+  { q: 'How long does the process take?', a: "It depends on urgency. We can help with a hospital discharge in days, or take months if you're planning ahead." },
+  { q: 'Do I have to choose one of your suggestions?', a: "No. You're never obligated. Our goal is to help you make a confident choice." },
+  { q: 'Can you help if my parent lives in another city?', a: 'Yes. Many families we help live out of town. We can tour on your behalf and share video and notes.' },
+  { q: 'Do you work with Medicaid or VA benefits?', a: 'We can explain options and point you to communities that accept them. [Confirm what you offer.]' },
+  { q: 'Why is your service free?', a: 'Partner communities pay us a referral fee only when a family chooses them and moves in. You never pay anything.' },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<BaseLayout
+  title="How It Works"
+  description="What happens when you work with WiseMove: a free consultation, a personal shortlist, guided tours, move-in support and a follow-up check-in. Never any cost to your family."
+  schema={[faqSchema]}
+>
+  <section class="bg-lavender-50 py-16 ph:py-18">
+    <div class="container-site flex max-w-[51.25rem] flex-col items-center gap-5 text-center">
+      <p class="eyebrow">How it works</p>
+      <h1>A clear path through a hard decision</h1>
+      <p class="lead">
+        Most families have never done this before. We have, many times. Here's exactly what happens when you work with WiseMove,
+        and it never costs you a cent.
+      </p>
+      <a href="/contact" class="btn btn-cta">Schedule a free consultation</a>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Our process, step by step">
+    <ol class="container-site m-0 flex max-w-[62.5rem] list-none flex-col gap-7">
+      {steps.map((s, i) => (
+        <li class="grid gap-5 rounded-3xl border border-line bg-white p-6 sm:grid-cols-[5rem_minmax(0,1fr)] sm:gap-6 sm:p-8">
+          <span class="flex size-16 items-center justify-center rounded-full bg-violet-600 font-heading text-[1.75rem] font-bold text-white" aria-hidden="true">{i + 1}</span>
+          <div class="flex flex-col gap-2.5">
+            <h2 class="text-[1.75rem]"><span class="sr-only">Step {i + 1}: </span>{s.title}</h2>
+            <p class="text-muted">{s.body}</p>
+            {s.note && <p class="text-base font-semibold text-violet-700">{s.note}</p>}
+            {s.link && <a href={s.link.href} class="text-link self-start text-base">{s.link.label}</a>}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="section bg-plum-900 text-white" aria-labelledby="free-h">
+    <div class="container-site grid items-center gap-12 lg:grid-cols-2">
+      <div class="flex flex-col gap-4">
+        <h2 id="free-h">Why is WiseMove free?</h2>
+        <p class="text-[1.1875rem] text-on-dark">
+          Partner communities pay us a referral fee only when a family chooses them and moves in. That fee comes out of their
+          marketing budget, never added to your rent.
+        </p>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div class="rounded-[1.125rem] bg-card-dark p-5.5">
+          <h3 class="text-xl text-coral-400">$0 to families</h3>
+          <p class="text-base text-on-dark">Consultations, tours and follow-up are always free.</p>
+        </div>
+        <div class="rounded-[1.125rem] bg-card-dark p-5.5">
+          <h3 class="text-xl text-coral-400">Fit comes first</h3>
+          <p class="text-base text-on-dark">We'll name the best option even if it isn't a partner.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section" aria-labelledby="faq-h">
+    <div class="faq container-site flex max-w-[53.75rem] flex-col gap-4">
+      <h2 id="faq-h">Common questions</h2>
+      <div>
+        {faqs.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand heading="Ready to take the first step? Talk with an advisor today." showCall />
+</BaseLayout>

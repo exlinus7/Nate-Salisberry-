@@ -1,0 +1,108 @@
+---
+import '../styles/global.css';
+import UtilityBar from '../components/UtilityBar.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileBar from '../components/MobileBar.astro';
+import VideoDialog from '../components/VideoDialog.astro';
+import { site, isPlaceholder } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Extra JSON-LD objects for this page (FAQPage, BreadcrumbList, …) */
+  schema?: Record<string, unknown>[];
+  /** Keep this page out of search results (404) */
+  noindex?: boolean;
+}
+
+const { title, description, schema = [], noindex = false } = Astro.props;
+const fullTitle = Astro.url.pathname === '/' ? `${site.name} | Free Senior Living Placement in ${site.regionShort}` : `${title} | ${site.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(site.ogImage, Astro.site);
+const gaReady = !isPlaceholder(site.ga4Id);
+
+const localBusiness = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': new URL('/#business', Astro.site).href,
+  name: site.name,
+  description: 'Free, personalized senior living placement help for assisted living, memory care and long-term care.',
+  url: Astro.site?.href,
+  telephone: site.phoneE164,
+  email: site.email,
+  areaServed: site.region,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    addressLocality: site.address.cityStateZip,
+  },
+  priceRange: 'Free for families',
+};
+const jsonLd = [localBusiness, ...schema];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#2A1E3B" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Apply the saved text size before first paint so the page doesn't jump -->
+    <script is:inline>
+      try {
+        var s = localStorage.getItem('wm-text-size');
+        if (s === '1' || s === '2') document.documentElement.setAttribute('data-text-size', s);
+      } catch (e) {}
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Manrope:wght@400;500;600;700&display=swap"
+    />
+
+    {jsonLd.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
+
+    {gaReady && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${site.ga4Id}`} />
+        <script is:inline define:vars={{ id: site.ga4Id }}>
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function () { dataLayer.push(arguments); };
+          gtag('js', new Date());
+          gtag('config', id);
+        </script>
+      </>
+    )}
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <UtilityBar />
+    <Header />
+    <main id="main" tabindex="-1" class="outline-none">
+      <slot />
+    </main>
+    <Footer />
+    <MobileBar />
+    <VideoDialog />
+    <script>
+      import '../scripts/site.ts';
+    </script>
+  </body>
+</html>

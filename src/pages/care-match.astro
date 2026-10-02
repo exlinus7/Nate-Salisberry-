@@ -1,0 +1,236 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { site, telHref } from '../data/site';
+
+const questions = [
+  { id: 'who', title: 'Who are you looking for care for?', options: ['My mom', 'My dad', 'My spouse or partner', 'Myself', 'Someone else'] },
+  { id: 'help', title: 'How much help do they need day to day?', options: ['Little or none', 'Some help: meds, bathing, meals', 'A lot of hands-on help', '24-hour nursing or medical care'] },
+  { id: 'memory', title: 'Any memory concerns?', options: ['No concerns', 'Some forgetfulness', 'Diagnosed dementia or Alzheimer’s', 'Wandering or safety worries'] },
+  { id: 'when', title: 'When might a move happen?', options: ['As soon as possible', 'In 1–3 months', 'In 3+ months', 'Just researching'] },
+];
+
+const results = {
+  assisted: { title: 'Assisted Living', body: 'A good fit for someone who wants independence with daily help, meals, and an active social life.', href: '/care-options#assisted' },
+  memory: { title: 'Memory Care', body: 'Secure communities with staff trained in dementia care and calm, structured days.', href: '/care-options#memory' },
+  ltc: { title: 'Long-Term Care', body: 'Skilled nursing with 24-hour medical support. We can also help with Medicare, Medicaid and VA benefits.', href: '/care-options#ltc' },
+  independent: { title: 'Independent or Assisted Living', body: 'Plenty of freedom now, with help available as needs change. An advisor can compare both.', href: '/care-options#assisted' },
+};
+---
+<BaseLayout
+  title="Care Match: Which Type of Care Fits?"
+  description="Answer four quick questions to see which type of senior care may fit your loved one: assisted living, memory care or long-term care. Free, 2 minutes, no obligation."
+>
+  <section class="min-h-[70vh] bg-lavender-50 py-10 ph:py-16">
+    <div class="container-site max-w-[42rem]">
+      <div class="quiz rounded-[1.75rem] bg-white p-6 shadow-[var(--shadow-card)] sm:p-10" data-quiz data-questions={JSON.stringify(questions)} data-results={JSON.stringify(results)}>
+        <!-- Intro -->
+        <div data-panel="intro" class="flex flex-col gap-5">
+          <p class="self-start rounded-full bg-lavender-50 px-3.5 py-1.5 text-[0.9375rem] font-semibold text-violet-700">Free · 2 minutes · No obligation</p>
+          <h1 class="text-[clamp(2rem,3vw+1rem,2.75rem)]">Which type of care fits your loved one?</h1>
+          <p class="text-muted">Answer four quick questions and we'll suggest a starting point, then a local advisor can build your personal shortlist.</p>
+          <div class="media-ph h-48 text-base sm:h-56">[PHOTO: adult child and parent at a kitchen table]</div>
+          <button type="button" data-start class="btn btn-cta btn-block min-h-14 text-[1.1875rem]">Start my Care Match</button>
+          <noscript>
+            <p class="rounded-2xl bg-peach-50 p-4 text-rust-700">
+              The Care Match needs JavaScript. You can call us at <a href={telHref}>{site.phoneDisplay}</a> or use our <a href="/contact">contact form</a> instead.
+            </p>
+          </noscript>
+        </div>
+
+        <!-- Question (filled in by script) -->
+        <div data-panel="question" hidden class="flex flex-col gap-5">
+          <div class="flex flex-col gap-2">
+            <p class="text-[0.9375rem] font-semibold text-muted" data-progress-text>Question 1 of 4</p>
+            <div class="h-2 overflow-hidden rounded-full bg-line" role="progressbar" aria-label="Care Match progress" aria-valuemin="0" aria-valuemax="4" aria-valuenow="1" data-progress-bar>
+              <div class="h-2 rounded-full bg-violet-600 transition-[width]" style="width: 25%" data-progress-fill></div>
+            </div>
+          </div>
+          <h2 tabindex="-1" class="text-[1.75rem] leading-tight outline-none" data-question-title id="quiz-q">Question</h2>
+          <ul class="m-0 flex list-none flex-col gap-3 p-0" aria-labelledby="quiz-q" data-options></ul>
+          <button type="button" data-back class="min-h-11 self-start border-0 bg-transparent py-3 font-semibold text-violet-700">← Back</button>
+        </div>
+
+        <!-- Result -->
+        <div data-panel="result" hidden class="flex flex-col gap-4">
+          <p class="eyebrow">Your suggested starting point</p>
+          <div class="flex flex-col gap-2 rounded-[1.375rem] bg-plum-900 p-6 text-white">
+            <h2 tabindex="-1" class="text-[1.875rem] outline-none" data-result-title>Assisted Living</h2>
+            <p class="text-[1.0625rem] text-on-dark" data-result-body></p>
+            <a href="/care-options" data-result-link class="text-link self-start text-coral-400 hover:text-white">Learn more about this type of care →</a>
+          </div>
+
+          <form
+            data-lead-form="care-match"
+            data-success="quiz-success"
+            action={site.formEndpoint}
+            method="post"
+            novalidate
+            class="flex flex-col gap-4"
+            aria-labelledby="quiz-form-h"
+          >
+            <p id="quiz-form-h" class="text-base text-muted">
+              Every situation is unique. Leave your details and an advisor will call to build your free, personal shortlist.
+            </p>
+            <input type="hidden" name="form" value="Care Match" />
+            <input type="hidden" name="care_match_result" data-hidden="result" />
+            {questions.map((q) => <input type="hidden" name={`answer_${q.id}`} data-hidden={q.id} />)}
+
+            <div class="field">
+              <label for="q-name">Your name <span aria-hidden="true">*</span></label>
+              <input id="q-name" name="name" type="text" class="input" autocomplete="name" required data-label="your name" aria-describedby="q-name-error" />
+              <p id="q-name-error" class="field-error" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="q-phone">Phone <span aria-hidden="true">*</span></label>
+              <input id="q-phone" name="phone" type="tel" class="input" autocomplete="tel" inputmode="tel" required data-validate="phone" aria-describedby="q-phone-help q-phone-error" />
+              <p id="q-phone-help" class="field-help">Any format is fine, e.g. 555 123 4567</p>
+              <p id="q-phone-error" class="field-error" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="q-zip">ZIP code <span aria-hidden="true">*</span></label>
+              <input id="q-zip" name="zip" type="text" class="input" autocomplete="postal-code" inputmode="numeric" required data-validate="zip" aria-describedby="q-zip-help q-zip-error" />
+              <p id="q-zip-help" class="field-help">So we can suggest communities near the right area</p>
+              <p id="q-zip-error" class="field-error" aria-live="polite"></p>
+            </div>
+            <p data-form-error class="field-error" role="alert"></p>
+            <button type="submit" class="btn btn-cta btn-block min-h-14">Get my free shortlist</button>
+            <p class="flex items-center gap-2 text-[0.9375rem] text-muted"><Icon name="lock" size={18} />Private and secure. We never sell your information.</p>
+          </form>
+
+          <div id="quiz-success" role="status" hidden class="flex flex-col items-start gap-3 rounded-2xl bg-lavender-50 p-6">
+            <h3 tabindex="-1" data-success-focus class="text-2xl outline-none">Thank you. We'll call you soon.</h3>
+            <p class="text-muted">An advisor will call within {site.responseTime} to talk through your shortlist. If it's urgent, call <a href={telHref} data-track="call_click">{site.phoneDisplay}</a>.</p>
+            <button type="button" data-form-reset hidden></button>
+          </div>
+
+          <button type="button" data-restart class="min-h-11 self-center border-0 bg-transparent py-2 font-semibold text-violet-700">Start over</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { track } from '../scripts/analytics';
+
+  type Question = { id: string; title: string; options: string[] };
+  type Result = { title: string; body: string; href: string };
+
+  const root = document.querySelector<HTMLElement>('[data-quiz]');
+  if (root) {
+    const questions: Question[] = JSON.parse(root.dataset.questions!);
+    const results: Record<string, Result> = JSON.parse(root.dataset.results!);
+    const panels = {
+      intro: root.querySelector<HTMLElement>('[data-panel="intro"]')!,
+      question: root.querySelector<HTMLElement>('[data-panel="question"]')!,
+      result: root.querySelector<HTMLElement>('[data-panel="result"]')!,
+    };
+    const $ = <T extends HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
+
+    let step = 0; // 0 = intro, 1–4 = questions, 5 = result
+    let answers: Record<string, number> = {};
+
+    // Result logic from the handoff spec (option indexes):
+    //  memory = "Diagnosed dementia" (2) or "Wandering/safety" (3) → Memory Care
+    //  else help = "24-hour nursing" (3) → Long-Term Care
+    //  else help = "Little or none" (0) and memory = "No concerns" (0) → Independent or Assisted Living
+    //  else → Assisted Living
+    function resultKey(): keyof typeof results {
+      if (answers.memory >= 2) return 'memory';
+      if (answers.help === 3) return 'ltc';
+      if (answers.help === 0 && answers.memory === 0) return 'independent';
+      return 'assisted';
+    }
+
+    function show(name: keyof typeof panels) {
+      (Object.keys(panels) as (keyof typeof panels)[]).forEach((k) => (panels[k].hidden = k !== name));
+    }
+
+    function render(focus = true) {
+      if (step === 0) {
+        show('intro');
+        if (focus) $<HTMLElement>('[data-start]').focus();
+        return;
+      }
+      if (step <= questions.length) {
+        const q = questions[step - 1];
+        show('question');
+        $('[data-progress-text]').textContent = `Question ${step} of ${questions.length}`;
+        $('[data-progress-bar]').setAttribute('aria-valuenow', String(step));
+        $('[data-progress-fill]').style.width = `${(step / questions.length) * 100}%`;
+        $('[data-question-title]').textContent = q.title;
+        const list = $('[data-options]');
+        list.replaceChildren(
+          ...q.options.map((label, i) => {
+            const li = document.createElement('li');
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'quiz-option';
+            btn.textContent = label;
+            if (answers[q.id] === i) btn.setAttribute('aria-current', 'true');
+            btn.addEventListener('click', () => {
+              answers[q.id] = i;
+              step++;
+              render();
+            });
+            li.append(btn);
+            return li;
+          }),
+        );
+        if (focus) $('[data-question-title]').focus();
+        return;
+      }
+
+      // Result
+      const key = resultKey();
+      const r = results[key];
+      show('result');
+      $('[data-result-title]').textContent = r.title;
+      $('[data-result-body]').textContent = r.body;
+      $<HTMLAnchorElement>('[data-result-link]').href = r.href;
+      $<HTMLInputElement>('[data-hidden="result"]').value = r.title;
+      questions.forEach((q) => {
+        $<HTMLInputElement>(`[data-hidden="${q.id}"]`).value = q.options[answers[q.id]] ?? '';
+      });
+      track('quiz_complete', { result: r.title });
+      if (focus) $('[data-result-title]').focus();
+    }
+
+    $('[data-start]').addEventListener('click', () => {
+      step = 1;
+      render();
+    });
+    $('[data-back]').addEventListener('click', () => {
+      step = Math.max(0, step - 1);
+      render();
+    });
+    $('[data-restart]').addEventListener('click', () => {
+      // Return the lead form to its empty state too
+      $<HTMLButtonElement>('#quiz-success [data-form-reset]').click();
+      step = 0;
+      answers = {};
+      render();
+    });
+
+    render(false);
+  }
+</script>
+
+<style is:global>
+  .quiz-option {
+    width: 100%;
+    min-height: 3.75rem;
+    padding: 1rem 1.125rem;
+    text-align: left;
+    background: var(--white);
+    border: 2px solid var(--line);
+    border-radius: 1rem;
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--plum-900);
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+  }
+  .quiz-option:hover { border-color: var(--violet-600); background: var(--lavender-50); }
+  .quiz-option[aria-current='true'] { border-color: var(--violet-600); }
+</style>

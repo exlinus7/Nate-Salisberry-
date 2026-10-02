@@ -1,0 +1,52 @@
+---
+// One shared <dialog> for every "watch video" trigger. Add data-video-url + data-video-title to any button.
+// While the URL is still a [PLACEHOLDER], the dialog says the video is coming soon.
+import Icon from './Icon.astro';
+import { site, telHref } from '../data/site';
+---
+<dialog id="video-dialog" aria-labelledby="video-dialog-title" class="m-auto w-[min(56rem,calc(100%-2rem))] rounded-3xl border-0 p-0 text-plum-900 backdrop:bg-plum-950/70">
+  <div class="flex items-center justify-between gap-4 border-b border-line px-6 py-3">
+    <h2 id="video-dialog-title" class="text-[1.375rem]">Video</h2>
+    <button type="button" data-close class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border-2 border-line bg-white" aria-label="Close video">
+      <Icon name="close" size={20} />
+    </button>
+  </div>
+  <div data-video-body class="aspect-video bg-lavender-100"></div>
+  <div data-video-fallback hidden class="flex flex-col items-center gap-3 p-8 text-center">
+    <p class="font-semibold text-violet-700">[VIDEO coming soon]</p>
+    <p class="text-muted">In the meantime, we'd love to talk. Call us at <a href={telHref} data-track="call_click">{site.phoneDisplay}</a>.</p>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('video-dialog') as HTMLDialogElement | null;
+  if (dialog) {
+    const body = dialog.querySelector<HTMLElement>('[data-video-body]')!;
+    const fallback = dialog.querySelector<HTMLElement>('[data-video-fallback]')!;
+    const title = dialog.querySelector<HTMLElement>('#video-dialog-title')!;
+
+    document.addEventListener('click', (e) => {
+      const trigger = (e.target as HTMLElement).closest<HTMLElement>('[data-video-url]');
+      if (!trigger) return;
+      const url = trigger.dataset.videoUrl ?? '';
+      title.textContent = trigger.dataset.videoTitle ?? 'Video';
+      body.replaceChildren();
+      const ready = url && !url.startsWith('[');
+      body.hidden = !ready;
+      fallback.hidden = !!ready;
+      if (ready) {
+        const frame = document.createElement('iframe');
+        frame.src = url;
+        frame.title = title.textContent;
+        frame.allow = 'autoplay; fullscreen; picture-in-picture';
+        frame.className = 'h-full w-full border-0';
+        body.append(frame);
+      }
+      dialog.showModal();
+    });
+
+    dialog.querySelector('[data-close]')?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', () => body.replaceChildren()); // stop playback
+  }
+</script>

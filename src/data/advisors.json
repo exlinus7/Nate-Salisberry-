@@ -1,0 +1,35 @@
+[
+  {
+    "id": "founder",
+    "name": "[Founder Name]",
+    "firstName": "[First Name]",
+    "role": "Founder & Senior Advisor",
+    "credentials": "[Title · credentials, e.g. CSA]",
+    "bio": "[Background, credentials (e.g. CSA, NHA), years of experience, and a personal touch.]",
+    "serving": "[Region]",
+    "videoUrl": "[ADVISOR_VIDEO_URL]",
+    "note": "[A short personal note from the advisor about helping families in City.]"
+  },
+  {
+    "id": "advisor-2",
+    "name": "[Advisor Name]",
+    "firstName": "[First Name]",
+    "role": "Senior Living Advisor · [Area]",
+    "credentials": "[Title · credentials]",
+    "bio": "[Background and what they love about helping families.]",
+    "serving": "[Region]",
+    "videoUrl": "[ADVISOR_VIDEO_URL]",
+    "note": "[A short personal note from the advisor about helping families in City.]"
+  },
+  {
+    "id": "coordinator",
+    "name": "[Team Member]",
+    "firstName": "[First Name]",
+    "role": "Family Care Coordinator",
+    "credentials": "[Role]",
+    "bio": "[Role and background.]",
+    "serving": "[Region]",
+    "videoUrl": "",
+    "note": ""
+  }
+]

@@ -1,0 +1,31 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { breadcrumbSchema } from '../lib/breadcrumbs';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  updated?: string;
+}
+const { title, description, path, updated = '[Date]' } = Astro.props;
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: title, href: path },
+];
+---
+<BaseLayout title={title} description={description} schema={[breadcrumbSchema(crumbs, Astro.site)]}>
+  <section class="bg-lavender-50 pt-12 pb-14">
+    <div class="container-site flex max-w-[52rem] flex-col gap-4">
+      <Breadcrumb items={crumbs} />
+      <h1>{title}</h1>
+      <p class="text-muted">Last updated: {updated}</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container-site prose max-w-[52rem]">
+      <slot />
+    </div>
+  </section>
+</BaseLayout>

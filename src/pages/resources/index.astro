@@ -1,0 +1,132 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { site } from '../../data/site';
+import { topics, topicLabel } from '../../data/topics';
+
+const articles = (await getCollection('articles')).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout
+  title="Resources for Families"
+  description="Free, plain-language guides, checklists and tools for families choosing senior living: signs it's time, paying for care, touring, memory care and moving day."
+>
+  <section class="bg-lavender-50 pt-16 pb-10">
+    <div class="container-site flex flex-col gap-4.5">
+      <p class="eyebrow">Resource library</p>
+      <h1 class="max-w-[47.5rem]">Guides, checklists and tools for families</h1>
+      <p class="max-w-[43.75rem] text-xl text-muted">Practical, plain-language help for every stage, from noticing the first signs to settling in.</p>
+    </div>
+  </section>
+
+  <section class="py-14" aria-label="Featured tools">
+    <div class="container-site grid gap-8 lg:grid-cols-2">
+      <div id="checklist" class="flex flex-col gap-4 rounded-[1.75rem] bg-plum-900 p-7 text-white sm:p-10">
+        <p class="eyebrow eyebrow-on-dark">Free download</p>
+        <h2 class="text-[clamp(1.75rem,2vw+1rem,2.125rem)]">The Community Tour Checklist</h2>
+        <p class="text-on-dark">[40+] questions to ask on every tour, plus a simple score sheet to compare communities side by side.</p>
+        <form
+          data-lead-form="checklist"
+          data-success="checklist-success"
+          action={site.formEndpoint}
+          method="post"
+          novalidate
+          class="flex flex-wrap items-start gap-2.5 pt-1.5"
+        >
+          <input type="hidden" name="form" value="Tour checklist download" />
+          <div class="field min-w-0 grow basis-56 text-[0.9375rem]">
+            <label for="cl-email">Email address</label>
+            <input id="cl-email" name="email" type="email" autocomplete="email" required class="input border-0" aria-describedby="cl-email-error" />
+            <p id="cl-email-error" class="field-error rounded-md bg-white px-2 py-1" aria-live="polite"></p>
+          </div>
+          <button type="submit" class="btn btn-cta mt-7.5">Send it to me</button>
+          <p data-form-error class="field-error w-full rounded-md bg-white px-2 py-1" role="alert"></p>
+        </form>
+        <div id="checklist-success" role="status" hidden class="flex flex-col gap-2 rounded-2xl bg-card-dark p-5">
+          <p tabindex="-1" data-success-focus class="font-heading text-xl font-semibold outline-none">Check your inbox.</p>
+          <p class="text-on-dark">We've sent the Tour Checklist to your email. [Confirm delivery method once the form backend is set up.]</p>
+          <button type="button" data-form-reset class="min-h-11 self-start border-0 bg-transparent p-0 font-semibold text-coral-400 underline">Send to another email</button>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4 rounded-[1.75rem] bg-peach-50 p-7 sm:p-10">
+        <p class="eyebrow eyebrow-on-peach">Tool</p>
+        <h2 class="text-[clamp(1.75rem,2vw+1rem,2.125rem)]">Senior Living Cost Calculator</h2>
+        <p class="text-muted">
+          Compare the true monthly cost of staying at home (mortgage, utilities, food, in-home care) with assisted living in {site.regionShort}.
+        </p>
+        <a href="/resources/cost-calculator" class="btn btn-dark mt-auto self-start"><Icon name="calculator" size={20} />Open the calculator</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pt-8 pb-22" aria-labelledby="articles-h">
+    <div class="container-site flex flex-col gap-7">
+      <h2 id="articles-h" class="text-[clamp(1.75rem,2vw+1rem,2.125rem)]">Latest articles</h2>
+
+      <div role="group" aria-label="Filter articles by topic" class="flex flex-wrap gap-2.5" data-topic-filters>
+        <button type="button" class="pill pill-dark" data-topic="all" aria-pressed="true">All</button>
+        {topics.map((t) => <button type="button" class="pill pill-dark" data-topic={t.slug} aria-pressed="false">{t.label}</button>)}
+      </div>
+      <p class="text-base text-muted" aria-live="polite" data-filter-status>Showing all {articles.length} articles</p>
+
+      <ul class="m-0 grid list-none gap-6 p-0 md:grid-cols-2 lg:grid-cols-3" data-article-list>
+        {articles.map((a) => (
+          <li data-topic={a.data.topic}>
+            <a href={`/resources/${a.id}`} class="flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-line bg-white text-plum-900 no-underline hover:text-plum-900 hover:shadow-[var(--shadow-card)]">
+              <div class="media-ph h-45 rounded-none text-[0.9375rem] font-normal" aria-hidden="true">{a.data.image}</div>
+              <div class="flex flex-col gap-2 p-5.5">
+                <p class="text-[0.9375rem] font-semibold tracking-[0.06em] text-violet-700 uppercase">{topicLabel(a.data.topic)}</p>
+                <h3 class="text-[1.375rem]">{a.data.title}</h3>
+                <p class="text-base text-muted">{a.data.description}</p>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p hidden data-filter-empty class="rounded-2xl bg-lavender-50 p-6 text-muted">
+        No articles on this topic yet. <a href="/contact">Ask an advisor</a>; we're happy to help directly.
+      </p>
+    </div>
+  </section>
+
+  <CtaBand heading="Rather talk it through? An advisor is a call away." />
+</BaseLayout>
+
+<script>
+  const filters = document.querySelector('[data-topic-filters]');
+  const items = document.querySelectorAll<HTMLElement>('[data-article-list] > li');
+  const status = document.querySelector<HTMLElement>('[data-filter-status]');
+  const empty = document.querySelector<HTMLElement>('[data-filter-empty]');
+
+  function applyFilter(topic: string, updateUrl = true) {
+    let shown = 0;
+    items.forEach((li) => {
+      const match = topic === 'all' || li.dataset.topic === topic;
+      li.hidden = !match;
+      if (match) shown++;
+    });
+    let label = 'all';
+    filters?.querySelectorAll<HTMLButtonElement>('button[data-topic]').forEach((b) => {
+      const on = b.dataset.topic === topic;
+      b.setAttribute('aria-pressed', String(on));
+      if (on) label = b.textContent ?? topic;
+    });
+    if (status) status.textContent = topic === 'all' ? `Showing all ${shown} articles` : `Showing ${shown} ${shown === 1 ? 'article' : 'articles'} about “${label}”`;
+    if (empty) empty.hidden = shown > 0;
+    if (updateUrl) {
+      const url = new URL(location.href);
+      if (topic === 'all') url.searchParams.delete('topic');
+      else url.searchParams.set('topic', topic);
+      history.replaceState(null, '', url);
+    }
+  }
+
+  filters?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-topic]');
+    if (btn) applyFilter(btn.dataset.topic!);
+  });
+
+  const initial = new URLSearchParams(location.search).get('topic');
+  if (initial && filters?.querySelector(`[data-topic="${CSS.escape(initial)}"]`)) applyFilter(initial, false);
+</script>

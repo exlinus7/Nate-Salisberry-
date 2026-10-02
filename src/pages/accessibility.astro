@@ -1,0 +1,24 @@
+---
+import TextPageLayout from '../layouts/TextPageLayout.astro';
+import { site, telHref } from '../data/site';
+---
+<TextPageLayout title="Accessibility" path="/accessibility" description="WiseMove Senior Advisors is committed to a website that everyone can use, including people with low vision and other disabilities.">
+  <p>
+    We want everyone, including older adults and people with disabilities, to be able to use this website comfortably.
+    We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.
+  </p>
+  <h2>Features of this site</h2>
+  <ul>
+    <li><strong>Text size control:</strong> use the A, A+ and A++ buttons at the top of every page to make text larger. Your choice is remembered.</li>
+    <li><strong>Keyboard access:</strong> every link, button and form field can be reached with the Tab key, with a clearly visible focus outline. A “Skip to main content” link appears first.</li>
+    <li><strong>Readable design:</strong> large body text, high color contrast, and generous button sizes for easier tapping.</li>
+    <li><strong>Help in the same place:</strong> our phone number and a “Text us” link are at the top of every page.</li>
+    <li><strong>Reduced motion:</strong> if your device is set to reduce motion, we turn off animations.</li>
+  </ul>
+  <h2>Need help or found a problem?</h2>
+  <p>
+    If anything on this site is hard to use, please tell us and we'll help you another way. Call
+    <a href={telHref}>{site.phoneDisplay}</a> or email <a href={`mailto:${site.email}`}>{site.email}</a>.
+  </p>
+  <p>[PLACEHOLDER: Add the date of your most recent accessibility review.]</p>
+</TextPageLayout>

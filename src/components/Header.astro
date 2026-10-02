@@ -1,0 +1,78 @@
+---
+import Icon from './Icon.astro';
+import { site, nav } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => path === href || path.startsWith(href + '/');
+const onContact = isCurrent('/contact');
+---
+<header class="site-header border-b border-line bg-white">
+  <div class="container-site flex flex-wrap items-center justify-between gap-x-8 gap-y-3 py-3.5">
+    <a href="/" class="flex items-center gap-3 text-plum-900 no-underline hover:text-plum-900">
+      <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-violet-600">
+        <Icon name="logo" color="#FFFFFF" />
+      </span>
+      <span class="font-heading text-[1.375rem] leading-tight font-bold">{site.name}</span>
+    </a>
+
+    <button
+      type="button"
+      class="menu-toggle inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-plum-900 px-4 font-semibold lg:hidden"
+      aria-expanded="false"
+      aria-controls="main-nav"
+    >
+      <Icon name="menu" size={20} class="icon-open" />
+      <Icon name="close" size={20} class="icon-close hidden" />
+      <span>Menu</span>
+    </button>
+
+    <nav id="main-nav" aria-label="Main" class="main-nav hidden w-full lg:flex lg:w-auto lg:items-center lg:gap-8">
+      <ul class="m-0 flex list-none flex-col p-0 text-[1.0625rem] font-semibold lg:flex-row lg:flex-wrap lg:gap-x-7">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+              class="nav-link flex min-h-11 items-center text-plum-900 no-underline"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a
+        href="/contact"
+        aria-current={onContact ? 'page' : undefined}
+        class:list={['btn btn-sm mt-3 mb-2 lg:my-0', onContact ? 'btn-dark' : 'btn-primary']}
+      >
+        Get Free Guidance
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  @media (min-width: 64rem) {
+    .site-header { position: sticky; top: 0; z-index: 40; }
+  }
+  .nav-link { border-bottom: 3px solid transparent; }
+  .nav-link:hover { color: var(--violet-600); }
+  .nav-link[aria-current='page'] { color: var(--violet-600); border-bottom-color: var(--violet-600); }
+  @media (max-width: 63.99rem) {
+    .main-nav.open { display: block; }
+    .main-nav li + li { border-top: 1px solid var(--line); }
+    .nav-link { min-height: 3rem; }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const menu = document.getElementById('main-nav');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    menu?.classList.toggle('open', open);
+    toggle.querySelector('.icon-open')?.classList.toggle('hidden', open);
+    toggle.querySelector('.icon-close')?.classList.toggle('hidden', !open);
+  });
+</script>

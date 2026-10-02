@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { breadcrumbSchema } from '../../lib/breadcrumbs';
+import { site } from '../../data/site';
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Resources', href: '/resources' },
+  { label: 'Cost Calculator', href: '/resources/cost-calculator' },
+];
+
+// No prices are pre-filled: families enter their own numbers (we don't invent figures).
+const homeCosts = [
+  { id: 'housing', label: 'Mortgage or rent' },
+  { id: 'tax', label: 'Property tax & home insurance', help: 'Monthly share of the yearly bill' },
+  { id: 'utilities', label: 'Utilities, phone & internet' },
+  { id: 'upkeep', label: 'Home repairs, yard & cleaning' },
+  { id: 'food', label: 'Groceries & meals' },
+  { id: 'transport', label: 'Car, gas & transportation' },
+  { id: 'activities', label: 'Social activities & other' },
+];
+const alCosts = [
+  { id: 'al-base', label: 'Monthly fee (rent, meals, activities)', help: `Typical in ${site.regionShort}: [$X,XXX–$X,XXX]` },
+  { id: 'al-care', label: 'Care level fee', help: 'Depends on how much daily help is needed' },
+  { id: 'al-other', label: 'Other (medication management, phone, etc.)' },
+];
+---
+<BaseLayout
+  title="Senior Living Cost Calculator"
+  description="Compare the true monthly cost of staying at home, including in-home care, with assisted living. Enter your own numbers; nothing is stored or sent."
+  schema={[breadcrumbSchema(crumbs, Astro.site)]}
+>
+  <section class="bg-peach-50 pt-12 pb-14">
+    <div class="container-site flex flex-col gap-4">
+      <Breadcrumb items={crumbs} />
+      <p class="eyebrow eyebrow-on-peach">Tool</p>
+      <h1>Senior Living Cost Calculator</h1>
+      <p class="lead max-w-[45rem]">
+        It's hard to compare costs until everything is added up in one place. Enter your monthly numbers below.
+        Leave anything blank that doesn't apply. Nothing you type is saved or sent anywhere.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <form id="calc" class="container-site grid items-start gap-8 lg:grid-cols-[1fr_1fr_minmax(18rem,0.8fr)]" novalidate>
+      <fieldset class="card m-0 flex flex-col gap-4">
+        <legend class="float-left mb-2 w-full font-heading text-2xl font-semibold">Staying at home</legend>
+        {homeCosts.map((c) => (
+          <div class="field">
+            <label for={c.id}>{c.label}</label>
+            <div class="money"><input id={c.id} class="input" inputmode="decimal" autocomplete="off" data-side="home" aria-describedby={c.help ? `${c.id}-help` : undefined} /></div>
+            {c.help && <p id={`${c.id}-help`} class="field-help">{c.help}</p>}
+          </div>
+        ))}
+        <fieldset class="m-0 flex flex-col gap-3 rounded-2xl bg-lavender-50 p-4">
+          <legend class="float-left mb-1 w-full font-semibold">In-home care</legend>
+          <div class="grid gap-3 sm:grid-cols-2">
+            <div class="field">
+              <label for="care-hours">Hours per week</label>
+              <input id="care-hours" class="input" inputmode="decimal" autocomplete="off" />
+            </div>
+            <div class="field">
+              <label for="care-rate">Hourly rate</label>
+              <div class="money"><input id="care-rate" class="input" inputmode="decimal" autocomplete="off" aria-describedby="care-rate-help" /></div>
+            </div>
+          </div>
+          <p id="care-rate-help" class="field-help">Typical in {site.regionShort}: [$XX/hour]. We use 52 weeks ÷ 12 months.</p>
+        </fieldset>
+      </fieldset>
+
+      <fieldset class="card m-0 flex flex-col gap-4">
+        <legend class="float-left mb-2 w-full font-heading text-2xl font-semibold">Assisted living</legend>
+        {alCosts.map((c) => (
+          <div class="field">
+            <label for={c.id}>{c.label}</label>
+            <div class="money"><input id={c.id} class="input" inputmode="decimal" autocomplete="off" data-side="al" aria-describedby={c.help ? `${c.id}-help` : undefined} /></div>
+            {c.help && <p id={`${c.id}-help`} class="field-help">{c.help}</p>}
+          </div>
+        ))}
+        <p class="field-help">Ask us for real quotes from communities that fit; it's free.</p>
+      </fieldset>
+
+      <div class="flex flex-col gap-4 rounded-3xl bg-plum-900 p-7 text-white lg:sticky lg:top-28" aria-labelledby="totals-h">
+        <h2 id="totals-h" class="text-2xl">Your monthly comparison</h2>
+        <dl class="m-0 flex flex-col gap-3" aria-live="polite">
+          <div class="flex items-baseline justify-between gap-4 border-b border-card-dark-2 pb-3">
+            <dt class="text-on-dark">Staying at home</dt>
+            <dd class="m-0 font-heading text-[1.75rem] font-bold" data-out="home">$0</dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-4 border-b border-card-dark-2 pb-3">
+            <dt class="text-on-dark">Assisted living</dt>
+            <dd class="m-0 font-heading text-[1.75rem] font-bold" data-out="al">$0</dd>
+          </div>
+          <div class="flex flex-col gap-1">
+            <dt class="text-on-dark">Difference</dt>
+            <dd class="m-0 font-heading text-xl font-semibold text-coral-400" data-out="diff">Enter your numbers to compare</dd>
+          </div>
+        </dl>
+        <p class="text-[0.9375rem] text-on-dark">This is an estimate to help you plan, not a quote. Costs vary by community and care needs.</p>
+        <a href="/contact" class="btn btn-cta">Get real local prices, free</a>
+        <button type="reset" class="min-h-11 self-start border-0 bg-transparent p-0 font-semibold text-white underline">Clear all</button>
+      </div>
+    </form>
+  </section>
+
+  <CtaBand heading="Want help making sense of the numbers? Talk with an advisor." />
+</BaseLayout>
+
+<style>
+  .money { position: relative; }
+  .money::before {
+    content: '$';
+    position: absolute;
+    left: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .money .input { padding-left: 1.75rem; }
+</style>
+
+<script>
+  const form = document.getElementById('calc') as HTMLFormElement | null;
+  const fmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  const num = (el: HTMLInputElement | null) => {
+    const n = parseFloat((el?.value ?? '').replace(/[^0-9.]/g, ''));
+    return Number.isFinite(n) ? n : 0;
+  };
+  const out = (key: string) => document.querySelector<HTMLElement>(`[data-out="${key}"]`)!;
+
+  function update() {
+    if (!form) return;
+    const sum = (side: string) =>
+      Array.from(form.querySelectorAll<HTMLInputElement>(`input[data-side="${side}"]`)).reduce((t, el) => t + num(el), 0);
+    const care = num(form.querySelector('#care-hours')) * num(form.querySelector('#care-rate')) * (52 / 12);
+    const home = sum('home') + care;
+    const al = sum('al');
+    out('home').textContent = fmt.format(home);
+    out('al').textContent = fmt.format(al);
+    const diff = home - al;
+    out('diff').textContent =
+      home === 0 || al === 0
+        ? 'Enter your numbers to compare'
+        : diff > 0
+          ? `Assisted living is about ${fmt.format(diff)} less per month`
+          : diff < 0
+            ? `Staying at home is about ${fmt.format(-diff)} less per month`
+            : 'About the same each month';
+  }
+
+  form?.addEventListener('input', update);
+  form?.addEventListener('reset', () => setTimeout(update));
+  form?.addEventListener('submit', (e) => e.preventDefault());
+</script>

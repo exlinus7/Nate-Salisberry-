@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Area page template</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Manrope',system-ui,sans-serif;color:#2A1E3B;background:#FDFBFF}
+h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+a{color:#4A3275}a:hover{color:#2A1E3B}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #FF9E7A;outline-offset:3px;border-radius:8px}
+.mbar{display:none}
+@media (max-width: 760px){.mbar{display:grid}}
+</style>
+</helmet>
+<div style="width: 100%; background: #FDFBFF; font-size: 18px; line-height: 1.55">
+
+<div style="background: #2A1E3B; color: #FFFFFF; padding: 10px 24px">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; font-size: 16px">
+<div>Our help is 100% free for families · Serving [YOUR REGION]</div>
+<div style="display: flex; gap: 20px"><a href="tel:0000000000" style="color: #FF9E7A; font-weight: 700; text-decoration: none; padding: 6px 0">Call [(555) 000-0000]</a><a href="sms:0000000000" style="color: #FFFFFF; font-weight: 600; text-decoration: none; padding: 6px 0">Text us</a></div>
+</div>
+</div>
+<header style="border-bottom: 1px solid #E6DCF0; background: #FFFFFF; padding: 16px 24px; position: sticky; top: 0; z-index: 20">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: space-between">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #2A1E3B">
+<div style="width: 44px; height: 44px; border-radius: 12px; background: #5B3F8C; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path><path d="M12 17s-3-1.8-3-4a1.6 1.6 0 0 1 3-.8 1.6 1.6 0 0 1 3 .8c0 2.2-3 4-3 4z"></path></svg></div>
+<div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 22px">WiseMove Senior Advisors</div>
+</a>
+<nav aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: 17px; font-weight: 600">
+<a href="HowItWorks.dc.html" style="text-decoration: none; color: #2A1E3B; padding: 10px 0">How It Works</a>
+<a href="CareOptions.dc.html" style="text-decoration: none; color: #2A1E3B; padding: 10px 0">Care Options</a>
+<a href="AreaPage.dc.html" aria-current="page" style="text-decoration: none; color: #5B3F8C; padding: 10px 0; border-bottom: 3px solid #5B3F8C">Areas We Serve</a>
+<a href="Resources.dc.html" style="text-decoration: none; color: #2A1E3B; padding: 10px 0">Resources</a>
+<a href="About.dc.html" style="text-decoration: none; color: #2A1E3B; padding: 10px 0">About Us</a>
+</nav>
+<a href="Contact.dc.html" style="background: #5B3F8C; color: #FFFFFF; text-decoration: none; font-weight: 600; padding: 12px 22px; border-radius: 999px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center">Get Free Guidance</a>
+</div>
+</header>
+
+<section style="padding: 64px 24px; background: #F5F0FA">
+<div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 48px; align-items: center">
+<div style="display: flex; flex-direction: column; gap: 18px">
+<div style="font-size: 15px; color: #5A4D6B"><a href="Main.dc.html">Home</a> / Areas We Serve / [City]</div>
+<h1 style="margin: 0; font-size: 50px; line-height: 1.1">Senior Living in [City], [State]</h1>
+<p style="margin: 0; font-size: 20px; color: #5A4D6B">Free, local guidance for assisted living, memory care and long-term care in [City] and nearby [Neighborhoods / Towns]. Our [City] advisor has toured every community on our list.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="Contact.dc.html" style="background: #FF9E7A; color: #2A1E3B; font-weight: 700; text-decoration: none; padding: 16px 26px; border-radius: 999px; min-height: 52px; box-sizing: border-box; display: inline-flex; align-items: center">Get my [City] shortlist</a>
+<a href="tel:0000000000" style="color: #2A1E3B; font-weight: 600; text-decoration: none; padding: 16px 26px; border-radius: 999px; border: 2px solid #2A1E3B; min-height: 52px; box-sizing: border-box; display: inline-flex; align-items: center">Call [(555) 000-0000]</a>
+</div>
+</div>
+<div style="height: 360px; border-radius: 24px; background: #E3D6F0; display: flex; align-items: center; justify-content: center; color: #4A3275; font-weight: 600; text-align: center; padding: 24px; box-sizing: border-box">[MAP or recognizable local photo of City]</div>
+</div>
+</section>
+
+<section style="padding: 72px 24px">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px">
+<h2 style="margin: 0; font-size: 38px">[City] senior living at a glance</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px">
+<div style="background: #FFFFFF; border: 1px solid #E6DCF0; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 6px"><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 32px; color: #5B3F8C">[$X,XXX]</div><div style="color: #5A4D6B">Avg. assisted living / month</div></div>
+<div style="background: #FFFFFF; border: 1px solid #E6DCF0; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 6px"><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 32px; color: #5B3F8C">[$X,XXX]</div><div style="color: #5A4D6B">Avg. memory care / month</div></div>
+<div style="background: #FFFFFF; border: 1px solid #E6DCF0; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 6px"><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 32px; color: #5B3F8C">[XX]</div><div style="color: #5A4D6B">Communities we know personally</div></div>
+<div style="background: #FFFFFF; border: 1px solid #E6DCF0; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 6px"><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 32px; color: #5B3F8C">[XX]</div><div style="color: #5A4D6B">[City] families helped</div></div>
+</div>
+<p style="margin: 0; color: #5A4D6B; font-size: 15px">Source: [your data source and year]. Costs vary by care level and apartment size.</p>
+</div>
+</section>
+
+<section style="padding: 72px 24px; background: #F5F0FA">
+<div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 48px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 34px">What makes [City] different</h2>
+<p style="margin: 0; color: #5A4D6B">[2–3 short paragraphs of genuinely local insight: which areas have the most options, hospital systems nearby, waitlists, seasonal demand, what families from out of town should know.]</p>
+<p style="margin: 0; color: #5A4D6B">[This local detail is what helps the page rank on Google for "assisted living in City".]</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 34px">Local resources</h2>
+<a href="#" style="background: #FFFFFF; border-radius: 14px; padding: 16px 20px; font-weight: 600; text-decoration: none; color: #2A1E3B">[Area Agency on Aging] →</a>
+<a href="#" style="background: #FFFFFF; border-radius: 14px; padding: 16px 20px; font-weight: 600; text-decoration: none; color: #2A1E3B">[Local Alzheimer's support group] →</a>
+<a href="#" style="background: #FFFFFF; border-radius: 14px; padding: 16px 20px; font-weight: 600; text-decoration: none; color: #2A1E3B">[State licensing &amp; inspection lookup] →</a>
+<a href="#" style="background: #FFFFFF; border-radius: 14px; padding: 16px 20px; font-weight: 600; text-decoration: none; color: #2A1E3B">[Elder law attorney / Medicaid planner] →</a>
+</div>
+</div>
+</section>
+
+<section style="padding: 72px 24px">
+<div style="max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; align-items: center; border: 1px solid #E6DCF0; border-radius: 28px; padding: 36px; background: #FFFFFF">
+<div style="display: flex; gap: 20px; align-items: center">
+<div style="width: 120px; height: 120px; border-radius: 50%; background: #E3D6F0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A3275">[HEADSHOT]</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 15px; font-weight: 600; color: #5B3F8C; text-transform: uppercase; letter-spacing: 0.06em">Your [City] advisor</div>
+<h3 style="margin: 0; font-size: 26px">[Advisor Name]</h3>
+<div style="color: #5A4D6B">[Credentials · years in City]</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; color: #5A4D6B">“[A short personal note from the advisor about helping families in City.]”</p>
+<a href="Contact.dc.html" style="align-self: flex-start; background: #5B3F8C; color: #FFFFFF; font-weight: 600; text-decoration: none; padding: 14px 24px; border-radius: 999px; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">Contact [First Name]</a>
+</div>
+</div>
+</section>
+
+<section style="padding: 72px 24px; background: #FFF1EA">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px">
+<h2 style="margin: 0; font-size: 34px">[City] families on working with WiseMove</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px">
+<figure style="margin: 0; background: #FFFFFF; border-radius: 20px; padding: 26px; display: flex; flex-direction: column; gap: 12px"><blockquote style="margin: 0">“[Real review from a City family.]”</blockquote><figcaption style="color: #5A4D6B; font-size: 16px; font-weight: 600">[Name · City]</figcaption></figure>
+<figure style="margin: 0; background: #FFFFFF; border-radius: 20px; padding: 26px; display: flex; flex-direction: column; gap: 12px"><blockquote style="margin: 0">“[Real review from a City family.]”</blockquote><figcaption style="color: #5A4D6B; font-size: 16px; font-weight: 600">[Name · City]</figcaption></figure>
+</div>
+</div>
+</section>
+
+<section style="padding: 72px 24px; background: #5B3F8C; color: #FFFFFF">
+<div style="max-width: 1000px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: center">
+<h2 style="margin: 0; font-size: 36px; line-height: 1.15; max-width: 620px">Looking for care in [City]? We'll find the right fit, free.</h2>
+<a href="Contact.dc.html" style="background: #FF9E7A; color: #2A1E3B; font-weight: 700; text-decoration: none; padding: 16px 28px; border-radius: 999px; min-height: 52px; box-sizing: border-box; display: inline-flex; align-items: center">Start today</a>
+</div>
+</section>
+
+<footer style="background: #2A1E3B; color: #E9E1F3; padding: 40px 24px; font-size: 15px">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 16px 32px; justify-content: space-between">
+<div>© [Year] WiseMove Senior Advisors · Free senior living placement for families in [Region]</div>
+<div>[(555) 000-0000] · hello@wisemoveadvisors.com · Privacy · Accessibility</div>
+</div>
+</footer>
+<div class="mbar" style="position: sticky; bottom: 0; z-index: 30; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 10px 12px; background: #FFFFFF; border-top: 1px solid #E6DCF0; box-shadow: 0 -6px 20px rgba(42,30,59,0.10)">
+<a href="tel:0000000000" style="background: #2A1E3B; color: #FFFFFF; text-decoration: none; font-weight: 700; border-radius: 14px; min-height: 52px; display: flex; align-items: center; justify-content: center; font-size: 16px">Call</a>
+<a href="sms:0000000000" style="background: #F5F0FA; color: #2A1E3B; text-decoration: none; font-weight: 700; border-radius: 14px; min-height: 52px; display: flex; align-items: center; justify-content: center; font-size: 16px">Text</a>
+<a href="CareQuiz.dc.html" style="background: #FF9E7A; color: #2A1E3B; text-decoration: none; font-weight: 700; border-radius: 14px; min-height: 52px; display: flex; align-items: center; justify-content: center; font-size: 16px">Care Match</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3300}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

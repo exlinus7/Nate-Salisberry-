@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { breadcrumbSchema } from '../../lib/breadcrumbs';
+import { site } from '../../data/site';
+import cities from '../../data/cities.json';
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Areas We Serve', href: '/areas' },
+];
+---
+<BaseLayout
+  title="Areas We Serve"
+  description={`WiseMove's local senior living advisors serve families across ${site.regionShort}. Find local costs, communities and resources for your city.`}
+  schema={[breadcrumbSchema(crumbs, Astro.site)]}
+>
+  <section class="bg-lavender-50 py-16 ph:py-18">
+    <div class="container-site grid items-center gap-12 lg:grid-cols-2">
+      <div class="flex flex-col gap-5">
+        <Breadcrumb items={crumbs} />
+        <p class="eyebrow">Areas we serve</p>
+        <h1>Local advisors who know every community by name</h1>
+        <p class="lead">
+          We serve families across {site.region}. Choose your area to see local costs, the communities we know personally, and
+          helpful local resources.
+        </p>
+      </div>
+      <div class="media-ph h-72 sm:h-95">[MAP: your service area with city pins]</div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="cities-h">
+    <div class="container-site flex flex-col gap-8">
+      <h2 id="cities-h">Choose your area</h2>
+      <ul class="m-0 grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-3">
+        {cities.map((c) => (
+          <li>
+            <a href={`/areas/${c.slug}`} class="card flex h-full flex-col gap-2 text-plum-900 no-underline hover:text-plum-900 hover:shadow-[var(--shadow-card)]">
+              <h3 class="text-[1.5rem]">{c.name}, {c.state}</h3>
+              <p class="text-base text-muted">Including {c.neighborhoods}</p>
+              <span class="mt-auto pt-2 font-bold text-violet-600">See {c.name} senior living →</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="text-muted">Don't see your town? We may still be able to help. <a href="/contact">Get in touch</a> and we'll let you know.</p>
+    </div>
+  </section>
+
+  <CtaBand heading="Looking for care near you? We'll find the right fit, free." ctaLabel="Start today" />
+</BaseLayout>

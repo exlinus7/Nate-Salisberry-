@@ -1,0 +1,22 @@
+---
+import { telHref, smsHref } from '../data/site';
+---
+<nav aria-label="Quick help" class="mbar fixed inset-x-0 bottom-0 z-50 grid grid-cols-3 gap-2 border-t border-line bg-white px-3 py-2.5 ph:hidden">
+  <a href={telHref} data-track="call_click" class="mbar-btn bg-plum-900 text-white hover:text-white">Call</a>
+  <a href={smsHref} data-track="text_click" class="mbar-btn bg-lavender-50 text-plum-900">Text</a>
+  <a href="/care-match" class="mbar-btn bg-coral-400 text-plum-900">Care Match</a>
+</nav>
+
+<style>
+  .mbar { box-shadow: 0 -6px 20px rgba(42, 30, 59, 0.1); }
+  .mbar-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--cta-min);
+    border-radius: 0.875rem;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+  }
+</style>

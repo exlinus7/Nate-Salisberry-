@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../data/site';
+
+const options = [
+  {
+    id: 'assisted',
+    title: 'Assisted Living',
+    photo: '[PHOTO: residents in a bright dining room]',
+    body: 'A private apartment with help available around the clock for daily activities, plus meals, housekeeping, transportation and a full calendar of social events.',
+    fit: ['Needs reminders or help with medications, bathing or dressing', 'Is lonely or isolated at home', 'Can no longer manage cooking, cleaning or driving safely'],
+    cost: `Typical cost in ${site.regionShort}: [$X,XXX–$X,XXX / month]`,
+  },
+  {
+    id: 'memory',
+    title: 'Memory Care',
+    photo: '[PHOTO: enclosed garden walking path]',
+    body: "A secure setting designed for people living with Alzheimer's or other dementias, with specially trained staff, calming design and structured daily activities.",
+    fit: ['Has a dementia diagnosis and needs more supervision', 'Wanders, gets lost, or is unsafe alone', "Shows confusion, agitation or sundowning that's hard to manage at home"],
+    cost: `Typical cost in ${site.regionShort}: [$X,XXX–$X,XXX / month]`,
+  },
+  {
+    id: 'ltc',
+    title: 'Long-Term Care (Skilled Nursing)',
+    photo: '[PHOTO: nurse caring for a resident]',
+    body: '24-hour care from licensed nurses for people with complex medical needs, limited mobility, or recovery that requires ongoing clinical support.',
+    fit: ['Needs daily medical care or two-person assistance', 'Is being discharged from a hospital or rehab', 'Has a condition that needs frequent nursing attention'],
+    cost: 'May be covered in part by Medicaid · We can explain your options',
+  },
+];
+
+const rows = [
+  ['Best for', 'Daily help, mostly independent', 'Dementia & memory loss', 'Complex medical needs'],
+  ['Living space', 'Private apartment', 'Private or shared suite, secure', 'Private or shared room'],
+  ['Staff', 'Caregivers 24/7', 'Dementia-trained caregivers 24/7', 'Licensed nurses 24/7'],
+  ['Typical cost', '[$X,XXX / mo]', '[$X,XXX / mo]', '[$X,XXX / mo]'],
+  ['Common ways to pay', 'Private funds, LTC insurance, VA', 'Private funds, LTC insurance, VA', 'Medicare (short-term), Medicaid, private'],
+];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Senior living placement',
+  provider: { '@id': new URL('/#business', Astro.site).href },
+  areaServed: site.region,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', description: 'Free for families' },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Care types',
+    itemListElement: options.map((o) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: o.title } })),
+  },
+};
+---
+<BaseLayout
+  title="Care Options"
+  description="A plain-language guide to assisted living, memory care and long-term care: who each is for, typical costs, and how families usually pay."
+  schema={[serviceSchema]}
+>
+  <section class="bg-lavender-50 py-16 ph:py-18">
+    <div class="container-site grid items-center gap-12 lg:grid-cols-2">
+      <div class="flex flex-col gap-5">
+        <p class="eyebrow">Care options</p>
+        <h1>Understand your options before you tour</h1>
+        <p class="lead">Senior living terms can be confusing. Here's a plain-language guide to each type of care, who it's for, and how families usually pay.</p>
+      </div>
+      <div class="flex flex-col gap-3 rounded-3xl bg-white p-7">
+        <h2 class="text-[1.375rem] font-semibold">Not sure where to start?</h2>
+        <p class="text-muted">Answer four quick questions and we'll suggest the right level of care.</p>
+        <a href="/care-match" class="btn btn-cta self-start">Take the Care Match</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-site flex flex-col gap-16">
+      {options.map((o, i) => (
+        <article id={o.id} aria-labelledby={`${o.id}-h`} class="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+          <div class:list={['media-ph h-64 sm:h-85', i % 2 === 1 && 'lg:order-2']}>{o.photo}</div>
+          <div class="flex flex-col gap-3.5">
+            <h2 id={`${o.id}-h`} class="text-[clamp(1.75rem,2vw+1rem,2.25rem)]">{o.title}</h2>
+            <p class="text-muted">{o.body}</p>
+            <h3 class="font-sans text-lg font-semibold">Often a good fit when someone:</h3>
+            <ul class="m-0 flex flex-col gap-1 pl-5.5 text-muted">
+              {o.fit.map((f) => <li>{f}</li>)}
+            </ul>
+            <p class="text-base font-semibold text-violet-700">{o.cost}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section bg-lavender-50" aria-labelledby="compare-h">
+    <div class="container-site flex flex-col gap-7">
+      <h2 id="compare-h">Side-by-side comparison</h2>
+      <div class="overflow-x-auto rounded-[1.25rem] border border-line bg-white" role="region" aria-labelledby="compare-h" tabindex="0">
+        <table class="compare-table">
+          <caption class="sr-only">Comparison of assisted living, memory care and long-term care</caption>
+          <thead>
+            <tr>
+              <td></td>
+              <th scope="col">Assisted Living</th>
+              <th scope="col">Memory Care</th>
+              <th scope="col">Long-Term Care</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map(([label, ...cells]) => (
+              <tr>
+                <th scope="row">{label}</th>
+                {cells.map((c) => <td>{c}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-base text-muted">Also ask us about respite (short-stay) care, independent living, and in-home care options.</p>
+    </div>
+  </section>
+
+  <CtaBand heading="Let us match the care to the person, for free." ctaLabel="Talk with an advisor" />
+</BaseLayout>

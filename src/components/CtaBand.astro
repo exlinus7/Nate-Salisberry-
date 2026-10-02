@@ -1,0 +1,20 @@
+---
+import { site, telHref } from '../data/site';
+
+interface Props {
+  heading: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  showCall?: boolean;
+}
+const { heading, ctaLabel = 'Get free guidance', ctaHref = '/contact', showCall = false } = Astro.props;
+---
+<section class="bg-violet-600 py-16 text-white ph:py-18">
+  <div class="container-site flex max-w-[62.5rem] flex-wrap items-center justify-between gap-6">
+    <h2 class="max-w-[39rem] text-[clamp(1.75rem,2vw+1rem,2.25rem)]">{heading}</h2>
+    <div class="flex flex-wrap gap-3">
+      <a href={ctaHref} class="btn btn-cta">{ctaLabel}</a>
+      {showCall && <a href={telHref} data-track="call_click" class="btn btn-outline-light">Call {site.phoneDisplay}</a>}
+    </div>
+  </div>
+</section>

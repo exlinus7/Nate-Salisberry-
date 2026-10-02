@@ -1,0 +1,49 @@
+---
+import { site, telHref, smsHref } from '../data/site';
+
+const sizes = [
+  { label: 'A', aria: 'Normal text size', value: '0' },
+  { label: 'A+', aria: 'Larger text size', value: '1' },
+  { label: 'A++', aria: 'Largest text size', value: '2' },
+];
+---
+<div class="bg-plum-900 text-white">
+  <div class="container-site flex flex-wrap items-center justify-between gap-x-6 gap-y-1 py-1.5 text-base">
+    <p>Our help is 100% free for families · Serving {site.region}</p>
+    <div class="flex flex-wrap items-center gap-x-5 gap-y-1">
+      <div role="group" aria-label="Text size" class="flex items-center gap-1">
+        <span class="hidden pr-1 text-[0.9375rem] text-on-dark ph:inline" aria-hidden="true">Text size</span>
+        {sizes.map((s) => (
+          <button type="button" class="size-btn" data-text-size={s.value} aria-pressed={s.value === '0' ? 'true' : 'false'} aria-label={s.aria}>
+            {s.label}
+          </button>
+        ))}
+      </div>
+      <a href={telHref} data-track="call_click" class="inline-flex min-h-11 items-center font-bold text-coral-400 no-underline hover:text-white">
+        Call {site.phoneDisplay}
+      </a>
+      <a href={smsHref} data-track="text_click" class="inline-flex min-h-11 items-center font-semibold text-white no-underline hover:text-coral-400">
+        Text us
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .size-btn {
+    min-width: var(--tap-min);
+    min-height: var(--tap-min);
+    padding: 0 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #6e5a8c;
+    background: transparent;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .size-btn[aria-pressed='true'] {
+    background: var(--coral-400);
+    border-color: var(--coral-400);
+    color: var(--plum-900);
+  }
+</style>

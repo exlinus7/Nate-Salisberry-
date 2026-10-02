@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { breadcrumbSchema } from '../../lib/breadcrumbs';
+import { topicLabel } from '../../data/topics';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles');
+  return articles.map((article) => ({ params: { slug: article.id }, props: { article } }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Resources', href: '/resources' },
+  { label: article.data.title, href: `/resources/${article.id}` },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.data.title,
+  description: article.data.description,
+  publisher: { '@id': new URL('/#business', Astro.site).href },
+};
+---
+<BaseLayout title={article.data.title} description={article.data.description} schema={[breadcrumbSchema(crumbs, Astro.site), articleSchema]}>
+  <section class="bg-lavender-50 pt-12 pb-14">
+    <div class="container-site flex max-w-[52rem] flex-col gap-4">
+      <Breadcrumb items={crumbs} />
+      <a href={`/resources?topic=${article.data.topic}`} class="eyebrow self-start no-underline">{topicLabel(article.data.topic)}</a>
+      <h1>{article.data.title}</h1>
+      <p class="lead">{article.data.description}</p>
+    </div>
+  </section>
+  <article class="section">
+    <div class="container-site max-w-[52rem]">
+      <div class="media-ph mb-10 h-64 sm:h-80" aria-hidden="true">{article.data.image}</div>
+      <div class="prose">
+        <Content />
+      </div>
+      <a href="/resources" class="text-link mt-10">← Back to all resources</a>
+    </div>
+  </article>
+  <CtaBand heading="Rather talk it through? An advisor is a call away." />
+</BaseLayout>

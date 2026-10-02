@@ -1,0 +1,97 @@
+---
+// Short "request a call back" form from the homepage design.
+import Icon from './Icon.astro';
+import { site, telHref } from '../data/site';
+
+const times = [
+  { value: 'Morning', phrase: 'in the morning' },
+  { value: 'Afternoon', phrase: 'in the afternoon' },
+  { value: 'Evening', phrase: 'in the evening' },
+  { value: 'Anytime', phrase: `within ${site.responseTime}` },
+];
+---
+<div class="rounded-3xl bg-white p-6 text-plum-900 sm:p-8">
+  <form
+    data-lead-form="callback"
+    data-success="callback-success"
+    action={site.formEndpoint}
+    method="post"
+    novalidate
+    class="flex flex-col gap-4.5"
+    aria-labelledby="callback-h"
+  >
+    <input type="hidden" name="form" value="Homepage call back" />
+    <div class="flex flex-wrap items-baseline justify-between gap-2">
+      <h3 id="callback-h" class="text-2xl">Request a free call back</h3>
+      <p class="text-[0.9375rem] text-muted">Takes about 30 seconds</p>
+    </div>
+    <p class="text-[0.9375rem] text-muted">Fields marked <span aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.</p>
+
+    <div class="field">
+      <label for="cb-name">Your first name <span aria-hidden="true">*</span></label>
+      <input id="cb-name" name="first_name" class="input" type="text" autocomplete="given-name" required data-label="your first name" aria-describedby="cb-name-error" />
+      <p id="cb-name-error" class="field-error" aria-live="polite"></p>
+    </div>
+
+    <div class="field">
+      <label for="cb-phone">Phone number <span aria-hidden="true">*</span></label>
+      <input id="cb-phone" name="phone" class="input" type="tel" autocomplete="tel" inputmode="tel" required data-validate="phone" aria-describedby="cb-phone-help cb-phone-error" />
+      <p id="cb-phone-help" class="field-help">Any format is fine, e.g. 555 123 4567</p>
+      <p id="cb-phone-error" class="field-error" aria-live="polite"></p>
+    </div>
+
+    <fieldset class="m-0 flex flex-col gap-2 border-0 p-0">
+      <legend class="pb-2 text-[1.0625rem] font-semibold">Best time to call</legend>
+      <div class="flex flex-wrap gap-2" data-pill-group="best_time">
+        {times.map((t, i) => (
+          <button type="button" class="pill" data-value={t.value} data-phrase={t.phrase} aria-pressed={i === 0 ? 'true' : 'false'}>{t.value}</button>
+        ))}
+      </div>
+      <input type="hidden" name="best_time" />
+    </fieldset>
+
+    <details class="border-t border-line pt-3.5">
+      <summary class="flex min-h-11 cursor-pointer items-center font-semibold text-violet-700">Add more details (optional)</summary>
+      <div class="flex flex-col gap-3.5 pt-2.5">
+        <div class="field">
+          <label for="cb-email">Email</label>
+          <input id="cb-email" name="email" class="input" type="email" autocomplete="email" aria-describedby="cb-email-error" />
+          <p id="cb-email-error" class="field-error" aria-live="polite"></p>
+        </div>
+        <div class="field">
+          <label for="cb-care">Type of care</label>
+          <select id="cb-care" name="care_type" class="input">
+            <option>Not sure yet</option>
+            <option>Assisted Living</option>
+            <option>Memory Care</option>
+            <option>Long-Term Care</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cb-notes">Anything we should know?</label>
+          <textarea id="cb-notes" name="notes" class="input" rows="3"></textarea>
+        </div>
+      </div>
+    </details>
+
+    <p data-form-error class="field-error" role="alert"></p>
+    <button type="submit" class="btn btn-dark btn-block min-h-14 text-[1.1875rem]">Request my free call</button>
+    <p class="flex items-center gap-2 text-[0.9375rem] text-muted">
+      <Icon name="lock" size={18} />
+      Private and secure. We never sell your information.
+    </p>
+  </form>
+
+  <div id="callback-success" role="status" hidden class="flex flex-col items-start gap-3.5">
+    <div class="flex size-16 items-center justify-center rounded-full bg-lavender-50">
+      <Icon name="check" size={32} color="#5B3F8C" strokeWidth={2.4} />
+    </div>
+    <h3 tabindex="-1" data-success-focus class="text-[1.75rem] outline-none">Thank you. We'll call you soon.</h3>
+    <p class="text-muted">
+      An advisor will call you <span data-fill-from="best_time">within {site.responseTime}</span>. If it's urgent, call us now at
+      <a href={telHref} data-track="call_click">{site.phoneDisplay}</a>.
+    </p>
+    <p class="text-muted">While you wait, our free <a href="/resources#checklist">Tour Checklist</a> can help you prepare.</p>
+    <button type="button" data-form-reset class="min-h-11 border-0 bg-transparent py-2.5 font-semibold text-violet-700">← Back to the form</button>
+  </div>
+</div>
