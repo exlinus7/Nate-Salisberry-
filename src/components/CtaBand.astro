@@ -9,7 +9,7 @@ interface Props {
 }
 const { heading, ctaLabel = 'Get free guidance', ctaHref = '/contact', showCall = false } = Astro.props;
 ---
-<section class="bg-violet-600 py-16 text-white ph:py-18">
+<section class="bg-violet-600 py-12 text-white ph:py-[var(--section-y)]">
   <div class="container-site flex max-w-[62.5rem] flex-wrap items-center justify-between gap-6">
     <h2 class="max-w-[39rem] text-[clamp(1.75rem,2vw+1rem,2.25rem)]">{heading}</h2>
     <div class="flex flex-wrap gap-3">

@@ -39,7 +39,7 @@
   --radius-input: 0.75rem;   /* 12px */
   --container: 75rem;        /* 1200px */
   --gutter: 1.5rem;
-  --section-y: clamp(3.5rem, 6vw, 6rem);
+  --section-y: clamp(3rem, 5vw, 5rem);
   --tap-min: 2.75rem;        /* 44px */
   --cta-min: 3.25rem;        /* 52px */
   --shadow-card: 0 12px 32px rgba(42, 30, 59, 0.10);

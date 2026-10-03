@@ -7,12 +7,12 @@ const isCurrent = (href: string) => path === href || path.startsWith(href + '/')
 const onContact = isCurrent('/contact');
 ---
 <header class="site-header border-b border-line bg-white">
-  <div class="container-site flex flex-wrap items-center justify-between gap-x-8 gap-y-3 py-3.5">
-    <a href="/" class="flex items-center gap-3 text-plum-900 no-underline hover:text-plum-900">
+  <div class="container-site flex flex-wrap items-center justify-between gap-x-4 gap-y-3 py-3 lg:gap-x-8 lg:py-3.5">
+    <a href="/" class="flex min-w-0 flex-1 items-center gap-3 text-plum-900 no-underline hover:text-plum-900 lg:flex-none">
       <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-violet-600">
         <Icon name="logo" color="#FFFFFF" />
       </span>
-      <span class="font-heading text-[1.375rem] leading-tight font-bold">{site.name}</span>
+      <span class="font-heading text-[1.1875rem] leading-tight font-bold ph:text-[1.375rem]">{site.name}</span>
     </a>
 
     <button

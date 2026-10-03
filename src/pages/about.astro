@@ -46,8 +46,8 @@ const milestones = [
   schema={[breadcrumbSchema(crumbs, Astro.site)]}
 >
   <!-- Hero -->
-  <section class="bg-lavender-50 pt-16 pb-18 ph:pt-20">
-    <div class="container-site grid items-center gap-14 lg:grid-cols-2">
+  <section class="bg-lavender-50 pt-10 pb-16 ph:pt-20 ph:pb-18">
+    <div class="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
       <div class="flex flex-col gap-5">
         <Breadcrumb items={crumbs} />
         <p class="eyebrow">About us</p>
@@ -61,10 +61,10 @@ const milestones = [
           <a href="#team" class="btn btn-outline">Meet the team</a>
         </div>
       </div>
-      <div class="grid grid-cols-2 gap-4">
-        <div class="media-ph row-span-2 min-h-80 rounded-media text-base sm:min-h-[26.25rem]">[PHOTO: founder with a family on a community tour]</div>
-        <div class="media-ph min-h-40 rounded-media bg-peach-50 text-base text-rust-700 sm:min-h-50">[PHOTO: team together]</div>
-        <div class="flex min-h-40 flex-col justify-center gap-1 rounded-media bg-plum-900 p-6 sm:min-h-50">
+      <div class="grid grid-cols-2 gap-3 ph:gap-4">
+        <div class="media-ph row-span-2 min-h-60 rounded-media text-base sm:min-h-[26.25rem]">[PHOTO: founder with a family on a community tour]</div>
+        <div class="media-ph min-h-28 rounded-media bg-peach-50 p-3 text-base text-rust-700 sm:min-h-50">[PHOTO: team together]</div>
+        <div class="flex min-h-28 flex-col justify-center gap-1 rounded-media bg-plum-900 p-4 sm:min-h-50 sm:p-6">
           <p class="font-heading text-[2.5rem] leading-none font-bold text-coral-400">$0</p>
           <p class="text-base text-on-dark">cost to families, always</p>
         </div>
@@ -75,13 +75,13 @@ const milestones = [
   <!-- Numbers -->
   <section aria-labelledby="glance-h">
     <div class="container-site max-w-[68.75rem]">
-      <div class="relative -mt-9 rounded-3xl border border-line bg-white px-8 py-7 shadow-[0_12px_32px_rgba(42,30,59,0.08)]">
+      <div class="relative -mt-9 rounded-3xl border border-line bg-white px-5 py-6 shadow-[0_12px_32px_rgba(42,30,59,0.08)] ph:px-8 ph:py-7">
         <h2 id="glance-h" class="sr-only">WiseMove at a glance</h2>
-        <dl class="m-0 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <dl class="m-0 grid grid-cols-2 gap-x-4 gap-y-5 lg:grid-cols-4 lg:gap-6">
           {stats.map((s) => (
             <div class="flex flex-col-reverse gap-0.5">
               <dt class="text-muted">{s.label}</dt>
-              <dd class="m-0 font-heading text-4xl font-bold text-violet-600">{s.value}</dd>
+              <dd class="m-0 font-heading text-[1.875rem] font-bold text-violet-600 ph:text-4xl">{s.value}</dd>
             </div>
           ))}
         </dl>
@@ -91,11 +91,11 @@ const milestones = [
 
   <!-- Story -->
   <section id="story" class="section" aria-labelledby="story-h">
-    <div class="container-site grid max-w-[68.75rem] items-start gap-14 lg:grid-cols-2">
+    <div class="container-site grid max-w-[68.75rem] items-start gap-8 lg:grid-cols-2 lg:gap-14">
       <div class="flex flex-col gap-4">
         <p class="eyebrow">Our story</p>
         <h2 id="story-h">Why WiseMove exists</h2>
-        <div class="media-ph h-70 text-base">[PHOTO: founder, warm portrait]</div>
+        <div class="media-ph h-48 text-base ph:h-70">[PHOTO: founder, warm portrait]</div>
       </div>
       <div class="flex flex-col gap-4.5">
         <p class="text-[1.3125rem]">“[Opening line of your personal story, e.g. the moment you had to find care for your own mother and didn't know where to start.]”</p>
@@ -134,20 +134,20 @@ const milestones = [
 
   <!-- Values -->
   <section class="section" aria-labelledby="values-h">
-    <div class="container-site flex flex-col gap-10">
+    <div class="container-site flex flex-col gap-8 ph:gap-10">
       <div class="flex max-w-[42.5rem] flex-col gap-3">
         <p class="eyebrow">What we believe</p>
         <h2 id="values-h">The values behind every recommendation</h2>
       </div>
-      <ul class="m-0 grid list-none gap-6 p-0 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="swipe-row ph:grid ph:grid-cols-2 ph:gap-6 ph:p-0 lg:grid-cols-4" role="region" aria-labelledby="values-h" tabindex="0">
         {values.map((v) => (
-          <li class="card flex flex-col gap-3">
+          <div class="card flex flex-col gap-3 p-6 ph:p-7">
             <span class="icon-tile"><Icon name={v.icon} size={26} color="#5B3F8C" /></span>
             <h3 class="text-[1.375rem]">{v.title}</h3>
             <p class="text-muted">{v.body}</p>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   </section>
 
@@ -184,15 +184,15 @@ const milestones = [
 
   <!-- Team -->
   <section id="team" class="section" aria-labelledby="team-h">
-    <div class="container-site flex flex-col gap-10">
+    <div class="container-site flex flex-col gap-8 ph:gap-10">
       <div class="flex max-w-[42.5rem] flex-col gap-3">
         <p class="eyebrow">Meet the team</p>
         <h2 id="team-h">Real people you can call, text and meet</h2>
       </div>
-      <ul class="m-0 grid list-none gap-6 p-0 md:grid-cols-2 lg:grid-cols-3">
+      <ul class="swipe-row list-none ph:m-0 ph:grid ph:grid-cols-2 ph:gap-6 ph:p-0 lg:grid-cols-3" aria-label="Our team">
         {advisors.map((a) => (
           <li class="flex flex-col overflow-hidden rounded-3xl border border-line bg-white">
-            <div class="media-ph h-70 rounded-none text-[0.9375rem]" aria-hidden="true">[HEADSHOT]</div>
+            <div class="media-ph h-48 rounded-none text-[0.9375rem] ph:h-70" aria-hidden="true">[HEADSHOT]</div>
             <div class="flex flex-col gap-1.5 p-6">
               <h3 class="text-2xl">{a.name}</h3>
               <p class="font-bold text-violet-600">{a.role}</p>
@@ -216,10 +216,10 @@ const milestones = [
   <section class="section bg-peach-50" aria-labelledby="journey-h">
     <div class="container-site flex max-w-[68.75rem] flex-col gap-8">
       <h2 id="journey-h">Our journey so far</h2>
-      <ol class="m-0 grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-4">
+      <ol class="m-0 grid list-none grid-cols-2 gap-3 p-0 ph:gap-5 lg:grid-cols-4">
         {milestones.map((m) => (
-          <li class="flex flex-col gap-1.5 rounded-[1.25rem] bg-white p-6">
-            <p class="font-heading text-[1.625rem] font-bold text-rust-700">{m.year}</p>
+          <li class="flex flex-col gap-1.5 rounded-[1.25rem] bg-white p-4 ph:p-6">
+            <p class="font-heading text-[1.375rem] ph:text-[1.625rem] font-bold text-rust-700">{m.year}</p>
             <p>{m.text}</p>
           </li>
         ))}
@@ -228,7 +228,7 @@ const milestones = [
   </section>
 
   <!-- Testimonial -->
-  <section class="section">
+  <section class="pt-[var(--section-y)] pb-10">
     <figure class="container-site m-0 mx-auto flex max-w-[56.25rem] flex-col items-center gap-5 text-center">
       <svg width="44" height="44" viewBox="0 0 24 24" fill="#E3D6F0" aria-hidden="true"><path d="M4 18v-5c0-4 2-6.5 6-7.5l.8 1.6C8.4 8 7.4 9.5 7.3 11H10v7zm10 0v-5c0-4 2-6.5 6-7.5l.8 1.6c-2.4.9-3.4 2.4-3.5 3.9H20v7z"></path></svg>
       <blockquote class="m-0 font-heading text-[clamp(1.5rem,1.5vw+1rem,1.875rem)] leading-snug">“[A real family testimonial about how WiseMove made a hard time easier.]”</blockquote>
@@ -237,19 +237,19 @@ const milestones = [
   </section>
 
   <!-- Credentials -->
-  <section class="pb-22" aria-labelledby="cred-h">
+  <section class="pb-[var(--section-y)]" aria-labelledby="cred-h">
     <div class="container-site flex flex-col items-center gap-6 text-center">
       <h2 id="cred-h" class="text-[1.875rem]">Credentials &amp; memberships</h2>
       <ul class="m-0 flex list-none flex-wrap justify-center gap-4 p-0">
         {['[Certification logo]', '[Industry association]', '[Chamber of Commerce]', '[Community partner]'].map((l) => (
-          <li class="flex h-22.5 w-45 items-center justify-center rounded-[0.875rem] border-2 border-dashed border-input-border p-2 text-[0.9375rem] text-muted">{l}</li>
+          <li class="flex h-18 w-[calc(50%-0.5rem)] items-center justify-center rounded-[0.875rem] border-2 border-dashed border-input-border p-2 text-[0.9375rem] text-muted sm:h-22.5 sm:w-45">{l}</li>
         ))}
       </ul>
     </div>
   </section>
 
   <!-- Partners -->
-  <section id="partners" class="bg-plum-900 py-18 text-white" aria-labelledby="partners-h">
+  <section id="partners" class="bg-plum-900 py-12 text-white ph:py-[var(--section-y)]" aria-labelledby="partners-h">
     <div class="container-site grid max-w-[68.75rem] items-center gap-8 md:grid-cols-2">
       <div class="flex flex-col gap-3">
         <h2 id="partners-h" class="text-[2rem]">Are you a senior living community?</h2>

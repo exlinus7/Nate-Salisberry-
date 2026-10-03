@@ -39,9 +39,9 @@ const homeAdvisors = advisors.slice(0, 2);
   description={`Free, local help finding assisted living, memory care and long-term care in ${site.regionShort}. A personal advisor shortlists communities, joins your tours and supports your move. Always free for families.`}
 >
   <!-- Hero -->
-  <section class="bg-lavender-50 pt-16 pb-16 ph:pt-18">
-    <div class="container-site grid items-center gap-14 lg:grid-cols-2">
-      <div class="flex flex-col gap-6">
+  <section class="bg-lavender-50 pt-10 pb-12 ph:pt-18 ph:pb-16">
+    <div class="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+      <div class="flex flex-col gap-5 ph:gap-6">
         <p class="self-start rounded-full border border-line bg-white px-4 py-1.5 text-[0.9375rem] font-semibold text-violet-700">
           Assisted Living · Memory Care · Long-Term Care
         </p>
@@ -61,7 +61,7 @@ const homeAdvisors = advisors.slice(0, 2);
         </ul>
       </div>
       <div class="flex flex-col">
-        <div class="media-ph h-[22rem] rounded-media sm:h-[28.75rem]">
+        <div class="media-ph h-60 rounded-media sm:h-[28.75rem]">
           <p>[PHOTO or VIDEO: your advisor with an older parent and adult daughter — real, warm, not stock]</p>
           <button
             type="button"
@@ -75,7 +75,7 @@ const homeAdvisors = advisors.slice(0, 2);
             Meet us in 90 seconds
           </button>
         </div>
-        <div class="relative mx-4 -mt-16 flex max-w-80 flex-col gap-1.5 self-start rounded-[1.25rem] bg-white px-6 py-5 shadow-[0_12px_32px_rgba(42,30,59,0.14)] sm:ml-6">
+        <div class="relative mt-4 flex flex-col gap-1.5 self-stretch rounded-[1.25rem] bg-white px-5 py-4 shadow-[0_12px_32px_rgba(42,30,59,0.14)] sm:mx-4 sm:-mt-16 sm:ml-6 sm:max-w-80 sm:self-start sm:px-6 sm:py-5">
           <h2 class="text-[1.1875rem] font-semibold">Why is it free?</h2>
           <p class="text-base text-muted">
             Partner communities pay us a referral fee only when a family moves in. You never pay, and our advice stays focused on fit.
@@ -86,13 +86,13 @@ const homeAdvisors = advisors.slice(0, 2);
   </section>
 
   <!-- Journey paths -->
-  <section aria-labelledby="journey-h" class="pt-18 pb-6">
+  <section aria-labelledby="journey-h" class="pt-12 pb-4 ph:pt-18 ph:pb-6">
     <div class="container-site flex flex-col gap-7">
       <div class="flex max-w-[45rem] flex-col gap-2">
         <h2 id="journey-h" class="text-[clamp(1.75rem,2vw+1rem,2.25rem)]">Where are you in your journey?</h2>
         <p class="text-muted">Pick the one that sounds most like you. We'll take it from there.</p>
       </div>
-      <ul class="m-0 grid list-none gap-5 p-0 md:grid-cols-3">
+      <ul class="m-0 grid list-none gap-3 p-0 ph:gap-5 md:grid-cols-3">
         <li>
           <a href="/resources" class="path-card">
             <span class="icon-tile"><Icon name="book" size={26} color="#5B3F8C" /></span>
@@ -123,17 +123,19 @@ const homeAdvisors = advisors.slice(0, 2);
 
   <!-- How it works -->
   <section id="how" class="section" aria-labelledby="how-h">
-    <div class="container-site flex flex-col gap-10">
+    <div class="container-site flex flex-col gap-8 ph:gap-10">
       <div class="flex max-w-[42.5rem] flex-col gap-3">
         <p class="eyebrow">How it works</p>
         <h2 id="how-h">From first call to moving day, in four simple steps</h2>
       </div>
-      <ol class="m-0 grid list-none gap-6 p-0 sm:grid-cols-2 lg:grid-cols-4">
+      <ol class="m-0 grid list-none gap-5 p-0 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
         {steps.map((s, i) => (
-          <li class="card flex flex-col gap-3">
-            <span class="flex size-12 items-center justify-center rounded-full bg-lavender-50 font-heading text-[1.375rem] font-bold text-violet-700" aria-hidden="true">{i + 1}</span>
-            <h3 class="text-[1.375rem]"><span class="sr-only">Step {i + 1}: </span>{s.title}</h3>
-            <p class="text-muted">{s.body}</p>
+          <li class="step">
+            <span class="step-num" aria-hidden="true">{i + 1}</span>
+            <div class="flex flex-col gap-1.5 sm:gap-3">
+              <h3 class="text-[1.375rem]"><span class="sr-only">Step {i + 1}: </span>{s.title}</h3>
+              <p class="text-muted">{s.body}</p>
+            </div>
           </li>
         ))}
       </ol>
@@ -143,41 +145,25 @@ const homeAdvisors = advisors.slice(0, 2);
 
   <!-- Care types -->
   <section id="care" class="section bg-plum-900 text-white" aria-labelledby="care-h">
-    <div class="container-site flex flex-col gap-10">
-      <div class="flex flex-wrap items-end justify-between gap-6">
+    <div class="container-site flex flex-col gap-8 ph:gap-10">
+      <div class="flex flex-wrap items-end justify-between gap-4 ph:gap-6">
         <div class="flex max-w-[40rem] flex-col gap-3">
           <p class="eyebrow eyebrow-on-dark">Care types</p>
           <h2 id="care-h">The right level of care, not just the nearest building</h2>
         </div>
         <a href="/care-match" class="text-link text-coral-400 hover:text-white">Not sure which fits? Take the Care Match →</a>
       </div>
-      <ul class="m-0 grid list-none gap-6 p-0 md:grid-cols-3">
+      <ul class="swipe-row list-none ph:m-0 ph:grid ph:grid-cols-3 ph:gap-6 ph:p-0" aria-label="Care types">
         {careTypes.map((c) => (
           <li class="flex flex-col overflow-hidden rounded-3xl bg-card-dark">
-            <div class="media-ph media-ph-dark h-45">{c.photo}</div>
-            <div class="flex flex-col gap-3 p-7">
+            <div class="media-ph media-ph-dark h-36 ph:h-45">{c.photo}</div>
+            <div class="flex grow flex-col gap-3 p-6 ph:p-7">
               <h3 class="text-[1.625rem]">{c.title}</h3>
               <p class="text-on-dark">{c.body}</p>
-              <a href={c.href} class="text-link text-white hover:text-coral-400">{c.link} →</a>
+              <a href={c.href} class="text-link mt-auto text-white hover:text-coral-400">{c.link} →</a>
             </div>
           </li>
         ))}
-      </ul>
-    </div>
-  </section>
-
-  <!-- Our promise -->
-  <section class="section" aria-labelledby="promise-h">
-    <div class="container-site grid items-center gap-14 lg:grid-cols-2">
-      <div class="flex flex-col gap-4">
-        <p class="eyebrow">Our promise</p>
-        <h2 id="promise-h">Free for families. Honest about how we're paid.</h2>
-        <p class="text-[1.1875rem] text-muted">Families deserve to know exactly how a free service works. Here is ours, in plain words.</p>
-      </div>
-      <ul class="m-0 flex list-none flex-col gap-4 p-0">
-        <li class="promise-row"><Icon name="minus" size={28} color="#5B3F8C" class="shrink-0" /><p><strong>You pay nothing, ever.</strong> No fees for consultations, tours, or follow-up.</p></li>
-        <li class="promise-row"><Icon name="list" size={28} color="#5B3F8C" class="shrink-0" /><p><strong>We recommend on fit first.</strong> If the best option isn't a partner community, we'll still tell you about it.</p></li>
-        <li class="promise-row"><Icon name="lock" size={28} color="#5B3F8C" class="shrink-0" /><p><strong>Your information stays private.</strong> We never sell your details or pass them to a list of call centers.</p></li>
       </ul>
     </div>
   </section>
@@ -189,80 +175,76 @@ const homeAdvisors = advisors.slice(0, 2);
         <div class="flex max-w-[42.5rem] flex-col gap-3">
           <p class="eyebrow eyebrow-on-peach">Straight talk on cost</p>
           <h2 id="cost-h">What does senior living cost in {site.regionShort}?</h2>
-          <p class="text-muted">Cost is often the first question, so we answer it up front.</p>
+          <p class="text-muted">Cost is often the first question, so we answer it up front. Our help is free: communities pay us only when a family moves in.</p>
         </div>
         <a href="/resources/cost-calculator" class="btn btn-dark">Try the cost calculator</a>
       </div>
-      <ul class="m-0 grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-4">
+      <ul class="m-0 grid list-none grid-cols-2 gap-3 p-0 ph:gap-5 lg:grid-cols-4">
         {costs.map((c) => (
-          <li class="flex flex-col gap-1.5 rounded-card bg-white p-7">
+          <li class="flex flex-col gap-1.5 rounded-card bg-white p-3.5 ph:p-7">
             <p class="font-semibold text-muted">{c.label}</p>
-            <p class="font-heading text-4xl font-bold">{c.price}<span class="font-sans text-lg font-medium text-muted"> / month</span></p>
+            <p class="font-heading text-[1.375rem] leading-tight font-bold whitespace-nowrap ph:text-4xl ph:whitespace-normal">{c.price}<span class="block font-sans text-base font-medium text-muted ph:text-lg">/ month</span></p>
             <p class="text-[0.9375rem] text-muted">{c.note}</p>
           </li>
         ))}
-        <li class="flex flex-col gap-1.5 rounded-card bg-plum-900 p-7 text-white">
+        <li class="flex flex-col gap-1.5 rounded-card bg-plum-900 p-3.5 text-white ph:p-7">
           <p class="font-semibold text-on-dark">Our service</p>
-          <p class="font-heading text-4xl font-bold text-coral-400">$0</p>
+          <p class="font-heading text-[1.375rem] leading-tight font-bold text-coral-400 ph:text-4xl">$0</p>
           <p class="text-[0.9375rem] text-on-dark">Always free for families</p>
         </li>
       </ul>
       <p class="text-[0.9375rem] text-muted">Source: [your data source, year]. Actual prices depend on care needs and apartment size.</p>
-    </div>
-  </section>
-
-  <!-- Areas -->
-  <section id="areas" class="section bg-lavender-50" aria-labelledby="areas-h">
-    <div class="container-site grid items-center gap-12 lg:grid-cols-2">
-      <div class="media-ph h-72 sm:h-95">[MAP: your service area with city pins]</div>
-      <div class="flex flex-col gap-5">
-        <p class="eyebrow">Areas we serve</p>
-        <h2 id="areas-h">Local advisors who know every community by name</h2>
-        <ul class="m-0 grid list-none gap-3 p-0 sm:grid-cols-2">
-          {cities.map((c) => (
-            <li><a href={`/areas/${c.slug}`} class="area-link">{c.name}, {c.state} →</a></li>
-          ))}
-          <li><a href="/areas" class="area-link">All areas we serve →</a></li>
-        </ul>
-        <p class="text-base text-muted">Each area page lists local costs, community types and resources.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Team -->
-  <section id="team" class="section" aria-labelledby="team-h">
-    <div class="container-site flex flex-col gap-10">
-      <div class="flex max-w-[42.5rem] flex-col gap-3">
-        <p class="eyebrow">Meet your advisors</p>
-        <h2 id="team-h">Real people you can call, text, and meet</h2>
-      </div>
-      <ul class="m-0 grid list-none gap-6 p-0 md:grid-cols-2">
-        {homeAdvisors.map((a) => (
-          <li class="flex flex-col items-start gap-5 rounded-3xl border border-line bg-white p-6 sm:flex-row sm:items-center">
-            <div class="media-ph size-28 shrink-0 rounded-full p-2 text-[0.8125rem]" aria-hidden="true">[HEADSHOT]</div>
-            <div class="flex flex-col gap-1">
-              <h3 class="text-[1.375rem]">{a.name}</h3>
-              <p class="text-base text-muted">{a.credentials}</p>
-              <p class="text-base text-muted">Serving {a.serving}</p>
-              <button type="button" data-video-url={a.videoUrl} data-video-title={`Meet ${a.name}`} class="text-link border-0 bg-transparent p-0 text-base text-violet-700 underline">Watch 60-sec intro →</button>
-            </div>
-          </li>
-        ))}
+      <ul class="m-0 grid list-none gap-3 border-t border-[#F1D9C9] p-0 pt-6 md:grid-cols-3 md:gap-6" aria-label="Our promise">
+        <li class="promise-row"><Icon name="minus" size={24} color="#5B3F8C" class="shrink-0" /><p><strong>You pay nothing, ever.</strong> No fees for consultations, tours or follow-up.</p></li>
+        <li class="promise-row"><Icon name="list" size={24} color="#5B3F8C" class="shrink-0" /><p><strong>Fit comes first.</strong> If the best option isn't a partner, we'll still tell you.</p></li>
+        <li class="promise-row"><Icon name="lock" size={24} color="#5B3F8C" class="shrink-0" /><p><strong>Your details stay private.</strong> We never sell them or pass them to call centers.</p></li>
       </ul>
-      <a href="/about#team" class="text-link self-start">Meet the whole team →</a>
+    </div>
+  </section>
+
+  <!-- Team + areas -->
+  <section id="team" class="section bg-lavender-50" aria-labelledby="team-h">
+    <div class="container-site grid gap-8 lg:grid-cols-[1fr_1.4fr] lg:gap-14">
+      <div id="areas" class="flex flex-col gap-4">
+        <p class="eyebrow">Meet your local advisors</p>
+        <h2 id="team-h">Real people who know every community by name</h2>
+        <p class="text-muted">Call, text or meet us. Each area page lists local costs, community types and resources.</p>
+        <ul class="m-0 flex list-none flex-wrap gap-2.5 p-0" aria-label="Areas we serve">
+          {cities.map((c) => (
+            <li><a href={`/areas/${c.slug}`} class="area-link">{c.name}, {c.state}</a></li>
+          ))}
+          <li><a href="/areas" class="area-link">All areas →</a></li>
+        </ul>
+      </div>
+      <div class="flex flex-col gap-5">
+        <ul class="m-0 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+          {homeAdvisors.map((a) => (
+            <li class="flex items-center gap-4 rounded-3xl bg-white p-5">
+              <div class="media-ph size-20 shrink-0 rounded-full p-1 text-[0.8125rem] ph:size-24" aria-hidden="true">[HEADSHOT]</div>
+              <div class="flex min-w-0 flex-col gap-0.5">
+                <h3 class="text-[1.25rem]">{a.name}</h3>
+                <p class="text-base text-muted">{a.credentials}</p>
+                <p class="text-base text-muted">Serving {a.serving}</p>
+                <button type="button" data-video-url={a.videoUrl} data-video-title={`Meet ${a.name}`} class="text-link min-h-11 self-start border-0 bg-transparent p-0 text-base text-violet-700 underline">Watch 60-sec intro →</button>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <a href="/about#team" class="text-link self-start">Meet the whole team →</a>
+      </div>
     </div>
   </section>
 
   <!-- Testimonials -->
-  <section class="section bg-peach-50" aria-labelledby="reviews-h">
+  <section class="section" aria-labelledby="reviews-h">
     <div class="container-site flex flex-col gap-8">
       <div class="flex flex-wrap items-end justify-between gap-4">
         <h2 id="reviews-h">What families say</h2>
         <p class="font-semibold text-rust-700">[Google reviews widget: ★ rating + count]</p>
       </div>
-      <div class="grid gap-6 md:grid-cols-3">
+      <div class="swipe-row ph:grid ph:grid-cols-3 ph:gap-6 ph:p-0" role="region" aria-labelledby="reviews-h" tabindex="0">
         {[1, 2, 3].map(() => (
-          <figure class="m-0 flex flex-col gap-4 rounded-[1.25rem] bg-white p-7">
+          <figure class="m-0 flex flex-col gap-4 rounded-[1.25rem] bg-peach-50 p-6 ph:p-7">
             <blockquote class="m-0 text-[1.1875rem]">“[Paste a real family review here, with permission.]”</blockquote>
             <figcaption class="text-base font-semibold text-muted">[First name, relationship · City]</figcaption>
           </figure>
@@ -272,8 +254,8 @@ const homeAdvisors = advisors.slice(0, 2);
   </section>
 
   <!-- Resources -->
-  <section id="resources" class="section" aria-labelledby="res-h">
-    <div class="container-site flex flex-col gap-10">
+  <section id="resources" class="section bg-lavender-50" aria-labelledby="res-h">
+    <div class="container-site flex flex-col gap-8 ph:gap-10">
       <div class="flex flex-wrap items-end justify-between gap-4">
         <div class="flex max-w-[40rem] flex-col gap-3">
           <p class="eyebrow">Free resources</p>
@@ -281,7 +263,7 @@ const homeAdvisors = advisors.slice(0, 2);
         </div>
         <a href="/resources" class="text-link">See all resources →</a>
       </div>
-      <ul class="m-0 grid list-none gap-6 p-0 sm:grid-cols-2 lg:grid-cols-4">
+      <ul class="swipe-row list-none ph:m-0 ph:grid ph:grid-cols-2 ph:gap-6 ph:p-0 lg:grid-cols-4" aria-label="Free resources">
         {resources.map((r) => (
           <li>
             <a href={r.href} class="card flex h-full flex-col gap-2.5 text-plum-900 no-underline transition-shadow hover:text-plum-900 hover:shadow-[var(--shadow-card)]">
@@ -297,7 +279,7 @@ const homeAdvisors = advisors.slice(0, 2);
 
   <!-- Contact -->
   <section id="contact" class="section bg-violet-600 text-white" aria-labelledby="contact-h">
-    <div class="container-site grid items-start gap-14 lg:grid-cols-2">
+    <div class="container-site grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
       <div class="flex flex-col gap-5">
         <h2 id="contact-h">Let's talk about your loved one. No cost, no pressure.</h2>
         <p class="text-[1.1875rem] text-[#EDE6F6]">Tell us a little, and an advisor will reach out within {site.responseTime}, or call us now.</p>
@@ -311,11 +293,13 @@ const homeAdvisors = advisors.slice(0, 2);
 
 <style>
   .path-card {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1rem;
+    row-gap: 0.375rem;
+    align-content: start;
     height: 100%;
-    flex-direction: column;
-    gap: 0.75rem;
-    padding: 1.75rem;
+    padding: 1.25rem;
     border: 2px solid var(--line);
     border-radius: var(--radius-card);
     background: var(--white);
@@ -324,28 +308,41 @@ const homeAdvisors = advisors.slice(0, 2);
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
   .path-card:hover { color: var(--plum-900); border-color: var(--violet-600); box-shadow: var(--shadow-card); }
-  .path-card h3 { font-size: 1.4375rem; }
+  .path-card > .icon-tile { grid-row: span 3; width: 2.75rem; height: 2.75rem; border-radius: 0.75rem; }
+  .path-card h3 { font-size: 1.25rem; }
   .path-card p { color: var(--muted); font-size: 1.0625rem; }
+  @media (min-width: 47.5rem) {
+    .path-card { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.75rem; }
+    .path-card > .icon-tile { width: 3.25rem; height: 3.25rem; border-radius: 1rem; }
+    .path-card h3 { font-size: 1.4375rem; }
+  }
   .path-card-urgent { background: var(--peach-50); border-color: var(--coral-400); }
   .path-card-urgent:hover { border-color: var(--rust-700); }
   .path-link { margin-top: auto; font-weight: 700; color: var(--violet-600); }
 
-  .promise-row {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-    background: var(--lavender-50);
-    border-radius: 1.125rem;
-    padding: 1.375rem 1.5rem;
+  .step { display: flex; gap: 1rem; align-items: flex-start; }
+  .step-num {
+    display: flex; flex-shrink: 0; align-items: center; justify-content: center;
+    width: 2.75rem; height: 2.75rem; border-radius: 9999px;
+    background: var(--lavender-50); color: var(--violet-700);
+    font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
   }
+  @media (min-width: 40rem) {
+    .step { flex-direction: column; gap: 0.75rem; background: var(--white); border: 1px solid var(--line); border-radius: 1.25rem; padding: 1.75rem; }
+    .step-num { width: 3rem; height: 3rem; font-size: 1.375rem; }
+  }
+
+  .promise-row { display: flex; gap: 0.75rem; align-items: flex-start; font-size: 1.0625rem; }
+  .promise-row :global(svg) { margin-top: 0.15rem; }
 
   .area-link {
     display: flex;
     align-items: center;
-    min-height: var(--cta-min);
-    padding: 0.875rem 1.125rem;
+    min-height: var(--tap-min);
+    padding: 0.5rem 1.125rem;
     background: var(--white);
-    border-radius: 0.875rem;
+    border: 1px solid var(--line);
+    border-radius: 9999px;
     font-weight: 600;
     color: var(--plum-900);
     text-decoration: none;
