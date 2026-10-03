@@ -210,8 +210,13 @@
   .card {
     background: var(--white);
     border: 1px solid var(--line);
-    border-radius: 1.25rem;
+    border-radius: 1.5rem;
     padding: 1.75rem;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  /* Linked cards lift on hover-capable devices (homepage look) */
+  @media (hover: hover) {
+    a.card:hover { border-color: var(--violet-600); box-shadow: var(--shadow-card); }
   }
 
   .icon-tile {
@@ -324,4 +329,30 @@
   .prose ul, .prose ol { padding-left: 1.4em; }
   .prose li + li { margin-top: 0.4em; }
   .prose blockquote { margin: 0; padding: 1rem 1.25rem; background: var(--lavender-50); border-radius: 1rem; }
+}
+
+/* ---- Violet page hero (the homepage's Figma look, for every inner page) ----
+   Add `page-hero` to a page's first <section>. Unlayered on purpose so it can recolor
+   the utilities inside. White panels inside (forms, quiz, cards) get normal colors back. */
+.page-hero {
+  --muted: #EDE6F6;
+  background: var(--violet-600);
+  color: var(--white);
+}
+.page-hero :where(.bg-white) {
+  --muted: #5A4D6B;
+  color: var(--plum-900);
+}
+.page-hero .eyebrow:not(.bg-white *) { color: var(--lavender-100); text-decoration: none; }
+.page-hero :is(.breadcrumb a, .text-link, p > a):not(.bg-white *) { color: var(--white); }
+.page-hero :is(.breadcrumb a, .text-link, p > a):not(.bg-white *):hover { color: var(--coral-400); }
+.page-hero .btn-outline:not(.bg-white *) { background: transparent; color: var(--white); border-color: var(--white); }
+.page-hero .media-ph:not(.bg-white *) {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--white);
+  border: 2px dashed rgba(255, 255, 255, 0.35);
+}
+.page-hero h1 em { font-style: normal; color: var(--coral-400); }
+@media (min-width: 47.5rem) {
+  .page-hero { padding-block: clamp(3.5rem, 6vw, 5.5rem) !important; }
 }

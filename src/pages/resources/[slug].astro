@@ -29,7 +29,7 @@ const articleSchema = {
 };
 ---
 <BaseLayout title={article.data.title} description={article.data.description} schema={[breadcrumbSchema(crumbs, Astro.site), articleSchema]}>
-  <section class="bg-lavender-50 pt-12 pb-14">
+  <section class="page-hero pt-12 pb-14">
     <div class="container-site flex max-w-[52rem] flex-col gap-4">
       <Breadcrumb items={crumbs} />
       <a href={`/resources?topic=${article.data.topic}`} class="eyebrow self-start no-underline">{topicLabel(article.data.topic)}</a>

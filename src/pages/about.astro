@@ -46,7 +46,7 @@ const milestones = [
   schema={[breadcrumbSchema(crumbs, Astro.site)]}
 >
   <!-- Hero -->
-  <section class="bg-lavender-50 pt-10 pb-16 ph:pt-20 ph:pb-18">
+  <section class="page-hero pt-10 pb-16 ph:pt-20 ph:pb-18">
     <div class="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
       <div class="flex flex-col gap-5">
         <Breadcrumb items={crumbs} />
@@ -228,16 +228,16 @@ const milestones = [
   </section>
 
   <!-- Testimonial -->
-  <section class="pt-[var(--section-y)] pb-10">
+  <section class="section bg-plum-900 text-white" aria-label="What a family says">
     <figure class="container-site m-0 mx-auto flex max-w-[56.25rem] flex-col items-center gap-5 text-center">
-      <svg width="44" height="44" viewBox="0 0 24 24" fill="#E3D6F0" aria-hidden="true"><path d="M4 18v-5c0-4 2-6.5 6-7.5l.8 1.6C8.4 8 7.4 9.5 7.3 11H10v7zm10 0v-5c0-4 2-6.5 6-7.5l.8 1.6c-2.4.9-3.4 2.4-3.5 3.9H20v7z"></path></svg>
-      <blockquote class="m-0 font-heading text-[clamp(1.5rem,1.5vw+1rem,1.875rem)] leading-snug">“[A real family testimonial about how WiseMove made a hard time easier.]”</blockquote>
-      <figcaption class="font-semibold text-muted">[First name, relationship · City]</figcaption>
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="#FF9E7A" aria-hidden="true"><path d="M4 18v-5c0-4 2-6.5 6-7.5l.8 1.6C8.4 8 7.4 9.5 7.3 11H10v7zm10 0v-5c0-4 2-6.5 6-7.5l.8 1.6c-2.4.9-3.4 2.4-3.5 3.9H20v7z"></path></svg>
+      <blockquote class="m-0 font-heading text-[clamp(1.5rem,1.5vw+1rem,1.875rem)] leading-snug font-semibold">“[A real family testimonial about how WiseMove made a hard time easier.]”</blockquote>
+      <figcaption class="font-semibold text-on-dark">[First name, relationship · City]</figcaption>
     </figure>
   </section>
 
   <!-- Credentials -->
-  <section class="pb-[var(--section-y)]" aria-labelledby="cred-h">
+  <section class="section" aria-labelledby="cred-h">
     <div class="container-site flex flex-col items-center gap-6 text-center">
       <h2 id="cred-h" class="text-[1.875rem]">Credentials &amp; memberships</h2>
       <ul class="m-0 flex list-none flex-wrap justify-center gap-4 p-0">
