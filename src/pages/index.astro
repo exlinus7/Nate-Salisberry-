@@ -2,22 +2,32 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import CallbackForm from '../components/CallbackForm.astro';
+import { Image } from 'astro:assets';
+import heroPhoto from '../assets/photos/senior-couple.jpg';
+import advisorPhoto from '../assets/photos/consultation.jpg';
 import { site, telHref, bookingHref } from '../data/site';
 import cities from '../data/cities.json';
 import advisors from '../data/advisors.json';
 
 const steps = [
-  { title: 'Talk with an advisor', body: 'A relaxed conversation about care needs, health, budget, location and what makes your loved one happy.' },
-  { title: 'Get a personal shortlist', body: 'We match you with a few vetted communities, with honest notes on pricing, staffing and availability.' },
-  { title: 'Tour together', body: 'We schedule tours, join you in person, and help you ask the questions that matter.' },
-  { title: 'Move in with support', body: 'Help with paperwork, move-in planning, and a follow-up check-in after your loved one settles.' },
+  { icon: 'chat', title: 'Talk with an advisor', body: 'A relaxed conversation about care needs, health, budget, location and what makes your loved one happy.' },
+  { icon: 'list', title: 'Get a personal shortlist', body: 'We match you with a few vetted communities, with honest notes on pricing, staffing and availability.' },
+  { icon: 'pin', title: 'Tour together', body: 'We schedule tours, join you in person, and help you ask the questions that matter.' },
+  { icon: 'heart', title: 'Move in with support', body: 'Help with paperwork, move-in planning, and a follow-up check-in after your loved one settles.' },
+] as const;
+
+const promises = [
+  ['Local insight', 'Communities we know'],
+  ['Personal support', 'A dedicated advisor'],
+  ['Clear options', 'No pressure or guesswork'],
+  ['Ongoing care', 'Here through move-in'],
 ];
 
 const careTypes = [
-  { title: 'Assisted Living', photo: '[PHOTO: residents enjoying a meal together]', body: 'For seniors who want independence with daily help: medications, bathing, dressing, meals and social life.', href: '/care-options#assisted', link: 'Learn about assisted living' },
-  { title: 'Memory Care', photo: '[PHOTO: calm, secure memory care garden]', body: "Secure, specially trained care for Alzheimer's and other dementias, with structured days that reduce stress.", href: '/care-options#memory', link: 'Learn about memory care' },
-  { title: 'Long-Term Care', photo: '[PHOTO: nurse with a resident]', body: '24-hour skilled nursing for complex medical needs, including help navigating Medicare, Medicaid and VA benefits.', href: '/care-options#ltc', link: 'Learn about long-term care' },
-];
+  { icon: 'heart', title: 'Assisted Living', body: 'For seniors who want independence with daily help: medications, bathing, dressing, meals and social life.', href: '/care-options#assisted', link: 'Learn about assisted living' },
+  { icon: 'shield', title: 'Memory Care', body: "Secure, specially trained care for Alzheimer's and other dementias, with structured days that reduce stress.", href: '/care-options#memory', link: 'Learn about memory care' },
+  { icon: 'people', title: 'Long-Term Care', body: '24-hour skilled nursing for complex medical needs, including help navigating Medicare, Medicaid and VA benefits.', href: '/care-options#ltc', link: 'Learn about long-term care' },
+] as const;
 
 const costs = [
   { label: 'Assisted Living', price: '[$X,XXX]', note: 'Typical range: [$X,XXX–$X,XXX]' },
@@ -25,69 +35,81 @@ const costs = [
   { label: 'Long-Term Care', price: '[$X,XXX]', note: 'Medicaid may help cover this' },
 ];
 
-const resources = [
-  { kind: 'Tool', title: 'Senior Living Cost Calculator', body: `Compare staying at home with in-home care vs. assisted living in ${site.regionShort}.`, href: '/resources/cost-calculator' },
-  { kind: 'Printable', title: 'The Community Tour Checklist', body: 'The questions to ask, and what to look for, on every tour.', href: '/resources#checklist' },
-  { kind: 'Guide', title: 'Is it time? Signs a parent needs more care', body: 'Gentle warning signs, and how to start the conversation.', href: '/resources/signs-a-parent-needs-more-support' },
-  { kind: 'Guide', title: 'Paying for care: Medicaid, VA and more', body: 'A plain-language overview of benefits families often miss.', href: '/resources?topic=paying-for-care' },
-];
-
 const homeAdvisors = advisors.slice(0, 2);
+
+const faqs = [
+  { q: 'How much does your service cost?', a: "Nothing. Our help is free for families. Partner communities pay us a referral fee only when a family moves in, and we'll tell you about the best fit even when it isn't a partner." },
+  { q: 'Are your recommendations really personalized?', a: 'Yes. We start with a private conversation about care needs, budget, location, lifestyle and timing, then recommend only communities that fit, with the tradeoffs of each.' },
+  { q: 'What areas do you serve?', a: `Families across ${site.region}. Each area page lists local costs, community types and resources.`, link: { href: '/areas', label: 'See the areas we serve' } },
+  { q: 'How quickly can you help?', a: `We reach out within ${site.responseTime} of your request. For an urgent move, like a hospital discharge, call ${site.phoneDisplay} and we'll start today.` },
+];
 ---
 <BaseLayout
   title="Home"
   description={`Free, local help finding assisted living, memory care and long-term care in ${site.regionShort}. A personal advisor shortlists communities, joins your tours and supports your move. Always free for families.`}
 >
-  <!-- Hero -->
-  <section class="bg-lavender-50 pt-10 pb-12 ph:pt-18 ph:pb-16">
-    <div class="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-      <div class="flex flex-col gap-5 ph:gap-6">
-        <p class="self-start rounded-full border border-line bg-white px-4 py-1.5 text-[0.9375rem] font-semibold text-violet-700">
-          Assisted Living · Memory Care · Long-Term Care
-        </p>
-        <h1>Find the right senior living community, with a local expert by your side.</h1>
-        <p class="lead max-w-[35rem]">
-          We get to know your loved one, shortlist communities that truly fit their care needs and budget, and walk with you
-          through every tour and move-in step. Always free for your family.
-        </p>
-        <div class="flex flex-wrap gap-3.5">
-          <a href="/care-match" class="btn btn-cta">Start the 2-minute Care Match</a>
-          <a href={telHref} data-track="call_click" class="btn btn-outline">Call {site.phoneDisplay}</a>
-        </div>
-        <ul class="m-0 flex list-none flex-wrap gap-x-7 gap-y-3 p-0 pt-2 text-base text-muted">
-          {['[XX]+ years combined experience', '[XXX]+ families helped', '[X.X]★ on Google'].map((t) => (
-            <li class="flex items-center gap-2"><Icon name="check" size={20} color="#5B3F8C" strokeWidth={2.4} />{t}</li>
-          ))}
-        </ul>
+  <!-- Hero: full-bleed split, copy on violet + photo -->
+  <section class="hero grid bg-violet-600 text-white lg:min-h-[38rem] lg:grid-cols-[1.05fr_1fr]">
+    <div class="hero-copy flex flex-col justify-center gap-5 py-10 ph:gap-6 ph:py-16 lg:py-20">
+      <p class="hero-pill">Assisted Living · Memory Care · Long-Term Care</p>
+      <h1>Find the right senior living community, with a <em>local expert</em> by your side.</h1>
+      <p class="max-w-[35rem] text-[1.1875rem] text-[#EDE6F6] ph:text-[1.3125rem]">
+        We get to know your loved one, shortlist communities that truly fit their care needs and budget, and walk with you
+        through every tour and move-in step. Always free for your family.
+      </p>
+      <div class="flex flex-wrap items-center gap-3.5">
+        <a href="/care-match" class="btn btn-cta">Start the 2-minute Care Match <span aria-hidden="true">→</span></a>
+        <a href={telHref} data-track="call_click" class="btn btn-outline-light">Call {site.phoneDisplay}</a>
       </div>
-      <div class="flex flex-col">
-        <div class="media-ph h-60 rounded-media sm:h-[28.75rem]">
-          <p>[PHOTO or VIDEO: your advisor with an older parent and adult daughter — real, warm, not stock]</p>
-          <button
-            type="button"
-            data-video-url={site.introVideoUrl}
-            data-video-title="Meet WiseMove in 90 seconds"
-            class="inline-flex min-h-14 items-center gap-3 rounded-full border-0 bg-white py-2.5 pr-5.5 pl-2.5 font-bold text-plum-900 shadow-[0_8px_24px_rgba(42,30,59,0.16)]"
-          >
-            <span class="inline-flex size-10 items-center justify-center rounded-full bg-violet-600">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M7 4l13 8-13 8z"></path></svg>
-            </span>
-            Meet us in 90 seconds
-          </button>
-        </div>
-        <div class="relative mt-4 flex flex-col gap-1.5 self-stretch rounded-[1.25rem] bg-white px-5 py-4 shadow-[0_12px_32px_rgba(42,30,59,0.14)] sm:mx-4 sm:-mt-16 sm:ml-6 sm:max-w-80 sm:self-start sm:px-6 sm:py-5">
-          <h2 class="text-[1.1875rem] font-semibold">Why is it free?</h2>
-          <p class="text-base text-muted">
-            Partner communities pay us a referral fee only when a family moves in. You never pay, and our advice stays focused on fit.
-          </p>
-        </div>
+      <ul class="m-0 flex list-none flex-wrap gap-x-6 gap-y-2 p-0 pt-1 text-base text-[#EDE6F6]">
+        {['[XX]+ years combined experience', '[XXX]+ families helped', '[X.X]★ on Google'].map((t) => (
+          <li class="flex items-center gap-2"><Icon name="check" size={20} color="#FF9E7A" strokeWidth={2.4} />{t}</li>
+        ))}
+      </ul>
+    </div>
+    <div class="relative min-h-64 overflow-hidden sm:min-h-96">
+      <Image
+        src={heroPhoto}
+        alt="An older couple sitting close together and smiling at home"
+        widths={[480, 800, 1200, 1600]}
+        sizes="(min-width: 64rem) 50vw, 100vw"
+        loading="eager"
+        fetchpriority="high"
+        class="absolute inset-0 size-full object-cover object-[40%_30%]"
+      />
+      <button
+        type="button"
+        data-video-url={site.introVideoUrl}
+        data-video-title="Meet WiseMove in 90 seconds"
+        class="absolute bottom-4 left-4 inline-flex min-h-12 items-center gap-3 rounded-full border-0 bg-white py-2 pr-5 pl-2 font-bold text-plum-900 shadow-[0_8px_24px_rgba(42,30,59,0.2)] ph:bottom-6 ph:left-6"
+      >
+        <span class="inline-flex size-9 items-center justify-center rounded-full bg-violet-600">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M7 4l13 8-13 8z"></path></svg>
+        </span>
+        Meet us in 90 seconds
+      </button>
+      <div class="absolute right-6 bottom-6 hidden max-w-72 items-start gap-3 rounded-[1.25rem] bg-white px-5 py-4 text-plum-900 shadow-[0_12px_32px_rgba(42,30,59,0.2)] xl:flex">
+        <span class="icon-tile size-10 rounded-xl"><Icon name="shield" size={22} color="#5B3F8C" /></span>
+        <p class="text-base"><strong class="block">Why is it free?</strong><span class="text-muted">Communities pay us only when a family moves in. You never pay.</span></p>
       </div>
     </div>
   </section>
 
+  <!-- Promise strip -->
+  <section aria-label="Our promises" class="border-b border-line bg-white">
+    <ul class="container-site m-0 grid list-none grid-cols-2 gap-x-4 gap-y-4 py-5 lg:grid-cols-4 lg:py-6">
+      {promises.map(([title, copy]) => (
+        <li class="flex items-start gap-2.5">
+          <span class="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-lavender-50"><Icon name="check" size={16} color="#5B3F8C" strokeWidth={2.6} /></span>
+          <p class="leading-snug"><strong class="block text-base">{title}</strong><span class="text-[0.9375rem] text-muted">{copy}</span></p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
   <!-- Journey paths -->
   <section aria-labelledby="journey-h" class="pt-12 pb-4 ph:pt-18 ph:pb-6">
-    <div class="container-site flex flex-col gap-7">
+    <div class="container-site flex flex-col gap-6 ph:gap-7">
       <div class="flex max-w-[45rem] flex-col gap-2">
         <h2 id="journey-h" class="text-[clamp(1.75rem,2vw+1rem,2.25rem)]">Where are you in your journey?</h2>
         <p class="text-muted">Pick the one that sounds most like you. We'll take it from there.</p>
@@ -124,44 +146,91 @@ const homeAdvisors = advisors.slice(0, 2);
   <!-- How it works -->
   <section id="how" class="section" aria-labelledby="how-h">
     <div class="container-site flex flex-col gap-8 ph:gap-10">
-      <div class="flex max-w-[42.5rem] flex-col gap-3">
+      <div class="mx-auto flex max-w-[42.5rem] flex-col gap-3 sm:items-center sm:text-center">
         <p class="eyebrow">How it works</p>
-        <h2 id="how-h">From first call to moving day, in four simple steps</h2>
+        <h2 id="how-h">The right fit shouldn't be hard to find.</h2>
+        <p class="text-muted">From first call to moving day in four simple steps, so your family can decide with confidence instead of alone.</p>
       </div>
       <ol class="m-0 grid list-none gap-5 p-0 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
         {steps.map((s, i) => (
           <li class="step">
-            <span class="step-num" aria-hidden="true">{i + 1}</span>
-            <div class="flex flex-col gap-1.5 sm:gap-3">
+            <span class="step-icon"><Icon name={s.icon} size={24} color="#5B3F8C" /></span>
+            <span class="step-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <div class="flex flex-col gap-1.5 sm:gap-2.5">
               <h3 class="text-[1.375rem]"><span class="sr-only">Step {i + 1}: </span>{s.title}</h3>
               <p class="text-muted">{s.body}</p>
             </div>
           </li>
         ))}
       </ol>
-      <a href="/how-it-works" class="text-link self-start">See the full process →</a>
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-3 sm:justify-center">
+        <a href="#contact" class="btn btn-dark">Tell us what you need <span aria-hidden="true">→</span></a>
+        <a href="/how-it-works" class="text-link">See the full process →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Advisors + areas: photo split -->
+  <section id="team" class="bg-lavender-50" aria-labelledby="team-h">
+    <div class="grid lg:grid-cols-2">
+      <div class="relative min-h-64 overflow-hidden sm:min-h-96">
+        <Image
+          src={advisorPhoto}
+          alt="A care professional talking with an older man on his sofa at home"
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 64rem) 50vw, 100vw"
+          class="absolute inset-0 size-full object-cover object-[30%_center]"
+        />
+        <p class="absolute bottom-4 left-4 flex flex-col rounded-[1.25rem] bg-plum-900 px-5 py-4 text-white shadow-[0_12px_32px_rgba(42,30,59,0.25)] ph:bottom-6 ph:left-6">
+          <span class="font-heading text-[2rem] leading-none font-bold text-coral-400">1:1</span>
+          <span class="text-[0.9375rem] text-on-dark">A dedicated advisor for every family</span>
+        </p>
+      </div>
+      <div id="areas" class="team-copy flex flex-col gap-5 py-12 ph:py-16 lg:py-20">
+        <p class="eyebrow">Meet your local advisors</p>
+        <h2 id="team-h">An advocate who understands the whole picture.</h2>
+        <p class="text-muted">A good recommendation is about more than care needs. We get to know the person: their routines, personality, relationships and hopes for what comes next.</p>
+        <ul class="m-0 flex list-none flex-col gap-2.5 p-0">
+          {['Local community knowledge and honest comparisons', 'Matches based on care, personality and budget', 'Tour preparation and the questions you may not know to ask'].map((t) => (
+            <li class="flex items-start gap-2.5"><Icon name="check" size={20} color="#5B3F8C" strokeWidth={2.4} class="mt-1 shrink-0" />{t}</li>
+          ))}
+        </ul>
+        <ul class="m-0 grid list-none gap-3 p-0 sm:grid-cols-2" aria-label="Advisors">
+          {homeAdvisors.map((a) => (
+            <li class="flex items-center gap-3 rounded-2xl bg-white p-3.5">
+              <div class="media-ph size-14 shrink-0 rounded-full p-0 text-[0.625rem]" aria-hidden="true"></div>
+              <p class="flex min-w-0 flex-col leading-snug"><strong>{a.name}</strong><span class="text-[0.9375rem] text-muted">{a.credentials}</span></p>
+            </li>
+          ))}
+        </ul>
+        <ul class="m-0 flex list-none flex-wrap gap-2.5 p-0" aria-label="Areas we serve">
+          {cities.map((c) => (
+            <li><a href={`/areas/${c.slug}`} class="area-link">{c.name}, {c.state}</a></li>
+          ))}
+          <li><a href="/areas" class="area-link">All areas →</a></li>
+        </ul>
+        <a href="/about#team" class="text-link self-start">Meet the whole team →</a>
+      </div>
     </div>
   </section>
 
   <!-- Care types -->
-  <section id="care" class="section bg-plum-900 text-white" aria-labelledby="care-h">
+  <section id="care" class="section" aria-labelledby="care-h">
     <div class="container-site flex flex-col gap-8 ph:gap-10">
       <div class="flex flex-wrap items-end justify-between gap-4 ph:gap-6">
         <div class="flex max-w-[40rem] flex-col gap-3">
-          <p class="eyebrow eyebrow-on-dark">Care types</p>
+          <p class="eyebrow">Care types</p>
           <h2 id="care-h">The right level of care, not just the nearest building</h2>
         </div>
-        <a href="/care-match" class="text-link text-coral-400 hover:text-white">Not sure which fits? Take the Care Match →</a>
+        <a href="/care-match" class="text-link">Not sure which fits? Take the Care Match →</a>
       </div>
       <ul class="swipe-row list-none ph:m-0 ph:grid ph:grid-cols-3 ph:gap-6 ph:p-0" aria-label="Care types">
         {careTypes.map((c) => (
-          <li class="flex flex-col overflow-hidden rounded-3xl bg-card-dark">
-            <div class="media-ph media-ph-dark h-36 ph:h-45">{c.photo}</div>
-            <div class="flex grow flex-col gap-3 p-6 ph:p-7">
-              <h3 class="text-[1.625rem]">{c.title}</h3>
-              <p class="text-on-dark">{c.body}</p>
-              <a href={c.href} class="text-link mt-auto text-white hover:text-coral-400">{c.link} →</a>
-            </div>
+          <li class="care-card">
+            <span class="icon-tile"><Icon name={c.icon} size={26} color="#5B3F8C" /></span>
+            <h3 class="text-[1.5rem]">{c.title}</h3>
+            <p class="text-muted">{c.body}</p>
+            <a href={c.href} class="text-link mt-auto">{c.link} →</a>
           </li>
         ))}
       </ul>
@@ -202,78 +271,44 @@ const homeAdvisors = advisors.slice(0, 2);
     </div>
   </section>
 
-  <!-- Team + areas -->
-  <section id="team" class="section bg-lavender-50" aria-labelledby="team-h">
-    <div class="container-site grid gap-8 lg:grid-cols-[1fr_1.4fr] lg:gap-14">
-      <div id="areas" class="flex flex-col gap-4">
-        <p class="eyebrow">Meet your local advisors</p>
-        <h2 id="team-h">Real people who know every community by name</h2>
-        <p class="text-muted">Call, text or meet us. Each area page lists local costs, community types and resources.</p>
-        <ul class="m-0 flex list-none flex-wrap gap-2.5 p-0" aria-label="Areas we serve">
-          {cities.map((c) => (
-            <li><a href={`/areas/${c.slug}`} class="area-link">{c.name}, {c.state}</a></li>
-          ))}
-          <li><a href="/areas" class="area-link">All areas →</a></li>
-        </ul>
+  <!-- Testimonial -->
+  <section class="section bg-plum-900 text-white" aria-labelledby="reviews-h">
+    <div class="container-site flex max-w-[56rem] flex-col gap-6">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <h2 id="reviews-h" class="eyebrow eyebrow-on-dark font-sans">What families say</h2>
+        <p class="font-semibold text-coral-400">[Google reviews widget: ★ rating + count]</p>
       </div>
-      <div class="flex flex-col gap-5">
-        <ul class="m-0 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-          {homeAdvisors.map((a) => (
-            <li class="flex items-center gap-4 rounded-3xl bg-white p-5">
-              <div class="media-ph size-20 shrink-0 rounded-full p-1 text-[0.8125rem] ph:size-24" aria-hidden="true">[HEADSHOT]</div>
-              <div class="flex min-w-0 flex-col gap-0.5">
-                <h3 class="text-[1.25rem]">{a.name}</h3>
-                <p class="text-base text-muted">{a.credentials}</p>
-                <p class="text-base text-muted">Serving {a.serving}</p>
-                <button type="button" data-video-url={a.videoUrl} data-video-title={`Meet ${a.name}`} class="text-link min-h-11 self-start border-0 bg-transparent p-0 text-base text-violet-700 underline">Watch 60-sec intro →</button>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <a href="/about#team" class="text-link self-start">Meet the whole team →</a>
-      </div>
+      <figure class="m-0 flex flex-col gap-6">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="#FF9E7A" aria-hidden="true"><path d="M4 18v-5c0-4 2-6.5 6-7.5l.8 1.6C8.4 8 7.4 9.5 7.3 11H10v7zm10 0v-5c0-4 2-6.5 6-7.5l.8 1.6c-2.4.9-3.4 2.4-3.5 3.9H20v7z"></path></svg>
+        <blockquote class="m-0 font-heading text-[clamp(1.5rem,1.6vw+1rem,2.125rem)] leading-snug font-semibold">“[Paste a real family review here, with permission.]”</blockquote>
+        <figcaption class="flex items-center gap-3">
+          <span class="inline-flex size-12 items-center justify-center rounded-full bg-coral-400 font-bold text-plum-900" aria-hidden="true">[Init.]</span>
+          <span class="text-on-dark"><strong class="block text-white">[First name, relationship]</strong>[City]</span>
+        </figcaption>
+      </figure>
     </div>
   </section>
 
-  <!-- Testimonials -->
-  <section class="section" aria-labelledby="reviews-h">
-    <div class="container-site flex flex-col gap-8">
-      <div class="flex flex-wrap items-end justify-between gap-4">
-        <h2 id="reviews-h">What families say</h2>
-        <p class="font-semibold text-rust-700">[Google reviews widget: ★ rating + count]</p>
-      </div>
-      <div class="swipe-row ph:grid ph:grid-cols-3 ph:gap-6 ph:p-0" role="region" aria-labelledby="reviews-h" tabindex="0">
-        {[1, 2, 3].map(() => (
-          <figure class="m-0 flex flex-col gap-4 rounded-[1.25rem] bg-peach-50 p-6 ph:p-7">
-            <blockquote class="m-0 text-[1.1875rem]">“[Paste a real family review here, with permission.]”</blockquote>
-            <figcaption class="text-base font-semibold text-muted">[First name, relationship · City]</figcaption>
-          </figure>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Resources -->
-  <section id="resources" class="section bg-lavender-50" aria-labelledby="res-h">
-    <div class="container-site flex flex-col gap-8 ph:gap-10">
-      <div class="flex flex-wrap items-end justify-between gap-4">
-        <div class="flex max-w-[40rem] flex-col gap-3">
-          <p class="eyebrow">Free resources</p>
-          <h2 id="res-h">Guides for every step of the decision</h2>
+  <!-- FAQ -->
+  <section id="faq" class="section" aria-labelledby="faq-h">
+    <div class="container-site grid gap-8 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
+      <div class="flex flex-col gap-4">
+        <p class="eyebrow">Questions, answered</p>
+        <h2 id="faq-h">A little more clarity before we talk.</h2>
+        <p class="text-muted">Every family's situation is different, but these are the questions we hear most.</p>
+        <div class="flex flex-wrap gap-x-6 gap-y-1">
+          <a href="/how-it-works#faq" class="text-link">More questions →</a>
+          <a href="/resources" class="text-link">Free guides and tools →</a>
         </div>
-        <a href="/resources" class="text-link">See all resources →</a>
       </div>
-      <ul class="swipe-row list-none ph:m-0 ph:grid ph:grid-cols-2 ph:gap-6 ph:p-0 lg:grid-cols-4" aria-label="Free resources">
-        {resources.map((r) => (
-          <li>
-            <a href={r.href} class="card flex h-full flex-col gap-2.5 text-plum-900 no-underline transition-shadow hover:text-plum-900 hover:shadow-[var(--shadow-card)]">
-              <span class="text-[0.9375rem] font-semibold tracking-[0.06em] text-violet-700 uppercase">{r.kind}</span>
-              <h3 class="text-[1.375rem]">{r.title}</h3>
-              <p class="text-base text-muted">{r.body}</p>
-            </a>
-          </li>
+      <div class="faq">
+        {faqs.map((f, i) => (
+          <details open={i === 0}>
+            <summary>{f.q}</summary>
+            <p>{f.a}{f.link && <> <a href={f.link.href}>{f.link.label}</a>.</>}</p>
+          </details>
         ))}
-      </ul>
+      </div>
     </div>
   </section>
 
@@ -285,6 +320,7 @@ const homeAdvisors = advisors.slice(0, 2);
         <p class="text-[1.1875rem] text-[#EDE6F6]">Tell us a little, and an advisor will reach out within {site.responseTime}, or call us now.</p>
         <a href={telHref} data-track="call_click" class="btn btn-cta self-start">Call {site.phoneDisplay}</a>
         <a href={bookingHref} class="text-link self-start text-white hover:text-coral-400">Or book a call time that suits you →</a>
+        <p class="flex items-center gap-2 text-base text-[#EDE6F6]"><Icon name="lock" size={18} class="shrink-0" />Your information stays private and is never sold.</p>
       </div>
       <CallbackForm />
     </div>
@@ -292,6 +328,27 @@ const homeAdvisors = advisors.slice(0, 2);
 </BaseLayout>
 
 <style>
+  /* Hero / team copy columns line up with the site container while the photo bleeds to the edge */
+  .hero-copy,
+  .team-copy {
+    padding-inline: var(--gutter);
+  }
+  @media (min-width: 64rem) {
+    .hero-copy { padding-inline: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter))) 3.5rem; }
+    .team-copy { padding-inline: 3.5rem max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter))); }
+  }
+  .hero h1 { color: var(--white); }
+  .hero h1 em { font-style: normal; color: var(--coral-400); }
+  .hero-pill {
+    align-self: flex-start;
+    padding: 0.375rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 9999px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--white);
+  }
+
   .path-card {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -311,25 +368,46 @@ const homeAdvisors = advisors.slice(0, 2);
   .path-card > .icon-tile { grid-row: span 3; width: 2.75rem; height: 2.75rem; border-radius: 0.75rem; }
   .path-card h3 { font-size: 1.25rem; }
   .path-card p { color: var(--muted); font-size: 1.0625rem; }
+  .path-card-urgent { background: var(--peach-50); border-color: var(--coral-400); }
+  .path-card-urgent:hover { border-color: var(--rust-700); }
+  .path-link { margin-top: auto; font-weight: 700; color: var(--violet-600); }
   @media (min-width: 47.5rem) {
     .path-card { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.75rem; }
     .path-card > .icon-tile { width: 3.25rem; height: 3.25rem; border-radius: 1rem; }
     .path-card h3 { font-size: 1.4375rem; }
   }
-  .path-card-urgent { background: var(--peach-50); border-color: var(--coral-400); }
-  .path-card-urgent:hover { border-color: var(--rust-700); }
-  .path-link { margin-top: auto; font-weight: 700; color: var(--violet-600); }
 
-  .step { display: flex; gap: 1rem; align-items: flex-start; }
-  .step-num {
+  /* Steps: compact rows on phones, numbered cards from sm up */
+  .step { position: relative; display: flex; gap: 1rem; align-items: flex-start; }
+  .step-icon {
     display: flex; flex-shrink: 0; align-items: center; justify-content: center;
-    width: 2.75rem; height: 2.75rem; border-radius: 9999px;
-    background: var(--lavender-50); color: var(--violet-700);
-    font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
+    width: 2.75rem; height: 2.75rem; border-radius: 0.875rem; background: var(--lavender-50);
   }
+  .step-num { display: none; }
   @media (min-width: 40rem) {
-    .step { flex-direction: column; gap: 0.75rem; background: var(--white); border: 1px solid var(--line); border-radius: 1.25rem; padding: 1.75rem; }
-    .step-num { width: 3rem; height: 3rem; font-size: 1.375rem; }
+    .step {
+      flex-direction: column; gap: 1rem; padding: 1.75rem;
+      background: var(--white); border: 1px solid var(--line); border-radius: 1.5rem;
+      transition: box-shadow 0.15s ease;
+    }
+    .step:hover { box-shadow: var(--shadow-card); }
+    .step-icon { width: 3.25rem; height: 3.25rem; border-radius: 1rem; }
+    .step-num {
+      display: block; position: absolute; top: 1.25rem; right: 1.5rem;
+      font-family: var(--font-display); font-size: 2.25rem; font-weight: 700; line-height: 1;
+      color: #9C88B8; /* lightest tint that keeps 3:1 for large text */
+    }
+  }
+
+  .care-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    padding: 1.75rem;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--violet-600);
+    border-radius: 1.5rem;
   }
 
   .promise-row { display: flex; gap: 0.75rem; align-items: flex-start; font-size: 1.0625rem; }

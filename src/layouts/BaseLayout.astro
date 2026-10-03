@@ -45,7 +45,7 @@ const jsonLd = [localBusiness, ...schema];
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -62,12 +62,31 @@ const jsonLd = [localBusiness, ...schema];
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Apply the saved text size before first paint so the page doesn't jump -->
+    <!-- Before first paint: apply the saved text size, and detect the device by capability
+         (screen width, touch vs. mouse, orientation) rather than user-agent sniffing.
+         Sets html[data-device=phone|tablet|desktop], [data-input=touch|pointer], [data-orientation]. -->
     <script is:inline>
-      try {
-        var s = localStorage.getItem('wm-text-size');
-        if (s === '1' || s === '2') document.documentElement.setAttribute('data-text-size', s);
-      } catch (e) {}
+      (function () {
+        var d = document.documentElement;
+        try {
+          var s = localStorage.getItem('wm-text-size');
+          if (s === '1' || s === '2') d.setAttribute('data-text-size', s);
+        } catch (e) {}
+        function mq(q) { return !!(window.matchMedia && window.matchMedia(q).matches); }
+        function detect() {
+          var w = window.innerWidth;
+          d.setAttribute('data-device', w < 760 ? 'phone' : w < 1024 ? 'tablet' : 'desktop');
+          d.setAttribute('data-input', mq('(hover: none) and (pointer: coarse)') ? 'touch' : 'pointer');
+          d.setAttribute('data-orientation', mq('(orientation: landscape)') ? 'landscape' : 'portrait');
+        }
+        detect();
+        var queued = false;
+        window.addEventListener('resize', function () {
+          if (queued) return;
+          queued = true;
+          requestAnimationFrame(function () { queued = false; detect(); });
+        }, { passive: true });
+      })();
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />

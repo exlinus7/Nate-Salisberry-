@@ -6,3 +6,6 @@ dist/
 .env.*
 .DS_Store
 test-results/
+
+# Source archives dropped into the repo
+*.zip

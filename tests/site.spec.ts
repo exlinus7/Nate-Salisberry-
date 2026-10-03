@@ -146,6 +146,20 @@ test('cost calculator adds up', async ({ page }) => {
   await expect(page.locator('[data-out="diff"]')).toContainText('$300 less');
 });
 
+test('device detection labels the page', async ({ page }, info) => {
+  await page.goto('/');
+  const html = page.locator('html');
+  if (info.project.name === 'mobile') {
+    await expect(html).toHaveAttribute('data-device', 'phone');
+    await expect(html).toHaveAttribute('data-input', 'touch');
+  } else {
+    await expect(html).toHaveAttribute('data-device', 'desktop');
+    await expect(html).toHaveAttribute('data-input', 'pointer');
+  }
+  await page.setViewportSize({ width: 900, height: 1200 });
+  await expect(html).toHaveAttribute('data-device', 'tablet');
+});
+
 test('skip link moves focus to main', async ({ page }) => {
   await page.goto('/how-it-works');
   await page.keyboard.press('Tab');

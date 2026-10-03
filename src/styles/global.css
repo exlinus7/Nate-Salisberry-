@@ -37,6 +37,8 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 6.5rem;
+    -webkit-text-size-adjust: 100%; /* stop iOS inflating text in landscape */
+    text-size-adjust: 100%;
   }
 
   body {
@@ -76,9 +78,32 @@
     border-radius: 0.5rem;
   }
 
-  /* Leave room for the fixed mobile help bar */
+  /* Leave room for the fixed mobile help bar (plus the home indicator on notched phones) */
   @media (max-width: 47.49rem) {
-    body { padding-bottom: 4.75rem; }
+    body { padding-bottom: calc(4.75rem + env(safe-area-inset-bottom)); }
+  }
+
+  /* ---- Device adaptation (capability-based; see the detection script in BaseLayout) ---- */
+
+  /* Touch screens: no double-tap zoom delay on controls, no grey tap flash */
+  a, button, summary, label, input, select, textarea { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+
+  /* Phones turned sideways: very little height, so shrink the sticky offsets */
+  @media (orientation: landscape) and (max-height: 30rem) {
+    html { scroll-padding-top: 1rem; }
+  }
+
+  /* Users who ask the OS for more contrast get darker secondary text */
+  @media (prefers-contrast: more) {
+    :root { --muted: #3D3150; --line: #B9A9CF; }
+  }
+
+  /* Printing (e.g. a care options page or checklist): content only */
+  @media print {
+    .skip-link, .site-header nav, .menu-toggle, .mbar, dialog, [data-video-url] { display: none !important; }
+    body { padding-bottom: 0 !important; background: #fff; }
+    .section, section { padding-block: 1.25rem !important; break-inside: avoid; }
+    a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; }
   }
 }
 
@@ -87,7 +112,8 @@
     width: 100%;
     max-width: var(--container);
     margin-inline: auto;
-    padding-inline: var(--gutter);
+    /* keep content clear of the notch on phones held sideways */
+    padding-inline: max(var(--gutter), env(safe-area-inset-left)) max(var(--gutter), env(safe-area-inset-right));
   }
 
   .section { padding-block: var(--section-y); }
@@ -156,7 +182,11 @@
     text-decoration: none;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(42, 30, 59, 0.14); }
+  /* Lift only on devices that really hover, so taps don't leave buttons stuck "raised" */
+  @media (hover: hover) {
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(42, 30, 59, 0.14); }
+  }
+  .btn:active { transform: translateY(1px); box-shadow: none; }
   .btn-cta { background: var(--coral-400); color: var(--plum-900); }
   .btn-cta:hover { color: var(--plum-900); }
   .btn-primary { background: var(--violet-600); color: var(--white); font-weight: 600; }

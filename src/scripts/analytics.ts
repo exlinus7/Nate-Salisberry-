@@ -7,6 +7,9 @@ declare global {
 }
 
 export function track(event: string, params: Record<string, unknown> = {}) {
+  // Tag every event with the detected device (set in BaseLayout's head script)
+  const { device, input } = document.documentElement.dataset;
+  params = { device_type: device, input_type: input, ...params };
   if (typeof window.gtag === 'function') {
     window.gtag('event', event, params);
   } else {

@@ -8,7 +8,18 @@ import { telHref, smsHref } from '../data/site';
 </nav>
 
 <style>
-  .mbar { box-shadow: 0 -6px 20px rgba(42, 30, 59, 0.1); }
+  .mbar {
+    box-shadow: 0 -6px 20px rgba(42, 30, 59, 0.1);
+    /* clear the iPhone home indicator and side notches */
+    padding-bottom: calc(0.625rem + env(safe-area-inset-bottom));
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+  }
+  /* Phone sideways: keep the bar but make it slimmer */
+  @media (orientation: landscape) and (max-height: 30rem) {
+    .mbar { padding-top: 0.375rem; padding-bottom: calc(0.375rem + env(safe-area-inset-bottom)); }
+    .mbar-btn { min-height: var(--tap-min); }
+  }
   .mbar-btn {
     display: flex;
     align-items: center;
