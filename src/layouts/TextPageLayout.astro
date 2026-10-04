@@ -17,15 +17,15 @@ const crumbs = [
 ---
 <BaseLayout title={title} description={description} schema={[breadcrumbSchema(crumbs, Astro.site)]}>
   <section class="page-hero pt-12 pb-14">
-    <div class="container-site flex max-w-[52rem] flex-col gap-4">
+    <div class="container-site flex flex-col gap-4 *:max-w-[52rem]">
       <Breadcrumb items={crumbs} />
       <h1>{title}</h1>
       <p class="text-muted">Last updated: {updated}</p>
     </div>
   </section>
   <section class="section">
-    <div class="container-site prose max-w-[52rem]">
-      <slot />
+    <div class="container-site"><div class="prose max-w-[52rem]">
+      <slot /></div>
     </div>
   </section>
 </BaseLayout>

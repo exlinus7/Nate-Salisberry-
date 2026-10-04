@@ -1,6 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
+import { Image } from 'astro:assets';
+import visitPhoto from '../assets/photos/consultation.jpg';
+import { site, telHref } from '../data/site';
 
 const steps = [
   {
@@ -33,6 +36,8 @@ const faqs = [
   { q: 'Can you help if my parent lives in another city?', a: 'Yes. Many families we help live out of town. We can tour on your behalf and share video and notes.' },
   { q: 'Do you work with Medicaid or VA benefits?', a: 'We can explain options and point you to communities that accept them. [Confirm what you offer.]' },
   { q: 'Why is your service free?', a: 'Partner communities pay us a referral fee only when a family chooses them and moves in. You never pay anything.' },
+  { q: 'What areas do you serve?', a: `Families across ${site.region}. Each page under Areas We Serve lists local costs, community types and resources.` },
+  { q: 'How quickly can you help?', a: `We reach out within ${site.responseTime} of your request. For an urgent move, like a hospital discharge, call ${site.phoneDisplay} and we'll start today.` },
 ];
 
 const faqSchema = {
@@ -47,19 +52,32 @@ const faqSchema = {
   schema={[faqSchema]}
 >
   <section class="page-hero py-10 ph:py-[var(--section-y)]">
-    <div class="container-site flex max-w-[51.25rem] flex-col items-center gap-5 text-center">
-      <p class="eyebrow">How it works</p>
-      <h1>A clear path through a hard decision</h1>
-      <p class="lead">
-        Most families have never done this before. We have, many times. Here's exactly what happens when you work with WiseMove,
-        and it never costs you a cent.
-      </p>
-      <a href="/contact" class="btn btn-cta">Schedule a free consultation</a>
+    <div class="container-site grid items-center gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
+      <div class="flex flex-col gap-5">
+        <p class="eyebrow">How it works</p>
+        <h1>A clear path through a hard decision</h1>
+        <p class="lead">
+          Most families have never done this before. We have, many times. Here's exactly what happens when you work with WiseMove,
+          and it never costs you a cent.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="/contact" class="btn btn-cta">Schedule a free consultation</a>
+          <a href={telHref} data-track="call_click" class="btn btn-outline">Call {site.phoneDisplay}</a>
+        </div>
+      </div>
+      <Image
+        src={visitPhoto}
+        alt="A care professional talking with an older man on his sofa at home"
+        widths={[480, 800, 1200]}
+        sizes="(min-width: 64rem) 45vw, 100vw"
+        loading="eager"
+        class="aspect-[16/10] w-full rounded-media object-cover object-[30%_center]"
+      />
     </div>
   </section>
 
   <section class="section" aria-label="Our process, step by step">
-    <ol class="container-site m-0 flex max-w-[62.5rem] list-none flex-col gap-7">
+    <ol class="container-site my-0 flex list-none flex-col gap-7">
       {steps.map((s, i) => (
         <li class="grid gap-5 rounded-3xl border border-line bg-white p-6 sm:grid-cols-[5rem_minmax(0,1fr)] sm:gap-6 sm:p-8">
           <span class="flex size-16 items-center justify-center rounded-full bg-violet-600 font-heading text-[1.75rem] font-bold text-white" aria-hidden="true">{i + 1}</span>
@@ -97,7 +115,7 @@ const faqSchema = {
   </section>
 
   <section id="faq" class="section" aria-labelledby="faq-h">
-    <div class="faq container-site flex max-w-[53.75rem] flex-col gap-4">
+    <div class="faq container-site flex *:max-w-[53.75rem] flex-col gap-4">
       <h2 id="faq-h">Common questions</h2>
       <div>
         {faqs.map((f) => (

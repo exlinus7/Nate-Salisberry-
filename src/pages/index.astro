@@ -4,17 +4,7 @@ import Icon from '../components/Icon.astro';
 import CallbackForm from '../components/CallbackForm.astro';
 import { Image } from 'astro:assets';
 import heroPhoto from '../assets/photos/senior-couple.jpg';
-import advisorPhoto from '../assets/photos/consultation.jpg';
 import { site, telHref, bookingHref } from '../data/site';
-import cities from '../data/cities.json';
-import advisors from '../data/advisors.json';
-
-const steps = [
-  { icon: 'chat', title: 'Talk with an advisor', body: 'A relaxed conversation about care needs, health, budget, location and what makes your loved one happy.' },
-  { icon: 'list', title: 'Get a personal shortlist', body: 'We match you with a few vetted communities, with honest notes on pricing, staffing and availability.' },
-  { icon: 'pin', title: 'Tour together', body: 'We schedule tours, join you in person, and help you ask the questions that matter.' },
-  { icon: 'heart', title: 'Move in with support', body: 'Help with paperwork, move-in planning, and a follow-up check-in after your loved one settles.' },
-] as const;
 
 const promises = [
   ['Local insight', 'Communities we know'],
@@ -23,26 +13,15 @@ const promises = [
   ['Ongoing care', 'Here through move-in'],
 ];
 
-const careTypes = [
-  { icon: 'heart', title: 'Assisted Living', body: 'For seniors who want independence with daily help: medications, bathing, dressing, meals and social life.', href: '/care-options#assisted', link: 'Learn about assisted living' },
-  { icon: 'shield', title: 'Memory Care', body: "Secure, specially trained care for Alzheimer's and other dementias, with structured days that reduce stress.", href: '/care-options#memory', link: 'Learn about memory care' },
-  { icon: 'people', title: 'Long-Term Care', body: '24-hour skilled nursing for complex medical needs, including help navigating Medicare, Medicaid and VA benefits.', href: '/care-options#ltc', link: 'Learn about long-term care' },
+// The homepage is a short hub: each card opens its own page (same order as the main menu)
+const explore = [
+  { icon: 'list', title: 'How It Works', body: 'Four simple steps, from first call to moving day.', href: '/how-it-works' },
+  { icon: 'heart', title: 'Care Options', body: 'Assisted living, memory care and long-term care, explained.', href: '/care-options' },
+  { icon: 'pin', title: 'Areas We Serve', body: `Local costs and communities across ${site.regionShort}.`, href: '/areas' },
+  { icon: 'book', title: 'Resources', body: 'Guides, the tour checklist and a cost calculator.', href: '/resources' },
+  { icon: 'people', title: 'About Us', body: 'Meet the local advisors who walk with you.', href: '/about' },
+  { icon: 'calculator', title: 'Cost Calculator', body: 'Compare staying at home with assisted living.', href: '/resources/cost-calculator' },
 ] as const;
-
-const costs = [
-  { label: 'Assisted Living', price: '[$X,XXX]', note: 'Typical range: [$X,XXX–$X,XXX]' },
-  { label: 'Memory Care', price: '[$X,XXX]', note: 'Typical range: [$X,XXX–$X,XXX]' },
-  { label: 'Long-Term Care', price: '[$X,XXX]', note: 'Medicaid may help cover this' },
-];
-
-const homeAdvisors = advisors.slice(0, 2);
-
-const faqs = [
-  { q: 'How much does your service cost?', a: "Nothing. Our help is free for families. Partner communities pay us a referral fee only when a family moves in, and we'll tell you about the best fit even when it isn't a partner." },
-  { q: 'Are your recommendations really personalized?', a: 'Yes. We start with a private conversation about care needs, budget, location, lifestyle and timing, then recommend only communities that fit, with the tradeoffs of each.' },
-  { q: 'What areas do you serve?', a: `Families across ${site.region}. Each area page lists local costs, community types and resources.`, link: { href: '/areas', label: 'See the areas we serve' } },
-  { q: 'How quickly can you help?', a: `We reach out within ${site.responseTime} of your request. For an urgent move, like a hospital discharge, call ${site.phoneDisplay} and we'll start today.` },
-];
 ---
 <BaseLayout
   title="Home"
@@ -97,7 +76,7 @@ const faqs = [
 
   <!-- Promise strip -->
   <section aria-label="Our promises" class="border-b border-line bg-white">
-    <ul class="container-site m-0 grid list-none grid-cols-2 gap-x-4 gap-y-4 py-5 lg:grid-cols-4 lg:py-6">
+    <ul class="container-site my-0 grid list-none grid-cols-2 gap-x-4 gap-y-4 py-5 lg:grid-cols-4 lg:py-6">
       {promises.map(([title, copy]) => (
         <li class="flex items-start gap-2.5">
           <span class="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-lavender-50"><Icon name="check" size={16} color="#5B3F8C" strokeWidth={2.6} /></span>
@@ -143,137 +122,33 @@ const faqs = [
     </div>
   </section>
 
-  <!-- How it works -->
-  <section id="how" class="section" aria-labelledby="how-h">
-    <div class="container-site flex flex-col gap-8 ph:gap-10">
-      <div class="mx-auto flex max-w-[42.5rem] flex-col gap-3 sm:items-center sm:text-center">
-        <p class="eyebrow">How it works</p>
-        <h2 id="how-h">The right fit shouldn't be hard to find.</h2>
-        <p class="text-muted">From first call to moving day in four simple steps, so your family can decide with confidence instead of alone.</p>
+  <!-- Explore: one card per page -->
+  <section class="section bg-lavender-50" aria-labelledby="explore-h">
+    <div class="container-site flex flex-col gap-6 ph:gap-8">
+      <div class="flex max-w-[42.5rem] flex-col gap-2">
+        <p class="eyebrow">Explore</p>
+        <h2 id="explore-h" class="text-[clamp(1.75rem,2vw+1rem,2.25rem)]">Everything you need, one page at a time</h2>
       </div>
-      <ol class="m-0 grid list-none gap-5 p-0 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-        {steps.map((s, i) => (
-          <li class="step">
-            <span class="step-icon"><Icon name={s.icon} size={24} color="#5B3F8C" /></span>
-            <span class="step-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-            <div class="flex flex-col gap-1.5 sm:gap-2.5">
-              <h3 class="text-[1.375rem]"><span class="sr-only">Step {i + 1}: </span>{s.title}</h3>
-              <p class="text-muted">{s.body}</p>
-            </div>
+      <ul class="m-0 grid list-none gap-3 p-0 sm:grid-cols-2 ph:gap-5 lg:grid-cols-3">
+        {explore.map((e) => (
+          <li>
+            <a href={e.href} class="explore-card">
+              <span class="icon-tile"><Icon name={e.icon} size={24} color="#5B3F8C" /></span>
+              <span class="flex min-w-0 flex-col gap-0.5">
+                <h3 class="text-[1.25rem]">{e.title}</h3>
+                <span class="text-base text-muted">{e.body}</span>
+              </span>
+              <span class="explore-arrow" aria-hidden="true">→</span>
+            </a>
           </li>
         ))}
-      </ol>
-      <div class="flex flex-wrap items-center gap-x-6 gap-y-3 sm:justify-center">
-        <a href="#contact" class="btn btn-dark">Tell us what you need <span aria-hidden="true">→</span></a>
-        <a href="/how-it-works" class="text-link">See the full process →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Advisors + areas: photo split -->
-  <section id="team" class="bg-lavender-50" aria-labelledby="team-h">
-    <div class="grid lg:grid-cols-2">
-      <div class="relative min-h-64 overflow-hidden sm:min-h-96">
-        <Image
-          src={advisorPhoto}
-          alt="A care professional talking with an older man on his sofa at home"
-          widths={[480, 800, 1200]}
-          sizes="(min-width: 64rem) 50vw, 100vw"
-          class="absolute inset-0 size-full object-cover object-[30%_center]"
-        />
-        <p class="absolute bottom-4 left-4 flex flex-col rounded-[1.25rem] bg-plum-900 px-5 py-4 text-white shadow-[0_12px_32px_rgba(42,30,59,0.25)] ph:bottom-6 ph:left-6">
-          <span class="font-heading text-[2rem] leading-none font-bold text-coral-400">1:1</span>
-          <span class="text-[0.9375rem] text-on-dark">A dedicated advisor for every family</span>
-        </p>
-      </div>
-      <div id="areas" class="team-copy flex flex-col gap-5 py-12 ph:py-16 lg:py-20">
-        <p class="eyebrow">Meet your local advisors</p>
-        <h2 id="team-h">An advocate who understands the whole picture.</h2>
-        <p class="text-muted">A good recommendation is about more than care needs. We get to know the person: their routines, personality, relationships and hopes for what comes next.</p>
-        <ul class="m-0 flex list-none flex-col gap-2.5 p-0">
-          {['Local community knowledge and honest comparisons', 'Matches based on care, personality and budget', 'Tour preparation and the questions you may not know to ask'].map((t) => (
-            <li class="flex items-start gap-2.5"><Icon name="check" size={20} color="#5B3F8C" strokeWidth={2.4} class="mt-1 shrink-0" />{t}</li>
-          ))}
-        </ul>
-        <ul class="m-0 grid list-none gap-3 p-0 sm:grid-cols-2" aria-label="Advisors">
-          {homeAdvisors.map((a) => (
-            <li class="flex items-center gap-3 rounded-2xl bg-white p-3.5">
-              <div class="media-ph size-14 shrink-0 rounded-full p-0 text-[0.625rem]" aria-hidden="true"></div>
-              <p class="flex min-w-0 flex-col leading-snug"><strong>{a.name}</strong><span class="text-[0.9375rem] text-muted">{a.credentials}</span></p>
-            </li>
-          ))}
-        </ul>
-        <ul class="m-0 flex list-none flex-wrap gap-2.5 p-0" aria-label="Areas we serve">
-          {cities.map((c) => (
-            <li><a href={`/areas/${c.slug}`} class="area-link">{c.name}, {c.state}</a></li>
-          ))}
-          <li><a href="/areas" class="area-link">All areas →</a></li>
-        </ul>
-        <a href="/about#team" class="text-link self-start">Meet the whole team →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Care types -->
-  <section id="care" class="section" aria-labelledby="care-h">
-    <div class="container-site flex flex-col gap-8 ph:gap-10">
-      <div class="flex flex-wrap items-end justify-between gap-4 ph:gap-6">
-        <div class="flex max-w-[40rem] flex-col gap-3">
-          <p class="eyebrow">Care types</p>
-          <h2 id="care-h">The right level of care, not just the nearest building</h2>
-        </div>
-        <a href="/care-match" class="text-link">Not sure which fits? Take the Care Match →</a>
-      </div>
-      <ul class="swipe-row list-none ph:m-0 ph:grid ph:grid-cols-3 ph:gap-6 ph:p-0" aria-label="Care types">
-        {careTypes.map((c) => (
-          <li class="care-card">
-            <span class="icon-tile"><Icon name={c.icon} size={26} color="#5B3F8C" /></span>
-            <h3 class="text-[1.5rem]">{c.title}</h3>
-            <p class="text-muted">{c.body}</p>
-            <a href={c.href} class="text-link mt-auto">{c.link} →</a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <!-- Cost snapshot -->
-  <section aria-labelledby="cost-h" class="section bg-peach-50">
-    <div class="container-site flex flex-col gap-8">
-      <div class="flex flex-wrap items-end justify-between gap-4">
-        <div class="flex max-w-[42.5rem] flex-col gap-3">
-          <p class="eyebrow eyebrow-on-peach">Straight talk on cost</p>
-          <h2 id="cost-h">What does senior living cost in {site.regionShort}?</h2>
-          <p class="text-muted">Cost is often the first question, so we answer it up front. Our help is free: communities pay us only when a family moves in.</p>
-        </div>
-        <a href="/resources/cost-calculator" class="btn btn-dark">Try the cost calculator</a>
-      </div>
-      <ul class="m-0 grid list-none grid-cols-2 gap-3 p-0 ph:gap-5 lg:grid-cols-4">
-        {costs.map((c) => (
-          <li class="flex flex-col gap-1.5 rounded-card bg-white p-3.5 ph:p-7">
-            <p class="font-semibold text-muted">{c.label}</p>
-            <p class="font-heading text-[1.375rem] leading-tight font-bold whitespace-nowrap ph:text-4xl ph:whitespace-normal">{c.price}<span class="block font-sans text-base font-medium text-muted ph:text-lg">/ month</span></p>
-            <p class="text-[0.9375rem] text-muted">{c.note}</p>
-          </li>
-        ))}
-        <li class="flex flex-col gap-1.5 rounded-card bg-plum-900 p-3.5 text-white ph:p-7">
-          <p class="font-semibold text-on-dark">Our service</p>
-          <p class="font-heading text-[1.375rem] leading-tight font-bold text-coral-400 ph:text-4xl">$0</p>
-          <p class="text-[0.9375rem] text-on-dark">Always free for families</p>
-        </li>
-      </ul>
-      <p class="text-[0.9375rem] text-muted">Source: [your data source, year]. Actual prices depend on care needs and apartment size.</p>
-      <ul class="m-0 grid list-none gap-3 border-t border-[#F1D9C9] p-0 pt-6 md:grid-cols-3 md:gap-6" aria-label="Our promise">
-        <li class="promise-row"><Icon name="minus" size={24} color="#5B3F8C" class="shrink-0" /><p><strong>You pay nothing, ever.</strong> No fees for consultations, tours or follow-up.</p></li>
-        <li class="promise-row"><Icon name="list" size={24} color="#5B3F8C" class="shrink-0" /><p><strong>Fit comes first.</strong> If the best option isn't a partner, we'll still tell you.</p></li>
-        <li class="promise-row"><Icon name="lock" size={24} color="#5B3F8C" class="shrink-0" /><p><strong>Your details stay private.</strong> We never sell them or pass them to call centers.</p></li>
       </ul>
     </div>
   </section>
 
   <!-- Testimonial -->
   <section class="section bg-plum-900 text-white" aria-labelledby="reviews-h">
-    <div class="container-site flex max-w-[56rem] flex-col gap-6">
+    <div class="container-site flex *:max-w-[56rem] flex-col gap-6">
       <div class="flex flex-wrap items-center justify-between gap-3">
         <h2 id="reviews-h" class="eyebrow eyebrow-on-dark font-sans">What families say</h2>
         <p class="font-semibold text-coral-400">[Google reviews widget: ★ rating + count]</p>
@@ -286,29 +161,6 @@ const faqs = [
           <span class="text-on-dark"><strong class="block text-white">[First name, relationship]</strong>[City]</span>
         </figcaption>
       </figure>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq" class="section" aria-labelledby="faq-h">
-    <div class="container-site grid gap-8 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
-      <div class="flex flex-col gap-4">
-        <p class="eyebrow">Questions, answered</p>
-        <h2 id="faq-h">A little more clarity before we talk.</h2>
-        <p class="text-muted">Every family's situation is different, but these are the questions we hear most.</p>
-        <div class="flex flex-wrap gap-x-6 gap-y-1">
-          <a href="/how-it-works#faq" class="text-link">More questions →</a>
-          <a href="/resources" class="text-link">Free guides and tools →</a>
-        </div>
-      </div>
-      <div class="faq">
-        {faqs.map((f, i) => (
-          <details open={i === 0}>
-            <summary>{f.q}</summary>
-            <p>{f.a}{f.link && <> <a href={f.link.href}>{f.link.label}</a>.</>}</p>
-          </details>
-        ))}
-      </div>
     </div>
   </section>
 
@@ -328,14 +180,12 @@ const faqs = [
 </BaseLayout>
 
 <style>
-  /* Hero / team copy columns line up with the site container while the photo bleeds to the edge */
-  .hero-copy,
-  .team-copy {
-    padding-inline: var(--gutter);
-  }
+  /* The hero is a size container, so 100cqw is its real width (no scrollbar error like 100vw):
+     the copy column starts exactly where .container-site content starts on every other section. */
+  .hero { container-type: inline-size; }
+  .hero-copy { padding-inline: var(--gutter); }
   @media (min-width: 64rem) {
-    .hero-copy { padding-inline: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter))) 3.5rem; }
-    .team-copy { padding-inline: 3.5rem max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter))); }
+    .hero-copy { padding-inline: max(var(--gutter), calc((100cqw - var(--container)) / 2 + var(--gutter))) 3.5rem; }
   }
   .hero h1 { color: var(--white); }
   .hero h1 em { font-style: normal; color: var(--coral-400); }
@@ -377,53 +227,23 @@ const faqs = [
     .path-card h3 { font-size: 1.4375rem; }
   }
 
-  /* Steps: compact rows on phones, numbered cards from sm up */
-  .step { position: relative; display: flex; gap: 1rem; align-items: flex-start; }
-  .step-icon {
-    display: flex; flex-shrink: 0; align-items: center; justify-content: center;
-    width: 2.75rem; height: 2.75rem; border-radius: 0.875rem; background: var(--lavender-50);
-  }
-  .step-num { display: none; }
-  @media (min-width: 40rem) {
-    .step {
-      flex-direction: column; gap: 1rem; padding: 1.75rem;
-      background: var(--white); border: 1px solid var(--line); border-radius: 1.5rem;
-      transition: box-shadow 0.15s ease;
-    }
-    .step:hover { box-shadow: var(--shadow-card); }
-    .step-icon { width: 3.25rem; height: 3.25rem; border-radius: 1rem; }
-    .step-num {
-      display: block; position: absolute; top: 1.25rem; right: 1.5rem;
-      font-family: var(--font-display); font-size: 2.25rem; font-weight: 700; line-height: 1;
-      color: #9C88B8; /* lightest tint that keeps 3:1 for large text */
-    }
-  }
-
-  .care-card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.875rem;
-    padding: 1.75rem;
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-top: 4px solid var(--violet-600);
-    border-radius: 1.5rem;
-  }
-
-  .promise-row { display: flex; gap: 0.75rem; align-items: flex-start; font-size: 1.0625rem; }
-  .promise-row :global(svg) { margin-top: 0.15rem; }
-
-  .area-link {
+  .explore-card {
     display: flex;
     align-items: center;
-    min-height: var(--tap-min);
-    padding: 0.5rem 1.125rem;
+    gap: 1rem;
+    height: 100%;
+    padding: 1.125rem 1.25rem;
     background: var(--white);
     border: 1px solid var(--line);
-    border-radius: 9999px;
-    font-weight: 600;
+    border-radius: 1.25rem;
     color: var(--plum-900);
     text-decoration: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
-  .area-link:hover { color: var(--violet-600); }
+  .explore-arrow { margin-left: auto; font-size: 1.375rem; font-weight: 700; color: var(--violet-600); transition: transform 0.15s ease; }
+  @media (hover: hover) {
+    .explore-card:hover { color: var(--plum-900); border-color: var(--violet-600); box-shadow: var(--shadow-card); }
+    .explore-card:hover .explore-arrow { transform: translateX(3px); }
+  }
+  @media (min-width: 47.5rem) { .explore-card { padding: 1.5rem; } }
 </style>

@@ -160,6 +160,38 @@ test('device detection labels the page', async ({ page }, info) => {
   await expect(html).toHaveAttribute('data-device', 'tablet');
 });
 
+test('menu items open their own pages, and the header fits on one row', async ({ page }, info) => {
+  await page.goto('/');
+  const hrefs = await page.locator('#main-nav a').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
+  expect(hrefs.length).toBeGreaterThan(4);
+  for (const h of hrefs) {
+    expect(h, 'menu links go to pages, not #sections').toMatch(/^\/[a-z-]+$/);
+  }
+  if (info.project.name === 'desktop') {
+    const header = page.locator('.site-header');
+    await expect(header).toHaveAttribute('data-nav', 'bar');
+    const [brand, nav] = await Promise.all([page.locator('.brand').boundingBox(), page.locator('#main-nav').boundingBox()]);
+    expect(Math.abs(brand!.y + brand!.height / 2 - (nav!.y + nav!.height / 2))).toBeLessThan(6);
+  }
+});
+
+for (const path of pages.filter((p) => p !== '/404')) {
+  test(`sections line up with the header logo: ${path}`, async ({ page }) => {
+    await page.goto(path);
+    const off = await page.evaluate(() => {
+      const logo = Math.round(document.querySelector('.site-header .brand')!.getBoundingClientRect().left);
+      const bad: string[] = [];
+      document.querySelectorAll('main .container-site, footer .container-site').forEach((c) => {
+        if (c.closest('.text-center, [data-centered]')) return; // deliberately centred layouts
+        const first = [...c.children].find((e) => e.getBoundingClientRect().width > 0);
+        if (first && Math.abs(Math.round(first.getBoundingClientRect().left) - logo) > 2) bad.push(c.outerHTML.slice(0, 80));
+      });
+      return bad;
+    });
+    expect(off).toEqual([]);
+  });
+}
+
 test('skip link moves focus to main', async ({ page }) => {
   await page.goto('/how-it-works');
   await page.keyboard.press('Tab');

@@ -48,10 +48,8 @@ Area pages also show `[MAP or recognizable local photo of City]` and `Source: [y
 ## 4. Page-by-page content
 
 ### Homepage: `src/pages/index.astro`
-- **Photos (temporary):** the hero (`src/assets/photos/senior-couple.jpg`) and the advisor section (`consultation.jpg`) use photos from the Figma Make export. The spec asks for *real, warm, not stock* photos: **confirm you have the rights to these, or swap in your own** (same file names, any size; Astro generates the responsive versions). Then update the `alt` text in `index.astro`.
+- **Photos (temporary):** the homepage hero (`src/assets/photos/senior-couple.jpg`) and the How It Works header (`consultation.jpg`) use photos from the Figma Make export. The spec asks for *real, warm, not stock* photos: **confirm you have the rights to these, or swap in your own** (same file names, any size; Astro generates the responsive versions). Then update the `alt` text in `index.astro`.
 - Hero trust ticks: `[XX]+ years combined experience`, `[XXX]+ families helped`, `[X.X]★ on Google`
-- Cost snapshot: three `[$X,XXX]` monthly prices, `Typical range: [$X,XXX–$X,XXX]` ×2, `Source: [your data source, year]`
-- Advisor cards: small `[HEADSHOT]` circles (from `advisors.json`)
 - Testimonial band: `[Google reviews widget: ★ rating + count]`, `[Paste a real family review here, with permission.]`, `[Init.]`, `[First name, relationship]`, `[City]`
 
 ### How It Works: `src/pages/how-it-works.astro`

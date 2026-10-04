@@ -30,7 +30,7 @@ const articleSchema = {
 ---
 <BaseLayout title={article.data.title} description={article.data.description} schema={[breadcrumbSchema(crumbs, Astro.site), articleSchema]}>
   <section class="page-hero pt-12 pb-14">
-    <div class="container-site flex max-w-[52rem] flex-col gap-4">
+    <div class="container-site flex flex-col gap-4 *:max-w-[52rem]">
       <Breadcrumb items={crumbs} />
       <a href={`/resources?topic=${article.data.topic}`} class="eyebrow self-start no-underline">{topicLabel(article.data.topic)}</a>
       <h1>{article.data.title}</h1>
@@ -38,8 +38,8 @@ const articleSchema = {
     </div>
   </section>
   <article class="section">
-    <div class="container-site max-w-[52rem]">
-      <div class="media-ph mb-10 h-64 sm:h-80" aria-hidden="true">{article.data.image}</div>
+    <div class="container-site flex flex-col items-start *:max-w-[52rem]">
+      <div class="media-ph mb-10 h-64 w-full sm:h-80" aria-hidden="true">{article.data.image}</div>
       <div class="prose">
         <Content />
       </div>
